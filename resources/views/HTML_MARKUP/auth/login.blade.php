@@ -53,7 +53,7 @@
                         <br />
 
                         <div class="flex justify-between">
-                            <span class="text-[14px] text-[#767676] cursor-pointer"><input type="checkbox" class="border-[#767676] border-2 focus:border-orange-500 focus:outline-none focus:ring-0 transition-all duration-300" value="remember me" name="rmembrMe"
+                            <span class="text-[14px] text-[#767676] cursor-pointer"><input type="checkbox" class="border-[#767676] border-2 focus:border-orange-500 focus:outline-none focus:ring-0 transition-all duration-300 rounded-md" value="remember me" name="rmembrMe"
                                     id="rmembrMe"> Remember me</span>
                             <p class="text-[#E68815] hover:text-gray-900  hover:transition-all duration-300 "><a href="../auth/forgotPassword.blade.php ">Forgot Password?</a></p>
                         </div>
@@ -62,11 +62,11 @@
 
 
 
-                <div class="flex flex-col items-center gap-1">
+                <div class="flex flex-col items-center gap-y-3">
                     <button
                         class="border border-[#E68815] rounded-[50px] py-2 bg-[#E68815] w-[70vw] lg:w-[20vw] text-white cursor-pointer before:ease relative h-12 overflow-hidden before:absolute before:left-0 before:-ml-2 before:h-48 before:w-[70vw] before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-gray-900 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180"><span class="relative z-10">Login</span>
                     <button
-                        class="border-0 rounded-[50px] flex py-2 w-[0vw] place-content-center items-center bg-[#dfdddd] lg:w-[20vw] gap-x-3 cursor-pointer hover:before:bg-redborder-red-500 relative h-[50px] overflow-hidden px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-gray-900 before:transition-all before:duration-500 hover:text-white  hover:before:left-0 hover:before:w-full hover:animate-bounce"><span class="relative z-10 flex justify-center items-center gap-x-2"><img class="h-4 " src="{{ asset('assets/auth/logo-google.png') }}" alt="google" />Continue with
+                        class="border-0 rounded-[50px] flex py-2 w-[0vw] place-content-center items-center bg-[#dfdddd] lg:w-[20vw] gap-x-3 cursor-pointer hover:before:bg-redborder-red-500 relative h-[50px] overflow-hidden px-3 transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-gray-900 before:transition-all before:duration-500 hover:text-white  hover:before:left-0 hover:before:w-full "><span class="relative z-10 flex justify-center items-center gap-x-2"><img class="h-4 " src="{{ asset('assets/auth/logo-google.png') }}" alt="google" />Continue with
                         Google</span>
                     </button>
                 </div>
