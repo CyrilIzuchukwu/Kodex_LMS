@@ -15,11 +15,11 @@
 
 <body class="m-0 p-0 box-border font-poppins">
 
-    <div class="my-5 lg:my-0 flex flex-col lg:flex-row items-center justify-center ">
+    <div class="my-30 lg:my-10 py-2 flex flex-col lg:flex-row items-center justify-center ">
         <div
-            class="flex my-30 lg:my-0 flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
-            <div class="lg:w-[50%] h-[100%] flex justify-center">
-                <img class=" lg:max-w-svw lg:max-h-svh py-10" src="{{ asset('assets/auth/main-auth-banner.png') }}"
+            class="flex flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
+            <div class="lg:w-[50%] flex justify-center">
+                <img class=" lg:max-w-svw" src="{{ asset('assets/auth/main-auth-banner.png') }}"
                     alt="Side Image" />
             </div>
 
@@ -45,12 +45,12 @@
 
 
 
-                <div class="flex flex-col items-center gap-1">
+                <div class="flex flex-col items-center gap-y-4">
                     <button
                         class="border border-[#E68815] rounded-[50px] py-2 bg-[#E68815] w-[70vw] lg:w-[20vw] text-white cursor-pointer before:ease relative h-12 overflow-hidden before:absolute before:left-0 before:-ml-2 before:h-48 before:w-[70vw] before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-gray-900 before:transition-all before:duration-800 hover:text-white hover:before:-rotate-180"><span
                             class="relative z-10">Send Reset Link</span></button>
                     <button
-                        class="border-0 rounded-[50px] flex py-2 w-[70vw] place-content-center items-center  lg:w-[20vw] gap-x-1 cursor-pointer text-[#767676] relative h-[50px]  overflow-hidden  bg-white transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-green-900 before:duration-300 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-green-900 after:duration-500 hover:text-white hover:before:h-2/4 hover:after:h-2/4 hover:animate-bounce">
+                        class="border-0 rounded-[50px] flex py-2 w-[70vw] place-content-center items-center  lg:w-[20vw] gap-x-1 cursor-pointer text-[#767676] relative h-[50px]  overflow-hidden  bg-white transition-all before:absolute before:left-0 before:right-0 before:top-0 before:h-0 before:w-full before:bg-green-900 before:duration-300 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0 after:w-full after:bg-green-900 after:duration-500 hover:text-white hover:before:h-2/4 hover:after:h-2/4 ">
                         <img class="w-5 relative z-10  hover:text-white"
                             src="{{ asset('assets/auth/arrow.png') }}" alt="arrow" /><span class="relative z-10">Back to
                             Login</span>

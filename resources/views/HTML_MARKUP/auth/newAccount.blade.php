@@ -13,10 +13,10 @@
 </head>
 
 <body class="m-0 p-0 box-border font-poppins">
-    <div class="my-5 lg:my-0 flex flex-col lg:flex-row items-center justify-center ">
+    <div class="my-30 lg:my-10 py-2  flex flex-col lg:flex-row items-center justify-center ">
         <div class="flex flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
-            <div class="lg:w-[50%] h-[100%] flex justify-center">
-                <img class=" lg:max-w-svw lg:max-h-svh py-10" src="{{ asset('assets/auth/main-auth-banner.png') }}"
+            <div class="lg:w-[50%] flex justify-center">
+                <img class=" lg:max-w-svw " src="{{ asset('assets/auth/main-auth-banner.png') }}"
                     alt="pic" />
             </div>
 

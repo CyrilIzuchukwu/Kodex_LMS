@@ -14,11 +14,11 @@
 </head>
 
 <body class="m-0 p-0 box-border font-poppins">
-    <div class="my-5 lg:my-0 flex flex-col lg:flex-row items-center justify-center ">
+    <div class="my-30 lg:my-10 py-2 flex flex-col lg:flex-row items-center justify-center ">
         <div
-            class="flex my-30 lg:my-0 flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
-            <div class="lg:w-[50%] h-[100%] flex justify-center">
-                <img class=" lg:max-w-svw lg:max-h-svh py-10" src="{{ asset('assets/auth/main-auth-banner.png') }}"
+            class="flex flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
+            <div class="lg:w-[50%] flex justify-center">
+                <img class=" lg:max-w-svw" src="{{ asset('assets/auth/main-auth-banner.png') }}"
                     alt="Side Image" />
             </div>
             <div class="flex flex-col items-center lg:w-[50%] gap-y-16">
@@ -43,7 +43,7 @@
 
 
 
-                <div class="flex flex-col items-center gap-y-3">
+                <div class="flex flex-col items-center gap-y-4">
                     <button
                         class="border border-[#E68815] rounded-[50px] py-2 bg-[#E68815] w-[70vw] lg:w-[20vw] text-white cursor-pointer before:ease relative h-12 overflow-hidden before:absolute before:left-0 before:-ml-2 before:h-48 before:w-[70vw] before:origin-top-right before:-translate-x-full before:translate-y-12 before:-rotate-90 before:bg-gray-900 before:transition-all before:duration-300 hover:text-white hover:before:-rotate-180"><span class="relative z-10">Continue</span>
                     <button

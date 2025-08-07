@@ -15,15 +15,15 @@
 
 <body class="m-0 p-0 box-border font-poppins">
 
-    <div class="my-5 lg:my-0 flex flex-col lg:flex-row items-center justify-center ">
+    <div class="my-30 lg:my-10 py-2 flex flex-col lg:flex-row items-center justify-center ">
         <div
-            class="flex my-30 lg:my-0 flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
-            <div class="lg:w-[50%] h-[100%] flex justify-center">
-                <img class=" lg:max-w-svw lg:max-h-svh py-10" src="{{ asset('assets/auth/main-auth-banner.png') }}"
+            class="flex flex-col lg:flex-row justify-center lg:flex-wrap items-center h-[100%] w-[100%] px-10">
+            <div class="lg:w-[50%] flex justify-center">
+                <img class=" lg:max-w-svw" src="{{ asset('assets/auth/main-auth-banner.png') }}"
                     alt="Side Image" />
             </div>
 
-            <div class="flex flex-col items-center lg:w-[50%] gap-y-16">
+            <div class="flex flex-col items-center lg:w-[50%] gap-y-16 ">
                 <div class="flex flex-col gap-y-4">
                     <div class="flex flex-col justify-center items-center gap-y-4">
                         <img class="w-[110px]" src="{{ asset('assets/auth/Kodex-logo.png') }}" alt="logo" />
@@ -54,7 +54,7 @@
 
                 </div>
 
-                <div class="flex gap-2">
+                <div class="flex gap-2 mt-12">
                     <div class="bg-[#E68815] h-0.5 w-20 rounded-4xl"></div>
                     <div class="bg-[#E68815] h-0.5 w-20 rounded-4xl"></div>
                     <div class="bg-[#767676] h-0.5 w-20 rounded-4xl"></div>
