@@ -5,6 +5,9 @@
 | Admin Dashboard Routes
 |--------------------------------------------------------------------------
 */
+
+use Illuminate\Support\Facades\Route;
+
 Route::get('/admin/dashboard', function () {
     echo 'Welcome admin..!!';
 })->name('admin.dashboard')->middleware(['auth', 'can:access-admin-dashboard']);

@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OnboardingController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\SocialLoginController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['redirect.authenticated'])->group(function () {
     // Authentication Routes
