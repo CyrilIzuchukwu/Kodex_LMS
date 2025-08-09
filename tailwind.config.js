@@ -14,7 +14,18 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                brand: {
+                    DEFAULT: '#ef8d2d', // warm orange
+                    600: '#dd7a18',
+                    700: '#c96911',
+                },
+            },
+            borderRadius: {
+                xl: '0.75rem',
+            },
         },
+        darkMode: 'class',
     },
 
     plugins: [forms],
