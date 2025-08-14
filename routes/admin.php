@@ -6,19 +6,32 @@
 |--------------------------------------------------------------------------
 */
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ManageInstructorsControllers;
+use App\Http\Controllers\Admin\ManageStudentsControllers;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/admin/dashboard', function () {
-    // echo 'Welcome admin..!!';
-    return view('admin.index');
-})->name('admin.dashboard')->middleware(['auth', 'can:access-admin-dashboard']);
+/*
+|--------------------------------------------------------------------------
+| Admin Dashboard Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::controller(AdminDashboardController::class)
+        ->middleware(['auth', 'can:access-admin-dashboard'])
+        ->group(function () {
+            // Dashboard home
+            Route::get('/dashboard', 'index')->name('dashboard');
 
+            // User management
+            Route::controller(ManageStudentsControllers::class)->group(function () {
+                Route::get('/students', 'index')->name('students');
+                Route::post('/students/store', 'store')->name('students.store');
+            });
 
-Route::get('/admin/students', function () {
-    return view('admin.students');
-})->name('admin.students')->middleware(['auth', 'can:access-admin-dashboard']);
-
-
-Route::get('/admin/instructors', function () {
-    return view('admin.instructors');
-})->name('admin.instructors')->middleware(['auth', 'can:access-admin-dashboard']);
+            // Instructors management
+            Route::controller(ManageInstructorsControllers::class)->group(function () {
+                Route::get('/instructors', 'index')->name('instructors');
+            });
+        });
+});
