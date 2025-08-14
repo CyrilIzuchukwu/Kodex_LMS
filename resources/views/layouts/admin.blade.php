@@ -19,8 +19,10 @@
     <!-- Css -->
     <link href="{{ asset('dashboard_assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('dashboard_assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('dashboard_assets/libs/%40iconscout/unicons/css/line.css') }}" type="text/css" rel="stylesheet">
-    <link href="{{ asset('dashboard_assets/libs/%40mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('dashboard_assets/libs/%40iconscout/unicons/css/line.css') }}" type="text/css"
+        rel="stylesheet">
+    <link href="{{ asset('dashboard_assets/libs/%40mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet"
+        type="text/css">
     <link rel="stylesheet" href="{{ asset('dashboard_assets/css/tailwind.min.css') }}">
 
     @stack('styles')
@@ -54,4 +56,5 @@
     @include('partials.admin.scripts')
     @stack('scripts')
 </body>
+
 </html>
