@@ -2,23 +2,46 @@
 
 /*
 |--------------------------------------------------------------------------
-| Admin Dashboard Routes
+| Admin Routes
 |--------------------------------------------------------------------------
 */
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ManageInstructorsController;
+use App\Http\Controllers\Admin\ManageStudentsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/admin/dashboard', function () {
-    // echo 'Welcome admin..!!';
-    return view('admin.index');
-})->name('admin.dashboard')->middleware(['auth', 'can:access-admin-dashboard']);
+/*
+|--------------------------------------------------------------------------
+| Admin Dashboard Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'can:access-admin-dashboard'])
+    ->group(function () {
 
+        // Dashboard home
+        Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
 
-Route::get('/admin/students', function () {
-    return view('admin.students');
-})->name('admin.students')->middleware(['auth', 'can:access-admin-dashboard']);
+        // Student management routes
+        Route::controller(ManageStudentsController::class)
+            ->prefix('/students')
+            ->name('students.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{student}', 'show')->name('show');
+                Route::get('/{student}/edit', 'edit')->name('edit');
+                Route::put('/{student}', 'update')->name('update');
+                Route::delete('/{student}', 'destroy')->name('destroy');
+            });
 
-
-Route::get('/admin/instructors', function () {
-    return view('admin.instructors');
-})->name('admin.instructors')->middleware(['auth', 'can:access-admin-dashboard']);
+        // Instructor management routes
+        Route::controller(ManageInstructorsController::class)
+            ->prefix('/instructors')
+            ->name('instructors.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+    });
