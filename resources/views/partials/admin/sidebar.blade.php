@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar-wrapper overflow-hidden">
     <div class="sidebar-content">
         <div class="sidebar-brand">
-            <a href="">
+            <a href="" class="!hover:bg-none ">
                 <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="w-24" alt="Logo">
             </a>
         </div>

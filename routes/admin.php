@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 | Admin Dashboard Routes
 |--------------------------------------------------------------------------
 */
+
 Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'can:access-admin-dashboard'])
@@ -45,3 +46,8 @@ Route::prefix('admin')
                 Route::get('/', 'index')->name('index');
             });
     });
+
+
+Route::get('/admin/payments', function () {
+    return view('admin.payments');
+});

@@ -13,7 +13,7 @@
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
         <!-- SEO Meta Tags -->
-        <title>{{ $title }} | {{ config('app.name') }}</title>
+        {{-- <title>{{ $title }} | {{ config('app.name') }}</title> --}}
 
         <!-- Css -->
         <link href="{{ asset('dashboard_assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet">
