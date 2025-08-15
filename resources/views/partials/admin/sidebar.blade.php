@@ -13,34 +13,34 @@
                 </a>
             </li>
 
-            <li class="sidebar-dropdown">
+            <li class="sidebar-dropdown {{ request()->routeIs(['admin.students.*', 'admin.instructors.*']) ? 'active' : '' }}">
                 <a href="javascript:void(0)"><i class="uil uil-users-alt me-1"></i>User Management</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href="">Student</a></li>
-                        <li><a href="">Instructor</a></li>
+                        <li class="{{ request()->routeIs('admin.students.*') ? 'active' : '' }}"><a href="{{ route('admin.students.index') }}">Student</a></li>
+                        <li class="{{ request()->routeIs('admin.instructors.*') ? 'active' : '' }}"><a href="#">Instructor</a></li>
                     </ul>
                 </div>
             </li>
 
-            <li class="sidebar-dropdown">
+            <li class="sidebar-dropdown {{ request()->routeIs(['admin.courses.*', 'admin.instructor-courses.*']) ? 'active' : '' }}">
                 <a href="javascript:void(0)"><i class="uil uil-book-alt me-1"></i>Course Oversight</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li><a href=""></a></li>
-                        <li><a href="">Instructor</a></li>
+                        <li class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}"><a href="#">Courses</a></li>
+                        <li class="{{ request()->routeIs('admin.instructor-courses.*') ? 'active' : '' }}"><a href="#">Instructor Courses</a></li>
                     </ul>
                 </div>
             </li>
 
-            <li class="">
-                <a href="">
+            <li class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
+                <a href="#">
                     <i class="mdi mdi-bullhorn-variant-outline me-1"></i>Announcement
                 </a>
             </li>
 
-            <li class="">
-                <a href="">
+            <li class="{{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
+                <a href="#">
                     <i class="uil uil-bill me-1"></i>Payments
                 </a>
             </li>
@@ -49,14 +49,14 @@
                 <span class="text-[#262626] text-sm">Account</span>
             </li>
 
-            <li class="">
-                <a href="">
+            <li class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
+                <a href="#">
                     <i class="uil uil-setting me-1"></i>Settings
                 </a>
             </li>
 
             <li class="mt-auto border-t border-white/10">
-                <a href="" class="!text-[#9F0600]">
+                <a href="#" class="!text-[#9F0600]">
                     <i class="uil uil-sign-out-alt me-1"></i>Logout
                 </a>
             </li>

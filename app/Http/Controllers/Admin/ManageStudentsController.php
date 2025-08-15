@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use Throwable;
 
-class ManageStudentsControllers extends Controller
+class ManageStudentsController extends Controller
 {
     /**
      * Show students page
@@ -131,7 +131,7 @@ class ManageStudentsControllers extends Controller
             return response()->json([
                 'success' => true,
                 'message' => "Account for $request->full_name has been created successfully.",
-                'redirect' => route('admin.students')
+                'redirect' => route('admin.students.index')
             ], 201);
         }catch (Exception $exception) {
             // Return general error
@@ -167,7 +167,7 @@ class ManageStudentsControllers extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Account deleted successfully',
-                'redirect' => route('admin.students')
+                'redirect' => route('admin.students.index')
             ]);
         } catch (Exception $e) {
             DB::rollBack();
@@ -185,16 +185,15 @@ class ManageStudentsControllers extends Controller
 
             $storagePath = 'students/';
 
-            // Store new image
             $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
             $fullPath = $storagePath . $filename;
 
             // Resize and save
-            $resizedImage = Image::read($file)->resize(1024, 1024);
+            $resizedImage = Image::read($file)->resize(124, 124);
             Storage::disk('public')->put($fullPath, $resizedImage->encode());
 
-            // Store in the profile directory within storage/app/public
-            return Storage::disk('public')->url($fullPath);
+            // Return a full absolute path
+            return asset('storage/' . $fullPath);
         } catch (Exception $e) {
             Log::error('Image upload failed: ' . $e->getMessage());
             return null;

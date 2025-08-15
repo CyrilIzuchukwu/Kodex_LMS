@@ -31,7 +31,7 @@
                 </button>
 
                 <div class="relative w-full sm:w-64">
-                    <button id="courseDropdown" class="w-full bg-[#EDEDED] rounded-full px-4 md:px-7 py-3 text-[#141B34] font-medium hover:bg-gray-300 transition-all flex justify-between items-center text-sm md:text-base">
+                    <button id="courseDropdown" class="w-full {{ request('status') ? 'bg-[#F5CE9F] text-[#8C530D]' : 'bg-[#EDEDED] text-[#141B34]' }} rounded-full px-4 md:px-7 py-3 font-medium hover:bg-gray-300 transition-all flex justify-between items-center text-sm md:text-base">
                         <span id="selectedCourse">Status</span>
                         <svg class="w-5 h-5 text-gray-500 transform transition-transform" id="dropdownIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />

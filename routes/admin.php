@@ -2,13 +2,13 @@
 
 /*
 |--------------------------------------------------------------------------
-| Admin Dashboard Routes
+| Admin Routes
 |--------------------------------------------------------------------------
 */
 
 use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\ManageInstructorsControllers;
-use App\Http\Controllers\Admin\ManageStudentsControllers;
+use App\Http\Controllers\Admin\ManageInstructorsController;
+use App\Http\Controllers\Admin\ManageStudentsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,30 +16,32 @@ use Illuminate\Support\Facades\Route;
 | Admin Dashboard Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::controller(AdminDashboardController::class)
-        ->middleware(['auth', 'can:access-admin-dashboard'])
-        ->group(function () {
-            // Dashboard home
-            Route::get('/dashboard', 'index')->name('dashboard');
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'can:access-admin-dashboard'])
+    ->group(function () {
 
-            // User management
-            Route::controller(ManageStudentsControllers::class)->group(function () {
-                Route::get('/students', 'index')->name('students');
+        // Dashboard home
+        Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
 
-                Route::post('/students/store', 'store')->name('students.store');
-
-                Route::get('/students/{student}/show', 'show')->name('students.show');
-
-                Route::get('/students/{student}/edit', 'edit')->name('students.edit');
-                Route::put('/students/{student}', 'update')->name('students.update');
-
-                Route::delete('/students/{student}', 'destroy')->name('students.destroy');
+        // Student management routes
+        Route::controller(ManageStudentsController::class)
+            ->prefix('/students')
+            ->name('students.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{student}', 'show')->name('show');
+                Route::get('/{student}/edit', 'edit')->name('edit');
+                Route::put('/{student}', 'update')->name('update');
+                Route::delete('/{student}', 'destroy')->name('destroy');
             });
 
-            // Instructors management
-            Route::controller(ManageInstructorsControllers::class)->group(function () {
-                Route::get('/instructors', 'index')->name('instructors');
+        // Instructor management routes
+        Route::controller(ManageInstructorsController::class)
+            ->prefix('/instructors')
+            ->name('instructors.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
             });
-        });
-});
+    });
