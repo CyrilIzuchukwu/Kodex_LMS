@@ -26,7 +26,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             // User management
             Route::controller(ManageStudentsControllers::class)->group(function () {
                 Route::get('/students', 'index')->name('students');
+
                 Route::post('/students/store', 'store')->name('students.store');
+
+                Route::get('/students/{student}/show', 'show')->name('students.show');
+
+                Route::get('/students/{student}/edit', 'edit')->name('students.edit');
+                Route::put('/students/{student}', 'update')->name('students.update');
+
+                Route::delete('/students/{student}', 'destroy')->name('students.destroy');
             });
 
             // Instructors management

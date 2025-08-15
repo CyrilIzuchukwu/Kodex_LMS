@@ -147,24 +147,3 @@
         </form>
     </div>
 </div>
-
-<!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[9999] hidden p-4">
-    <div class="modal-content bg-white rounded-[20px] md:rounded-[30px] shadow-lg w-full max-w-sm md:max-w-md h-auto p-4 md:p-6 flex flex-col items-center justify-center z-[10000]">
-        <img src="{{ asset('dashboard_assets/images/img/gradient.png') }}" alt="delete" class="w-12 h-12 md:w-16 md:h-16 mb-4">
-        <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-4 text-center">Delete Student?</h2>
-        <p class="text-gray-600 mb-6 text-center text-xs md:text-sm">
-            Are you sure you want to remove <span class="font-semibold">John Doe</span> from the system? This action cannot be undone.
-        </p>
-
-        <div class="flex justify-center gap-3 w-full">
-            <button id="cancelDelete" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
-                Cancel
-            </button>
-
-            <button id="confirmDelete" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#E30800] text-white hover:bg-red-600 transition-colors text-xs md:text-sm">
-                Delete
-            </button>
-        </div>
-    </div>
-</div>

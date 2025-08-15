@@ -1,4 +1,4 @@
-// Initialize the form when DOM is loaded
+// Initialize cleave js
 document.addEventListener('DOMContentLoaded', () => {
     const phoneNumberInput = document.getElementById('phoneNumber');
     if (phoneNumberInput && typeof Cleave !== 'undefined') {
@@ -11,12 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Modal Trigger
+// Register Student Modal Trigger
 document.addEventListener('DOMContentLoaded', () => {
     // Element references
     const elements = {
         addStudentModal: document.getElementById('addStudentModal'),
-        deleteModal: document.getElementById('deleteModal'),
         addStudentBtn: document.getElementById('addStudentBtn'),
         closeAddModal: document.getElementById('closeAddModal'),
         cancelAddStudent: document.getElementById('cancelAddStudent'),
@@ -27,8 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdownIcon: document.getElementById('dropdownIcon'),
         selectedCourse: document.getElementById('selectedCourse'),
         dropdownOptions: document.querySelectorAll('.dropdown-option'),
-        toggleButtons: document.querySelectorAll('.toggle-action-card'),
-        actionCard: document.getElementById('action-card')
     };
 
     // Modal functions
@@ -59,13 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     elements.closeAddModal?.addEventListener('click', () => modal.close(elements.addStudentModal));
     elements.cancelAddStudent?.addEventListener('click', () => modal.close(elements.addStudentModal));
 
-    // Delete Modal
-    document.querySelectorAll('.deleteBtn').forEach(button => {
-        button.addEventListener('click', () => modal.open(elements.deleteModal));
-    });
-    elements.cancelDelete?.addEventListener('click', () => modal.close(elements.deleteModal));
-    elements.confirmDelete?.addEventListener('click', () => modal.close(elements.deleteModal));
-
     // Dropdown functionality
     elements.courseDropdown?.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -88,25 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.dropdownIcon.style.transform = 'rotate(0deg)';
     });
 
-    // Action card functionality
-    elements.toggleButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const rect = button.getBoundingClientRect();
-            elements.actionCard.style.top = `${rect.bottom + window.scrollY}px`;
-            elements.actionCard.style.left = `${rect.left + window.scrollX - 100}px`;
-            elements.actionCard.classList.toggle('hidden');
-        });
-    });
-
-    document.addEventListener('click', () => elements.actionCard.classList.add('hidden'));
-    elements.actionCard.addEventListener('click', (e) => e.stopPropagation());
-
     // Close modals with an ESC key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             modal.close(elements.addStudentModal);
-            modal.close(elements.deleteModal);
         }
     });
 });
@@ -171,8 +146,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     errorMessage = `The ${field.replace('_', ' ')} field is required.`;
                 } else if (field === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
                     errorMessage = 'Please enter a valid email address.';
-                } else if (field === 'password' && !/^(?=.*[0-9!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/.test(value)) {
-                    errorMessage = 'Password must be at least 8 characters with numbers or symbols.';
                 }
 
                 if (errorMessage) {
@@ -272,6 +245,71 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 });
             }
+        });
+    }
+});
+
+// Filter
+document.addEventListener('DOMContentLoaded', function() {
+    // Status dropdown functionality
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const dropdownIcon = document.getElementById('dropdownIcon');
+    const selectedCourse = document.getElementById('selectedCourse');
+    const dropdownOptions = document.querySelectorAll('.dropdown-option');
+    const allButton = document.getElementById('allButton');
+
+    // Get current URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentStatus = urlParams.get('status');
+
+    // Set an initially selected status if present in URL
+    if (currentStatus) {
+        selectedCourse.textContent = currentStatus === 'active' ? 'Active Users' : 'Blocked Users';
+    }
+
+    // Handle option selection
+    dropdownOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const selectedValue = this.getAttribute('data-value');
+            selectedCourse.textContent = selectedValue;
+            dropdownMenu.classList.add('hidden');
+            dropdownIcon.classList.remove('rotate-180');
+
+            // Determine the status parameter value
+            let statusParam = '';
+            if (selectedValue === 'Active Users') {
+                statusParam = 'active';
+            } else if (selectedValue === 'Blocked Users') {
+                statusParam = 'blocked';
+            }
+
+            // Update URL with the new status parameter
+            updateUrlWithStatus(statusParam);
+        });
+    });
+
+    // Function to update URL with status parameter
+    function updateUrlWithStatus(status) {
+        const url = new URL(window.location.href);
+
+        if (status) {
+            url.searchParams.set('status', status);
+        } else {
+            url.searchParams.delete('status');
+        }
+
+        // Reset pagination to page 1 when filtering
+        url.searchParams.delete('page');
+
+        window.location.href = url.toString();
+    }
+
+    // Add an event listener to the "All" button to clear the filter
+    if (allButton) {
+        allButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            selectedCourse.textContent = 'Status';
+            updateUrlWithStatus('');
         });
     }
 });
