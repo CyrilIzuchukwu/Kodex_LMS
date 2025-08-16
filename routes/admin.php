@@ -51,3 +51,7 @@ Route::prefix('admin')
 Route::get('/admin/payments', function () {
     return view('admin.payments');
 });
+
+Route::get('/admin/settings', function () {
+    return view('admin.settings');
+});
