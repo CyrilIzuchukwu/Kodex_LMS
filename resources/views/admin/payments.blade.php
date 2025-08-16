@@ -4,413 +4,417 @@
 
  @section('content')
 
-     {{-- Start Content --}}
+ {{-- Start Content --}}
 
-     <div x-data="{ open: false }" x-init="$watch('open', value => { document.body.classList.toggle('overflow-hidden', value) })">
-         <p class="text-[20px] font-medium text-[#5D5D5D] mb-16">User Management > <span
-                 class="text-[#848484]">Instructors</span></p>
-         <div class="flex justify-between items-center mb-6">
-             <!-- Left Side -->
-             <div class="flex items-center gap-4">
-                 <!-- Add Student Button + Modal -->
-                 <div class="inline-block">
-                     <!-- Trigger -->
-                     <button @click="open = true"
-                         class="bg-[#E68815] px-2 py-3 rounded-full text-[14px] font-medium text-white hover:bg-[#cc6f0f] focus:outline-none focus:ring-2 focus:ring-[#E68815]">
-                         + Add Instructors
+ <div x-data="{ open: false }"
+     x-init="$watch('open', value => { document.body.classList.toggle('overflow-hidden', value) })">
+
+     <div class="p-6">
+         <p class="text-[20px] font-medium text-[#5D5D5D] mb-10">Payment History</p>
+         <div class="max-w-7xl mx-auto">
+             <!-- Search and Filters -->
+             <div class="flex items-center justify-between mb-6">
+                 <div class="relative flex-1 max-w-md">
+                     <span
+                         class="mdi mdi-magnify absolute left-3 top-9 transform -translate-y-1/2 text-[#141B34] text-[30px] leading-none">
+                     </span>
+                     <input type="text" placeholder="Search Name or Transaction ID" class="w-full pl-10 pr-4 py-2 bg-[#EDEDED] border border-border rounded-[30px] 
+                            focus:outline-none focus:ring-2 focus:ring-ring text-foreground 
+                            placeholder:text-muted-foreground text-sm" />
+                 </div>
+
+
+                 <div class="flex items-center gap-3 ml-6 text-sm">
+                     <button
+                         class="bg-[#F5CE9F] text-[#8C530D] px-8 py-2 rounded-[100px] font-medium hover:bg-opacity-90 transition-colors">
+                         All
                      </button>
 
-                     <!-- Modal Overlay -->
-                     <div x-cloak x-show="open" x-transition.opacity x-trap="open" @keydown.escape="open = false"
-                         class="fixed inset-0 bg-black bg-opacity-50 flex justify-center z-[9999] overflow-y-auto pt-8 pb-8"
-                         role="dialog" aria-modal="true">
+                     <div class="relative">
+                         <button
+                             class="flex items-center gap-2 bg-[#EDEDED] border border-border px-4 py-2 rounded-[100px] text-[#1B1B1B] hover:bg-accent transition-colors">
+                             Course
+                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                     d="m19 9-7 7-7-7"></path>
+                             </svg>
+                         </button>
+                     </div>
 
-                         <!-- Modal Box -->
-                         <div @click.stop @click.away="open = false" x-transition.scale
-                             class="bg-white rounded-lg shadow-lg max-w-[100%] w-[70vw] p-16 space-y-4 z-[10000] self-start mt-8 mb-8">
+                     <div x-data="{ open: false }" class="relative">
+                         <!-- Trigger Button -->
+                         <button @click="open = !open"
+                             class="flex items-center gap-2 bg-[#EDEDED] border border-border px-4 py-2 rounded-[100px] text-[#1B1B1B] hover:bg-accent transition-colors">
+                             Date
+                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                     d="m19 9-7 7-7-7"></path>
+                             </svg>
+                         </button>
 
+                         <!-- Dropdown Modal -->
+                         <div x-show="open" @click.outside="open = false" x-transition
+                             class="absolute top-full right-0 mt-2 w-80 bg-white rounded-lg border border-border shadow-lg p-6 z-50">
                              <!-- Header -->
-                             <div class="flex justify-end items-center pb-3 mb-4">
-
+                             <div class="flex items-center justify-between mb-6">
+                                 <h3 class="text-lg font-semibold text-[#1B1B1B]">Filter by Date Range</h3>
                                  <button @click="open = false"
-                                     class="text-gray-500 hover:text-gray-700 focus:outline-none">&times;</button>
+                                     class="w-6 h-6 rounded-full bg-muted hover:bg-accent transition-colors flex items-center justify-center">
+                                     <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor"
+                                         viewBox="0 0 24 24">
+                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                             d="M6 18L18 6M6 6l12 12"></path>
+                                     </svg>
+                                 </button>
                              </div>
-                             <form action="">
-                                 <!-- Personal Information -->
-                                 <div class="mb-6 space-y-8">
-                                     <div class="flex items-center gap-2 mb-4">
-                                         <img src="{{ asset('dashboard_assets/images/img/person.png') }}" alt="person">
-                                         <h3 class="text-lg font-medium text-gray-700">Personal Information</h3>
+
+                             <!-- Date Range Buttons -->
+                             <div class="flex gap-3 mb-8">
+                                 <button
+                                     class="px-4 py-2 bg-[#EDEDED] text-[#1B1B1B] rounded-full text-sm font-medium hover:bg-accent transition-colors">
+                                     Last 30 Days
+                                 </button>
+                                 <button
+                                     class="px-4 py-2 bg-[#F5CE9F] text-[#8C530D] rounded-full border-[#8C530D] border-2 text-sm font-medium hover:bg-opacity-90 transition-colors">
+                                     Last 6 Months
+                                 </button>
+                             </div>
+
+                             <!-- Custom Date Range -->
+                             <div class="mb-8">
+                                 <h4 class="text-[#1B1B1B] font-medium mb-4">Custom Date Range</h4>
+                                 <div class="flex  gap-3">
+                                     <div class="flex-1 relative flex items-center">
+                                         <input type="text" value="Last 30 Days"
+                                             class="w-full px-2 py-2 pr-7 bg-[#EDEDED] border border-border rounded-full text-sm text-[#1B1B1B] focus:outline-none focus:ring-2 focus:ring-ring"
+                                             readonly />
+                                         <span
+                                             class="mdi mdi-calendar-month-outline absolute right-3 text-[#1B1B1B] text-lg"></span>
+                                     </div>
+                                     <div class="flex-1 relative flex items-center">
+                                         <input type="text" value="Last 6 Months"
+                                             class="w-full px-2 py-2 pr-7 bg-[#EDEDED] border border-border rounded-full text-sm text-[#1B1B1B] focus:outline-none focus:ring-2 focus:ring-ring"
+                                             readonly />
+                                         <span
+                                             class="mdi mdi-calendar-month-outline absolute right-3 text-[#1B1B1B] text-lg"></span>
                                      </div>
 
-
-                                     <div class="text-center mb-4">
-                                         <h3 class="text-sm font-medium text-gray-900 mb-4">Profile Photo</h3>
-                                         <div class="relative w-20 h-20 mx-auto">
-                                             <input type="file" accept="image/*" id="profile-photo"
-                                                 class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-                                             <label for="profile-photo"
-                                                 class="w-20 h-20 bg-profile-avatar rounded-full flex items-center justify-center cursor-pointer hover:bg-orange-200 transition-colors border-2 border-dashed border-section-icon">
-                                                 <!-- Camera/Upload Icon -->
-                                                 <!-- <img src="{{ asset('dashboard_assets/images/img/photo.png') }}" alt="photo"> -->
-                                             </label>
-                                         </div>
-                                         <p class="text-xs text-gray-500 mt-2">Click to upload photo</p>
-                                     </div>
-
-
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                         <div>
-                                             <label class="block text-sm font-medium text-gray-700 mb-1">First Name
-                                                 *</label>
-                                             <input name="first_name" type="text"
-                                                 class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]"
-                                                 placeholder="Enter first name">
-                                         </div>
-                                         <div>
-                                             <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
-                                             <input name="last_name" type="text"
-                                                 class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-sm  ]focus:ring-1 focus:ring-[#E68815]"
-                                                 placeholder="Enter last name">
-                                         </div>
-                                     </div>
-
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                         <div>
-                                             <label class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                                             <input name="phone" type="tel"
-                                                 class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] focus:ring-1 text-black text-sm  focus:ring-[#E68815]"
-                                                 placeholder="Enter phone number">
-                                         </div>
-                                         <div>
-                                             <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                                             <input name="address" type="text"
-                                                 class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] focus:ring-1 text-black text-sm  focus:ring-[#E68815]"
-                                                 placeholder="Enter house address">
-                                         </div>
-                                     </div>
-
-
-                                     <div>
-                                         <p class="text-sm font-medium text-gray-900 mb-4">Assigned course*</p>
-                                         <div
-                                             class="h-full flex flex-col items-start justify-center bg-gray-50 p-4 rounded-[30px]">
-
-
-
-                                             <div class="space-y-5">
-                                                 <div class="radio-item flex gap-4 items-center space-x-3">
-                                                     <input type="radio" name="course" id="web" value="web"
-                                                         class="relative w-4 h-4 border-2 rounded-full bg-white cursor-pointer
-                                                            transition-all duration-200 ease-in-out hover:border-[#E68815]
-                                                            focus:outline-none focus:ring-2 focus:ring-[#E68815]
-                                                            checked:border-[#E68815] checked:bg-[#E68815] accent-[#E68815]">
-                                                     <label for="web" class="text-sm font-normal text-gray-900">
-                                                         Web Development
-                                                     </label>
-                                                 </div>
-
-                                                 <div class="radio-item flex gap-4 items-center space-x-3">
-                                                     <input type="radio" name="course" id="ui-ux" value="ui-ux"
-                                                         class="relative w-4 h-4 border-2 rounded-full bg-white cursor-pointer
-                                                            transition-all duration-200 ease-in-out hover:border-[#E68815]
-                                                            focus:outline-none focus:ring-2 focus:ring-[#E68815]
-                                                            checked:border-[#E68815] checked:bg-[#E68815] accent-[#E68815]">
-                                                     <label for="ui-ux" class="text-sm font-normal text-gray-900">
-                                                         UI/UX Design
-                                                     </label>
-                                                 </div>
-
-                                                 <div class="radio-item flex gap-4 items-center space-x-3">
-                                                     <input type="radio" name="course" id="data" value="data"
-                                                         class="relative w-4 h-4 border-2 rounded-full bg-white cursor-pointer
-                                                            transition-all duration-200 ease-in-out hover:border-[#E68815]
-                                                            focus:outline-none focus:ring-2 focus:ring-[#E68815]
-                                                            checked:border-[#E68815] checked:bg-[#E68815] accent-[#E68815]">
-                                                     <label for="data" class="text-sm font-normal text-gray-900">
-                                                         Data Analysis
-                                                     </label>
-                                                 </div>
-
-                                                 <div class="radio-item flex gap-4 items-center space-x-3">
-                                                     <input type="radio" name="course" id="mobile" value="mobile"
-                                                         class="relative w-4 h-4 border-2 rounded-full bg-white cursor-pointer
-                                                                transition-all duration-200 ease-in-out hover:border-[#E68815]
-                                                                focus:outline-none focus:ring-2 focus:ring-[#E68815]
-                                                                checked:border-[#E68815] checked:bg-[#E68815] accent-[#E68815]">
-                                                     <label for="mobile" class="text-sm font-normal text-gray-900">
-                                                         Mobile App Development
-                                                     </label>
-                                                 </div>
-                                             </div>
-
-                                         </div>
-                                     </div>
-
-
-                                     <div class="mt-4 mb-5">
-                                         <label class="block text-sm font-medium text-gray-700 mb-1">Biography*</label>
-                                         <div class="border border-gray-300 rounded-lg bg-white">
-                                             <textarea placeholder="Write something..." rows="4"
-                                                 class="w-full px-4 py-3 bg-transparent text-gray-900 placeholder:text-gray-500 resize-none focus:outline-none focus:border-none focus:ring-[#E68815] rounded-t-lg"></textarea>
-                                             <div
-                                                 class="flex items-center gap-2 px-4 py-2 border-t border-gray-300 bg-gray-50 rounded-b-lg">
-                                                 <!-- Bold -->
-                                                 <button class="p-1 hover:bg-gray-200 rounded">
-                                                     <svg class="w-4 h-4 text-gray-600" fill="none"
-                                                         stroke="currentColor" viewBox="0 0 24 24">
-                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                             stroke-width="2" d="M6 4h8a4 4 0 014 4 4 4 0 01-4 4H6z">
-                                                         </path>
-                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                             stroke-width="2" d="M6 12h9a4 4 0 014 4 4 4 0 01-4 4H6z">
-                                                         </path>
-                                                     </svg>
-                                                 </button>
-                                                 <!-- Italic -->
-                                                 <button class="p-1 hover:bg-gray-200 rounded">
-                                                     <svg class="w-4 h-4 text-gray-600" fill="none"
-                                                         stroke="currentColor" viewBox="0 0 24 24">
-                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                             stroke-width="2" d="M10 4l4 16m-4-8h8"></path>
-                                                     </svg>
-                                                 </button>
-                                                 <!-- Underline -->
-                                                 <button class="p-1 hover:bg-gray-200 rounded">
-                                                     <svg class="w-4 h-4 text-gray-600" fill="none"
-                                                         stroke="currentColor" viewBox="0 0 24 24">
-                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                             stroke-width="2" d="M6 20h12M8 4v12a4 4 0 008 0V4"></path>
-                                                     </svg>
-                                                 </button>
-                                                 <div class="w-px h-4 bg-gray-300 mx-1"></div>
-                                                 <!-- Numbered List -->
-                                                 <button class="p-1 hover:bg-gray-200 rounded">
-                                                     <svg class="w-4 h-4 text-gray-600" fill="none"
-                                                         stroke="currentColor" viewBox="0 0 24 24">
-                                                         <line x1="8" y1="6" x2="21"
-                                                             y2="6"></line>
-                                                         <line x1="8" y1="12" x2="21"
-                                                             y2="12"></line>
-                                                         <line x1="8" y1="18" x2="21"
-                                                             y2="18"></line>
-                                                         <line x1="3" y1="6" x2="3.01"
-                                                             y2="6"></line>
-                                                         <line x1="3" y1="12" x2="3.01"
-                                                             y2="12"></line>
-                                                         <line x1="3" y1="18" x2="3.01"
-                                                             y2="18"></line>
-                                                     </svg>
-                                                 </button>
-                                                 <!-- Bullet List -->
-                                                 <button class="p-1 hover:bg-gray-200 rounded">
-                                                     <svg class="w-4 h-4 text-gray-600" fill="none"
-                                                         stroke="currentColor" viewBox="0 0 24 24">
-                                                         <line x1="8" y1="6" x2="21"
-                                                             y2="6"></line>
-                                                         <line x1="8" y1="12" x2="21"
-                                                             y2="12"></line>
-                                                         <line x1="8" y1="18" x2="21"
-                                                             y2="18"></line>
-                                                         <circle cx="4" cy="6" r="1"></circle>
-                                                         <circle cx="4" cy="12" r="1"></circle>
-                                                         <circle cx="4" cy="18" r="1"></circle>
-                                                     </svg>
-                                                 </button>
-                                                 <div class="w-px h-4 bg-gray-300 mx-1"></div>
-                                                 <!-- Link -->
-                                                 <button class="p-1 hover:bg-gray-200 rounded">
-                                                     <svg class="w-4 h-4 text-gray-600" fill="none"
-                                                         stroke="currentColor" viewBox="0 0 24 24">
-                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                             stroke-width="2"
-                                                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1">
-                                                         </path>
-                                                     </svg>
-                                                 </button>
-                                             </div>
-                                         </div>
-                                     </div>
                                  </div>
+                             </div>
 
-                                 <!-- Login Credentials -->
-                                 <div class="mt-12 mb-11">
-                                     <div class="flex items-center gap-2 mb-4">
-                                         <img src="{{ asset('dashboard_assets/images/img/login3.png') }}" alt="login">
-                                         </svg>
-                                         <h3 class="text-lg font-medium text-gray-700">Login Credentials</h3>
-                                     </div>
-
-                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                         <div>
-                                             <label class="block text-sm font-medium text-gray-700 mb-1">Email*</label>
-                                             <input name="email" type="email"
-                                                 class="w-full border border-gray-300 rounded-lg text-black text-sm  p-2 focus:border-[#E68815] focus:ring-1 focus:ring-[#E68815]">
-                                         </div>
-                                         <div>
-                                             <label class="block text-sm font-medium text-gray-700 mb-1">Password*</label>
-                                             <input name="password" type="password"
-                                                 class="w-full border border-gray-300 rounded-lg text-black text-sm  p-2 focus:border-[#E68815] focus:ring-1 focus:ring-[#E68815]">
-                                         </div>
-                                     </div>
-                                 </div>
-
-                                 <!-- Save Button -->
-                                 <div class="flex justify-end mt-10">
-                                     <button @click="open = false" type="submit"
-                                         class="bg-[#E68815] text-white px-6 py-2 rounded-full hover:bg-[#cc6f0f] focus:outline-none focus:ring-2 focus:ring-[#E68815]">
-                                         Save
+                             <!-- Filter by Status -->
+                             <div>
+                                 <h4 class="text-[#1B1B1B] font-medium mb-4">Filter by Status</h4>
+                                 <div class="flex  gap-3">
+                                     <button
+                                         class="bg-[#EEF4EA] text-success px-4 py-2 rounded-[100px] text-sm text-[#365718] font-medium">
+                                         Success
+                                     </button>
+                                     <button
+                                         class="bg-[#FCE6E6] text-destructive px-4 py-2 rounded-[100px] text-[14px] text-[#8A0500] font-medium">
+                                         Failed
+                                     </button>
+                                     <button
+                                         class="bg-[#FDF3E8] text-pending px-4 py-2 rounded-[100px] text-sm text-[#8C530D] font-medium">
+                                         Pending
                                      </button>
                                  </div>
-                             </form>
+                             </div>
                          </div>
                      </div>
-                 </div>
 
-                 <!-- Search Bar -->
-                 <div>
-                     <span class="flex items-center bg-[#EDEDED] rounded-full px-4 w-[20vw]">
-                         <i class="uil uil-search text-[#141B34] text-lg mr-2"></i>
-                         <input type="search" placeholder="Search" aria-label="Search"
-                             class="bg-transparent outline-none border-0 focus:ring-0 w-full py-3 text-[#141B34] font-medium">
-                     </span>
                  </div>
              </div>
-
-             <!-- Right Side -->
-             <div class="flex gap-4">
-                 <button class="bg-[#F5CE9F] text-[#8C530D] px-10 py-3 rounded-full font-medium hover:bg-[#e6bb85]">
-                     All
-                 </button>
-                 <div x-cloak x-data="{ open: false, selected: 'Assigned Course' }" class="relative w-64">
-                     <!-- Dropdown button -->
-                     <button @click="open = !open"
-                         class="w-full bg-[#EDEDED] rounded-full px-7 py-3 text-[#141B34] font-medium hover:bg-gray-300 border-0 focus:outline-none focus:ring-0 transition-all flex justify-between items-center">
-                         <span x-text="selected"></span>
-                         <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                         </svg>
-                     </button>
-
-                     <!-- Dropdown menu -->
-                     <div x-show="open" @click.away="open = false"
-                         class="absolute mt-2 w-full bg-white text-black text-sm rounded-2xl shadow-lg overflow-hidden z-50">
-                         <ul>
-                             <template
-                                 x-for="option in ['Assigned Course', 'Web Development', 'Product Design', 'Data Analysis', 'Mobile App Development']">
-                                 <li @click="selected = option; open = false"
-                                     class="px-7 py-3 hover:bg-[#E68815] hover:text-white font-medium cursor-pointer transition-colors">
-                                     <span x-text="option"></span>
-                                 </li>
-                             </template>
-                         </ul>
-                     </div>
-                 </div>
-             </div>
-         </div>
-
-
-         <div class="w-auto bg-white rounded-[30px] px-3 py-3 shadow-sm overflow-hidden">
 
              <!-- Table -->
-             <div class="overflow-x-auto bg-white mb-20 rounded-[30px] ">
-                 <table class="min-w-full divide-y divide-gray-200 border-collapse">
-                     <thead class="bg-[#EDEDED] text-center">
-                         <tr>
-                             <th class="px-2 py-3 text-xs font-medium text-gray-500 border-r  border-gray-300">
-                             </th>
-                             <th class="px-2 py-3 text-[14px] font-medium text-gray-500 border-r border-gray-300">
-                                 Instructor Name</th>
-                             <th class="px-2 py-3 text-[14px] font-medium text-gray-500 border-r border-gray-300">
-                                 Email</th>
-                             <th class="px-2 py-3 text-[14px] font-medium text-gray-500 border-r border-gray-300">
-                                 Phone</th>
-                             <th class="px-2 py-3 text-[14px] font-medium text-gray-500 border-r border-gray-300">
-                                 Assigned Course</th>
-                             <th class="px-6 py-3 text-center text-[14px] font-medium text-gray-500">Action</th>
-                         </tr>
+             <div class="w-auto bg-white rounded-[30px] px-5 py-5 shadow-sm overflow-hidden">
+                 <div class="bg-card rounded-[30px] border border-border overflow-hidden">
+                     <table class="w-full">
+                         <thead class="bg-[#E1E1E1]">
+                             <tr class="bg-muted/50 border-b border-border text-[#767676] text-center">
+                                 <th class=" px-2 py-3 text-sm font-medium text-gray-500 border-r  border-gray-300">
+                                     Transaction ID</th>
+                                 <th class=" px-2 py-3 text-sm font-medium text-gray-500 border-r  border-gray-300">
+                                     Email</th>
+                                 <th class=" px-2 py-3 text-sm font-medium text-gray-500 border-r  border-gray-300">
+                                     Assigned Course</th>
+                                 <th class=" px-2 py-3 text-sm font-medium text-gray-500 border-r  border-gray-300">Date
+                                 </th>
+                                 <th class=" px-2 py-3 text-sm font-medium text-gray-500 border-r  border-gray-300">
+                                     Amount</th>
+                                 <th class=" px-2 py-3 text-sm font-medium text-gray-500 border-r  border-gray-300">
+                                     Status</th>
+                             </tr>
+                         </thead>
+                         <tbody class="text-center">
+                             <div x-data="{ open: false }">
+                                 <!-- Table Row acting as trigger -->
+                                 <table class="w-full border-collapse">
+                                     <tbody class="text-center">
+                                         <tr @click="open = true"
+                                             class="border-b border-border hover:bg-muted/20 transition-colors cursor-pointer">
+                                             <td class="py-4 px-6 text-[14px]">
+                                                 <span class="px-6 py-4 text-[16px] font-medium text-gray-700">1</span>
+                                                 <span class="px-6 py-4 text-sm text-gray-700">IT59598</span>
+                                             </td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">tim@gmail.com</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">Web Development</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">24 May, 2020</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">$210.00</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">
+                                                 <span
+                                                     class="bg-[#EEF4EA] text-success px-3 py-1 rounded-[100px] text-sm text-[#365718] font-medium">
+                                                     Success
+                                                 </span>
+                                             </td>
+                                         </tr>
 
-                     </thead>
-                     <tbody class="bg-[#fcfafa] divide-y divide-gray-200">
-                         <tr class="hover:bg-gray-50">
-                             <td class="px-6 py-4 text-sm text-gray-700">1</td>
-                             <td class="px-6 py-4 text-sm font-medium text-gray-800">John Doe</td>
-                             <td class="px-6 py-4 text-sm text-gray-700">john@example.com</td>
-                             <td class="px-6 py-4 text-sm text-gray-700">+123456789</td>
-                             <td class="px-6 py-4 text-sm text-gray-700">Web Development</td>
-                             <td class="px-6 py-4 text-sm text-center">
-                                 <div class="flex items-center justify-center gap-2">
 
-                                     <button
-                                         class="px-3 py-1 bg-amber-500 text-white rounded-full hover:bg-amber-600 text-sm">
-                                         <i class="mdi mdi-account-edit-outline"></i></button>
-                                     <div x-cloak x-data="{ open: false }" class="inline-block">
-                                         <!-- Delete Button -->
-                                         <button @click="open = true"
-                                             class="px-3 py-1 bg-red-100 text-red-600 rounded-full hover:bg-red-200 text-sm">
-                                             <i class="uil uil-trash"></i>
+                                         <tr @click="open = true"
+                                             class="border-b border-border hover:bg-muted/20 transition-colors cursor-pointer">
+                                             <td class="py-4 px-6 hover:bg-gray-50 transition-colors text-[14px]">
+                                                 <span class="px-6 py-4 text-[16px] font-medium text-gray-700">2</span>
+                                                 <span class="px-6 py-4 text-sm text-gray-700">IT59598</span>
+                                             </td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">tim@gmail.com</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">Product Design</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">24 May, 2020</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">$210.00</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">
+                                                 <span
+                                                     class="bg-[#FCE6E6] text-destructive px-3 py-1 rounded-[100px] text-[14px] text-[#8A0500] font-medium">
+                                                     Failed
+                                                 </span>
+                                             </td>
+                                         </tr>
+
+                                         <tr @click="open = true"
+                                                class="border-b border-border hover:bg-muted/20 transition-colors cursor-pointer">
+                                             <td class="py-4 px-6 hover:bg-gray-50 transition-colors text-[14px]">
+                                                 <span class="px-6 py-4 text-[16px] font-medium text-gray-700">3</span>
+                                                 <span class="px-6 py-4 text-sm text-gray-700">IT59598</span>
+                                             </td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">tim@gmail.com</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">Data Analysis</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">24 May, 2020</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">$210.00</td>
+                                             <td class="px-6 py-4 text-sm text-gray-700">
+                                                 <span
+                                                     class="bg-[#FDF3E8] text-pending px-3 py-1 rounded-[100px] text-sm text-[#8C530D] font-medium">
+                                                     Pending
+                                                 </span>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+
+                                 <!-- Modal -->
+                                 <div x-show="open" x-transition x-cloak x-trap="open" @keydown.escape="open = false"
+                                     class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex z-[9999] items-center max-h-[1099px] justify-center overflow-y-auto">
+                                     <!-- Backdrop -->
+                                     <div x-cloak x-trap="open" @keydown.escape="open = false"
+                                         class="absolute inset-0 overflow-y-auto pt-8 pb-8" @click="open = false"></div>
+
+                                     <!-- Modal Content -->
+                                     <div
+                                         class="relative w-full max-w-[900px] mx-4 bg-white rounded-lg shadow-2xl max-h-[1099px] overflow-auto self-start mt-8 mb-8">
+                                         <!-- Close button -->
+                                         <button @click="open = false"
+                                             class="absolute top-4 right-4 z-10 p-2 rounded-[100px] bg-gray-100 hover:bg-gray-200 transition">
+                                             ✕
                                          </button>
 
-                                         <!-- Modal Overlay -->
-                                         <div x-show="open" x-transition.opacity
-                                             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[9999]">
-                                             <!-- Modal Box -->
-                                             <div @click.away="open = false" x-transition.scale
-                                                 class="bg-white rounded-[30px] shadow-lg w-[400px] h-[311px] max-w-sm py-6 px-3 flex flex-col items-center justify-center z-[10000]">
-                                                 <img src="{{ asset('dashboard_assets/images/img/gradient.png') }}"
-                                                     alt="delete">
-                                                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Delete Instructor?
-                                                 </h2>
-                                                 <p class="text-gray-600 mb-6">
-                                                     Are you sure you want to remove <span class="font-semibold">Jane
-                                                         Doe</span> from the system? This action cannot be undone.
-                                                 </p>
+                                         <!-- Receipt content -->
+                                         <!-- Receipt content -->
+                                         <div class="p-8">
+                                             <!-- Header with logo -->
+                                             <div class="flex items-center mb-8">
+                                                 <div class="flex items-center space-x-2">
+                                                     <img class="w-[120px]"
+                                                         src="{{ asset('dashboard_assets/images/img/Kodex.png') }}"
+                                                         alt="logo">
+                                                 </div>
+                                             </div>
 
-                                                 <div class="flex justify-end gap-3">
-                                                     <button @click="open = false"
-                                                         class="px-6 py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300">
-                                                         Cancel
-                                                     </button>
-                                                     <button
-                                                         @click="open = false;
-                        // Add your delete logic here (AJAX or form submission)
-                    "
-                                                         class="px-6 py-3 rounded-full bg-[#E30800] text-white hover:bg-red-600">
-                                                         Delete
+                                             <!-- Title -->
+                                             <h1 class="text-[20px] font-[500] text-[#444444] mb-8">Payment Receipt</h1>
+
+                                             <!-- Receipt details grid -->
+                                             <div class="space-y-6">
+                                                 <!-- Receipt number and date -->
+                                                 <div class="grid grid-cols-2 gap-4">
+                                                     <div>
+                                                         <span class="text-[#1B1B1B] text-[16px] font-medium">Receipt
+                                                             #:</span>
+                                                         <span
+                                                             class="ml-2 text-[#1B1B1B] font-[400] text-[16px]">000123</span>
+                                                     </div>
+                                                     <div>
+                                                         <span
+                                                             class="text-[#1B1B1B] text-[16px] font-medium">Date:</span>
+                                                         <span class="ml-2 text-[#1B1B1B] font-[400] text-[16px]">11 Aug
+                                                             2025</span>
+                                                     </div>
+                                                 </div>
+
+                                                 <!-- Payment reference -->
+                                                 <div>
+                                                     <span class="text-[#1B1B1B] text-[16px] font-medium">Payment
+                                                         Ref:</span>
+                                                     <span
+                                                         class="ml-2 text-[#1B1B1B] font-[400] text-[16px]">LMS-2025-0811-7890</span>
+                                                 </div>
+
+                                                 <hr class="border-gray-200" />
+
+                                                 <!-- Student information -->
+                                                 <div class="space-y-4">
+                                                     <div>
+                                                         <span class="text-[#1B1B1B] text-[16px] font-medium">Student
+                                                             Name:</span>
+                                                         <span class="ml-8 text-[#1B1B1B] font-[400] text-[16px]">John
+                                                             Doe</span>
+                                                     </div>
+                                                     <div>
+                                                         <span class="text-[#1B1B1B] text-[16px] font-mediumm">Student
+                                                             ID:</span>
+                                                         <span
+                                                             class="ml-12 text-[#1B1B1B] font-[400] text-[16px]">STU-0045</span>
+                                                     </div>
+                                                     <div>
+                                                         <span class="text-[#1B1B1B] text-[16px] font-medium">Course
+                                                             purchased:</span>
+                                                         <span class="ml-4 text-[#1B1B1B] font-[400] text-[16px]">Web
+                                                             Development Masterclass</span>
+                                                     </div>
+                                                 </div>
+
+                                                 <hr class="border-gray-200" />
+
+                                                 <!-- Table header -->
+                                                 <div
+                                                     class="grid grid-cols-4 gap-4 py-2 text-[#1B1B1B] text-[16px] font-medium">
+                                                     <div>Description</div>
+                                                     <div class="text-center">Qty</div>
+                                                     <div class="text-center">Unit Price</div>
+                                                     <div class="text-right">Total</div>
+                                                 </div>
+
+                                                 <!-- Table content -->
+                                                 <div class="grid grid-cols-4 gap-4 py-2">
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px]">Web Development
+                                                         Masterclass</div>
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px] text-center">1
+                                                     </div>
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px] text-center">
+                                                         ₦50,000</div>
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px] text-right">
+                                                         ₦50,000</div>
+                                                 </div>
+
+                                                 <!-- Discount row -->
+                                                 <div class="grid grid-cols-4 gap-4 py-2">
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px]">Discount (0%)
+                                                     </div>
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px] text-center">-
+                                                     </div>
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px] text-center">-
+                                                     </div>
+                                                     <div class="text-[#1B1B1B] font-[400] text-[16px] text-right">₦0.00
+                                                     </div>
+                                                 </div>
+
+                                                 <hr class="border-gray-200" />
+
+                                                 <!-- Total -->
+                                                 <div class="flex justify-between items-center py-2">
+                                                     <span class="text-[#1B1B1B] text-[20px] font-medium">Total
+                                                         Paid</span>
+                                                     <span class="text-[#1B1B1B] text-[20px] font-medium">₦50,000</span>
+                                                 </div>
+
+                                                 <hr class="border-gray-200" />
+
+                                                 <!-- Payment details -->
+                                                 <div class="space-y-4">
+                                                     <div>
+                                                         <span class="text-[#1B1B1B] text-[20px] font-medium">Payment
+                                                             Method:</span>
+                                                         <span class="ml-4 text-[#1B1B1B] font-[400] text-[16px]">Card
+                                                             Payment (Mastercard **** 3421)</span>
+                                                     </div>
+                                                     <div>
+                                                         <span
+                                                             class="text-[#1B1B1B] text-[20px] font-medium">Transaction
+                                                             ID:</span>
+                                                         <span
+                                                             class="ml-8 text-[#1B1B1B] font-[400] text-[16px]">TXN-88899-KOD</span>
+                                                     </div>
+                                                     <div class="flex items-center">
+                                                         <span
+                                                             class="text-[#1B1B1B] text-[20px] font-medium">Status:</span>
+                                                         <div class="ml-12 flex items-center">
+                                                             <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                                                             <span
+                                                                 class="text-green-600 font-[400] text-[16px]">Successful</span>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+
+                                                 <!-- Print button -->
+                                                 <div class="flex justify-center pt-6">
+                                                     <button @click="window.print()"
+                                                         class="flex items-center space-x-4 bg-orange-500 text-white px-6 py-2 rounded-[30px]  hover:bg-orange-600 transition">
+                                                         🖨️ <span class="text-[14px]">Print</span>
                                                      </button>
                                                  </div>
                                              </div>
                                          </div>
                                      </div>
                                  </div>
-                             </td>
-                         </tr>
-
-                     </tbody>
+                             </div>
+                 </div>
+ 
+                 </tbody>
                  </table>
              </div>
 
 
-             <div class="flex justify-between text-black font-medium items-center">
-                 <div>
-                     <p class=" text-sm ">Showing <span>1</span> to 5 of 5 entries</p>
-                 </div>
-                 <div class="flex gap-2">
+             <!-- Pagination -->
+             <div class="flex items-center justify-between mt-6">
+                 <p class="text-[16px] font-medium text-[#1B1B1B]">
+                     Showing 1 to 5 of 5 entries
+                 </p>
+
+                 <div class="flex items-center gap-2">
                      <button
-                         class="bg-[#EDEDED] text-black px-10 py-3 rounded-full text-sm font-medium hover:bg-gray-200">Prev</button>
-                     <span class="border px-6 py-3 rounded-full bg-white text-black">5</span>
+                         class="px-4 py-2 bg-[#EDEDED] border border-border text-[#1B1B1B] rounded-[100px] text-sm hover:bg-accent transition-colors">
+                         Prev
+                     </button>
                      <button
-                         class="bg-[#E68815] text-white px-10 py-3 rounded-full text-sm font-medium hover:bg-amber-600">Next</button>
+                         class="w-10 h-10 bg-white border border-border text-sm rounded-[100px] text-[#1B1B1B] hover:bg-accent transition-colors flex items-center justify-center">
+                         1
+                     </button>
+                     <button
+                         class="px-4 py-2 bg-[#E68815] text-white text-sm rounded-[100px] font-medium hover:bg-opacity-90 transition-colors">
+                         Next
+                     </button>
                  </div>
              </div>
          </div>
 
-     </div>
 
 
      </div>
+ </div>
 
 
 
-     {{-- End Content --}}
+
+
+ </div>
+
+
+
+ {{-- End Content --}}
  @endsection
