@@ -9,7 +9,7 @@
  <div x-data="{ open: false }"
      x-init="$watch('open', value => { document.body.classList.toggle('overflow-hidden', value) })">
 
-     <div class="p-6">
+     <div class="">
          <p class="text-[20px] font-medium text-[#5D5D5D] mb-10">Payment History</p>
          <div class="max-w-7xl mx-auto">
              <!-- Search and Filters -->
@@ -18,8 +18,8 @@
                      <span
                          class="mdi mdi-magnify absolute left-3 top-9 transform -translate-y-1/2 text-[#141B34] text-[30px] leading-none">
                      </span>
-                     <input type="text" placeholder="Search Name or Transaction ID" class="w-full pl-10 pr-4 py-2 bg-[#EDEDED] border border-border rounded-[30px] 
-                            focus:outline-none focus:ring-2 focus:ring-ring text-foreground 
+                     <input type="text" placeholder="Search Name or Transaction ID" class="w-full pl-10 pr-4 py-2 bg-[#EDEDED] border border-border rounded-[30px]
+                            focus:outline-none focus:ring-2 focus:ring-ring text-foreground
                             placeholder:text-muted-foreground text-sm" />
                  </div>
 
@@ -374,7 +374,7 @@
                                  </div>
                              </div>
                  </div>
- 
+
                  </tbody>
                  </table>
              </div>
