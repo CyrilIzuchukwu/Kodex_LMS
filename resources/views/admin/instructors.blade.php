@@ -70,7 +70,7 @@
                                          <div>
                                              <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
                                              <input name="last_name" type="text"
-                                                 class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-sm  ]focus:ring-1 focus:ring-[#E68815]"
+                                                 class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-sm  focus:ring-1 focus:ring-[#E68815]"
                                                  placeholder="Enter last name">
                                          </div>
                                      </div>

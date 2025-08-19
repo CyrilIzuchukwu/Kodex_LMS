@@ -176,6 +176,15 @@ class ManageStudentsController extends Controller
         }
     }
 
+
+    public function show(User $student)
+    {
+        return view('admin.students.show', [
+            'title' => 'Student Profile',
+            'student' => $student,
+        ]);
+    }
+
     /**
      * Handle image upload and return the path
      */
