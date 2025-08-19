@@ -13,12 +13,10 @@
 
 
 
-     <div class="w-full bg-white rounded-[30px] py-6 shadow-sm overflow-hidden">
-
-         <main class="max-w-6xl mx-auto">
+     <div class="w-full bg-white rounded-[30px] p-6 shadow-sm overflow-hidden">
 
              <!-- Top Card -->
-             <section class="w-full bg-white text-black rounded-[30px] py-3 shadow-sm">
+             <section class="w-full bg-white text-black rounded-[30px] py-3">
                  <!-- Header -->
                  <div class="rounded-[30px] border-0 shadow-md bg-[#F9F9F9] p-6">
                      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -209,9 +207,6 @@
                  </div>
 
              </section>
-         </main>
-
-
 
      </div>
 
