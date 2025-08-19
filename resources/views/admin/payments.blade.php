@@ -19,8 +19,8 @@
                          class="mdi mdi-magnify absolute left-3 top-9 transform -translate-y-1/2 text-[#141B34] text-[30px] leading-none">
                      </span>
                      <input type="text" placeholder="Search Name or Transaction ID" class="w-full pl-10 pr-4 py-2 bg-[#EDEDED] border border-border rounded-[30px]
-                            focus:outline-none focus:ring-2 focus:ring-ring text-foreground
-                            placeholder:text-muted-foreground text-sm" />
+                            focus:border-[#E68815] text-black text-sm  focus:ring-1 focus:ring-[#E68815]
+                            placeholder:text-muted-foreground " />
                  </div>
 
 
@@ -149,8 +149,8 @@
                          <tbody class="text-center">
                              <div x-data="{ open: false }">
                                  <!-- Table Row acting as trigger -->
-                                 <table class="w-full border-collapse">
-                                     <tbody class="text-center">
+                                 <!-- <table class="w-full border-collapse"> -->
+                                     <!-- <tbody class="text-center"> -->
                                          <tr @click="open = true"
                                              class="border-b border-border hover:bg-muted/20 transition-colors cursor-pointer">
                                              <td class="py-4 px-6 text-[14px]">
@@ -205,8 +205,8 @@
                                                  </span>
                                              </td>
                                          </tr>
-                                     </tbody>
-                                 </table>
+                                     <!-- </tbody> -->
+                                 <!-- </table> -->
 
                                  <!-- Modal -->
                                  <div x-show="open" x-transition x-cloak x-trap="open" @keydown.escape="open = false"
