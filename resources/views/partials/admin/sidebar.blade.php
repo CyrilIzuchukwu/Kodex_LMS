@@ -31,10 +31,10 @@
                 <a href="javascript:void(0)"><i class="uil uil-book-alt me-1"></i>Course Oversight</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}"><a
-                                href="#">Courses</a></li>
-                        <li class="{{ request()->routeIs('admin.instructor-courses.*') ? 'active' : '' }}"><a
-                                href="#">Instructor Courses</a></li>
+                        <li class=""><a href="#">Add Category</a></li>
+                        <li class=""><a href="#">Manage Courses</a></li>
+                        <li class=""><a href="#">Create Courses</a></li>
+
                     </ul>
                 </div>
             </li>
@@ -76,7 +76,7 @@
 <div id="logoutModal"
     class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[9999] hidden p-4">
     <div
-        class="modal-content bg-white rounded-[20px] md:rounded-[30px] shadow-lg w-full max-w-sm md:max-w-md h-auto p-4 md:p-6 flex flex-col items-center justify-center z-[10000]">
+        class="logout-modal-content bg-white rounded-[20px] md:rounded-[30px] shadow-lg w-full max-w-sm md:max-w-md h-auto p-4 md:p-6 flex flex-col items-center justify-center z-[10000]">
         <img src="{{ asset('dashboard_assets/images/img/logout-modal-icon.png') }}" alt="logout"
             class="w-12 h-12 md:w-16 md:h-16 mb-4">
         <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-4 text-center">Logout?</h2>
@@ -105,13 +105,13 @@
 
 @push('styles')
     <style>
-        .modal-content {
+        .logout-modal-content {
             transform: scale(0.95) translateY(-20px);
             opacity: 0;
             transition: all 0.3s ease-in-out;
         }
 
-        .modal-content.show {
+        .logout-modal-content.show {
             transform: scale(1) translateY(0);
             opacity: 1;
         }
@@ -138,14 +138,14 @@
                     // Show modal
                     logoutModal.classList.remove('hidden');
                     setTimeout(() => {
-                        document.querySelector('.modal-content').classList.add('show');
+                        document.querySelector('.logout-modal-content').classList.add('show');
                     }, 10);
                 });
 
                 // Close modal when cancel is clicked
                 cancelLogout.addEventListener('click', function() {
                     logoutModal.classList.add('hidden');
-                    document.querySelector('.modal-content').classList.remove('show');
+                    document.querySelector('.logout-modal-content').classList.remove('show');
                 });
 
                 // Handle form submission

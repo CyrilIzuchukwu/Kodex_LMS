@@ -55,3 +55,16 @@ Route::get('/admin/payments', function () {
 Route::get('/admin/settings', function () {
     return view('admin.settings');
 });
+
+
+
+// category routes
+
+Route::get('/admin/course-category', function () {
+    return view('admin.category.index');
+});
+
+
+Route::get('/admin/course-category/2', function () {
+    return view('admin.category.course-category');
+});
