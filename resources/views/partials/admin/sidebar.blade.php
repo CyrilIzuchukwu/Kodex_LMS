@@ -13,28 +13,31 @@
                 </a>
             </li>
 
-            <li
-                class="sidebar-dropdown {{ request()->routeIs(['admin.students.*', 'admin.instructors.*']) ? 'active' : '' }}">
-                <a href="javascript:void(0)"><i class="uil uil-users-alt me-1"></i>User Management</a>
+            <li class="sidebar-dropdown {{ request()->routeIs(['admin.students.*', 'admin.instructors.*']) ? 'active' : '' }}">
+                <a href="javascript:void(0)">
+                    <i class="uil uil-users-alt me-1"></i>User Management
+                </a>
+
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.students.*') ? 'active' : '' }}"><a
-                                href="{{ route('admin.students.index') }}">Student</a></li>
-                        <li class="{{ request()->routeIs('admin.instructors.*') ? 'active' : '' }}"><a
-                                href="#">Instructor</a></li>
+                        <li class="{{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.students.index') }}">Student</a>
+                        </li>
+
+                        <li class="{{ request()->routeIs('admin.instructors.*') ? 'active' : '' }}">
+                            <a href="#">Instructor</a>
+                        </li>
                     </ul>
                 </div>
             </li>
 
             <li
-                class="sidebar-dropdown {{ request()->routeIs(['admin.courses.*', 'admin.instructor-courses.*']) ? 'active' : '' }}">
+                class="sidebar-dropdown {{ request()->routeIs(['admin.courses.*', 'admin.categories.*']) ? 'active' : '' }}">
                 <a href="javascript:void(0)"><i class="uil uil-book-alt me-1"></i>Course Oversight</a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class=""><a href="#">Add Category</a></li>
-                        <li class=""><a href="#">Manage Courses</a></li>
-                        <li class=""><a href="#">Create Courses</a></li>
-
+                        <li class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}"><a href="{{ route('admin.courses.index') }}">Manage Courses</a></li>
+                        <li class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"><a href="{{ route('admin.categories.index') }}">Course Categories</a></li>
                     </ul>
                 </div>
             </li>
@@ -46,7 +49,7 @@
             </li>
 
             <li class="{{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
-                <a href="#">
+                <a href="{{ route('admin.payments.index') }}">
                     <i class="uil uil-bill me-1"></i>Payments
                 </a>
             </li>
@@ -56,7 +59,7 @@
             </li>
 
             <li class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
-                <a href="#">
+                <a href="{{ route('admin.settings.index') }}">
                     <i class="uil uil-setting me-1"></i>Settings
                 </a>
             </li>
