@@ -20,7 +20,7 @@
                         @csrf
                         <div class="flex items-center space-x-4 mb-6">
                             <div class="w-20 h-20 rounded-full bg-[#F5CE9F] flex items-center justify-center overflow-hidden">
-                                <img id="profile-preview" src="{{ $avatar }}" alt="User Icon" class="w-12 h-12 object-contain">
+                                <img id="profile-preview" src="{{ $avatar }}" alt="User Icon" class="w-full h-full object-cover">
                             </div>
 
                             <!-- Upload + Remove Options -->

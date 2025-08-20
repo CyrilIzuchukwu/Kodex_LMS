@@ -150,8 +150,8 @@ class ManageSettingsController extends Controller
             $resizedImage = Image::read($file)->resize(124, 124);
             Storage::disk('public')->put($fullPath, $resizedImage->encode());
 
-            // Return a relative path
-            return $fullPath;
+            // Return a full absolute path
+            return asset('storage/' . $fullPath);
         } catch (Exception $e) {
             Log::error('Image upload failed: ' . $e->getMessage());
             return null;

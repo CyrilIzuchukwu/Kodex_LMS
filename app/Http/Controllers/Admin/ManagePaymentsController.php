@@ -13,7 +13,9 @@ class ManagePaymentsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.payments.index', [
+            'title' => 'Course Payments'
+        ]);
     }
 
     /**

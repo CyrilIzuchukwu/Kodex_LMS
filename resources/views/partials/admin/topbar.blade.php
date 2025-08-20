@@ -63,7 +63,7 @@
                     type="button">
                     <span
                         class="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-[20px] text-center bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 border border-gray-100 dark:border-gray-800 text-slate-900 dark:text-white rounded-full">
-                        <img src="{{ asset('dashboard_assets/images/client/05.jpg') }}"
+                        <img src="{{ $avatar }}"
                             class="rounded-full" alt="">
                     </span>
                 </button>
