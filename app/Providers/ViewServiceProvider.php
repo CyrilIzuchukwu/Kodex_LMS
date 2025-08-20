@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Providers;
+
+use Auth;
+use Exception;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
+
+class ViewServiceProvider extends ServiceProvider
+{
+    /**
+     * Register services.
+     */
+    public function register(): void
+    {
+        //
+    }
+
+    /**
+     * Bootstrap services.
+     */
+    public function boot(): void
+    {
+        // Share with all views
+        View::composer('*', function ($view) {
+            $this->shareUserData($view);
+        });
+    }
+
+    /**
+     * Share user data with the view.
+     *
+     * @param \Illuminate\View\View $view
+     * @return void
+     */
+    protected function shareUserData(\Illuminate\View\View $view): void
+    {
+        try {
+
+            // Initialize default avatar
+            $avatar = asset('dashboard_assets/images/client/user-03.png');
+
+            // Check if user is authenticated
+            if (Auth::check()) {
+                $user = Auth::user();
+
+                // Check if profile and profile_photo_path exist
+                if ($user->profile && $user->profile->profile_photo_path) {
+                    $avatar = $user->profile->profile_photo_path;
+                }
+            }
+
+            // Share avatar with the view
+            $view->with(compact('avatar'));
+        } catch (Exception $e) {
+            // Log error and set a fallback avatar
+            logger()->error('ViewComposer Error: ' . $e->getMessage());
+            $avatar = asset('dashboard_assets/images/client/user-03.png');
+            $view->with(compact('avatar'));
+        }
+    }
+}

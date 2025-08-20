@@ -65,6 +65,8 @@ Route::prefix('admin')
             ->name('settings.')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
+                Route::post('/update/profile', 'updateProfile')->name('update.profile');
+                Route::post('/reset/password', 'resetPassword')->name('reset.password');
             });
 
         // Course category management routes

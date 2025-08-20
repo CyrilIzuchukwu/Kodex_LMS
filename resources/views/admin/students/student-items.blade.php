@@ -4,7 +4,7 @@
 
         <td class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-800">
             <div class="flex items-center">
-                <a href="#" class="flex items-center">
+                <a href="{{ route('admin.students.show', $user->id) }}" class="flex items-center">
                     <img class="w-8 h-8 md:w-10 md:h-10 rounded-full mr-3" src="{{ $user->profile && $user->profile->profile_photo_path ? $user->profile->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($user->name, 0, 1) }}" alt="Student image">
                     <span class="font-medium">{{ $user->name }}</span>
                 </a>
