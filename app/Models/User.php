@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @property mixed $role
+ * @property mixed $profile
  */
 class User extends Authenticatable
 {

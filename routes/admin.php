@@ -7,7 +7,11 @@
 */
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\ManageCourseCategoryController;
+use App\Http\Controllers\Admin\ManageCourseController;
 use App\Http\Controllers\Admin\ManageInstructorsController;
+use App\Http\Controllers\Admin\ManagePaymentsController;
+use App\Http\Controllers\Admin\ManageSettingsController;
 use App\Http\Controllers\Admin\ManageStudentsController;
 use Illuminate\Support\Facades\Route;
 
@@ -45,26 +49,47 @@ Route::prefix('admin')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
             });
+
+
+        // Payment management routes
+        Route::controller(ManagePaymentsController::class)
+            ->prefix('/payments')
+            ->name('payments.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+            });
+
+        // Settings management routes
+        Route::controller(ManageSettingsController::class)
+            ->prefix('/settings')
+            ->name('settings.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/update/profile', 'updateProfile')->name('update.profile');
+                Route::post('/reset/password', 'resetPassword')->name('reset.password');
+            });
+
+        // Course category management routes
+        Route::controller(ManageCourseCategoryController::class)
+            ->prefix('/categories')
+            ->name('categories.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{slug}', 'show')->name('show');
+                Route::put('/{category}', 'update')->name('update');
+                Route::delete('/{category}', 'destroy')->name('destroy');
+            });
+
+        // Courses management routes
+        Route::controller(ManageCourseController::class)
+            ->prefix('/courses')
+            ->name('courses.')
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/', 'store')->name('store');
+                Route::get('/{slug}', 'show')->name('show');
+                Route::put('/{category}', 'update')->name('update');
+                Route::delete('/{category}', 'destroy')->name('destroy');
+            });
     });
-
-
-Route::get('/admin/payments', function () {
-    return view('admin.payments');
-});
-
-Route::get('/admin/settings', function () {
-    return view('admin.settings');
-});
-
-
-
-// category routes
-
-Route::get('/admin/course-category', function () {
-    return view('admin.category.index');
-});
-
-
-Route::get('/admin/course-category/2', function () {
-    return view('admin.category.course-category');
-});
