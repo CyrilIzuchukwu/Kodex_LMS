@@ -92,4 +92,8 @@ Route::prefix('admin')
                 Route::put('/{category}', 'update')->name('update');
                 Route::delete('/{category}', 'destroy')->name('destroy');
             });
+
+        Route::get('/course-outcome', function () {
+            return view('admin.courses.course-outcome');
+        });
     });
