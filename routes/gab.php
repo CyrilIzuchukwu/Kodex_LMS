@@ -32,3 +32,8 @@ Route::get('/enterVCode2', function () {
 Route::get('/forgotPassword', function () {
     return view('HTML_MARKUP.auth.forgotPassword');
 });
+
+
+Route::get('/admin/course-details', function () {
+    return view('admin.crs.course-detail');
+});
