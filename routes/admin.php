@@ -93,7 +93,25 @@ Route::prefix('admin')
                 Route::delete('/{category}', 'destroy')->name('destroy');
             });
 
-        Route::get('/course-outcome', function () {
-            return view('admin.courses.course-outcome');
+
+        // first stage route for course creation
+        Route::get('/course/stage1', function () {
+            return view('admin.crs.stage1');
+        });
+
+
+        // second stage route for course creation
+        Route::get('/course/stage2', function () {
+            return view('admin.crs.stage2');
+        });
+
+        // second stage route for course creation
+        Route::get('/course/stage3', function () {
+            return view('admin.crs.stage3');
+        });
+
+        // second stage route for course creation
+        Route::get('/course/stage4', function () {
+            return view('admin.crs.stage4');
         });
     });
