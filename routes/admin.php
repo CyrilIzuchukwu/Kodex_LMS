@@ -114,4 +114,8 @@ Route::prefix('admin')
         Route::get('/course/stage4', function () {
             return view('admin.crs.stage4');
         });
+
+        Route::get('/manage-course', function () {
+            return view('admin.crs.manage-course');
+        });
     });

@@ -34,12 +34,3 @@ Route::get('/forgotPassword', function () {
 });
 
 
-
-Route::get('/admin/course-details', function () {
-    return view('admin.crs.course-detail');
-});
-
-Route::get('/admin/manage-course', function () {
-    return view('admin.crs.manage-course');
-});
-
