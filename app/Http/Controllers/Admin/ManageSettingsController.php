@@ -3,174 +3,209 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\PasswordResetConfirmation;
-use App\Models\UserProfile;
+use App\Models\ExtensionsSetting;
+use App\Models\MaintenanceMode;
+use App\Models\SeoSetting;
+use App\Models\Settings;
 use Exception;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Laravel\Facades\Image;
-use Jenssegers\Agent\Agent;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
+use Throwable;
 
 class ManageSettingsController extends Controller
 {
     public function index()
     {
-        return view('admin.settings', [
-            'title' => 'Settings',
+        return view('admin.settings.site', [
+            'title' => 'Site Settings',
         ]);
     }
 
     /**
-     * @param Request $request
-     * @return RedirectResponse
+     * Update the site settings in storage.
+     *
      */
-    public function updateProfile(Request $request)
+    public function updateSite(Request $request)
     {
-        // Validate the request
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'profile_image' => 'nullable|image|mimes:jpeg,png,gif|max:5120',
-        ], [
-            'profile_image.image' => 'The file must be an image.',
-            'profile_image.mimes' => 'Only JPEG, PNG, or GIF files are allowed.',
-            'profile_image.max' => 'The image size must not exceed 5MB.',
+            'site_name' => ['required', 'string', 'max:255'],
+            'site_email' => ['nullable', 'email', 'max:255'],
+            'site_phone' => ['nullable', 'string', 'max:255'],
+            'site_address' => ['nullable', 'string', 'max:255'],
+            'site_fb' => ['nullable', 'url', 'max:255'],
+            'site_instagram' => ['nullable', 'url', 'max:255'],
+            'site_linkedin' => ['nullable', 'url', 'max:255'],
+            'site_youtube' => ['nullable', 'url', 'max:255'],
         ]);
 
         try {
-            $user = Auth::user();
 
-            // Handle profile photo upload
-            $profilePhotoPath = null;
-            if ($request->hasFile('profile_image')) {
-                $profilePhotoPath = $this->handleImageUpload($request->file('profile_image'), $user);
-                if (!$profilePhotoPath) {
-                    return redirect()->back()->withErrors(['profile_image' => 'Failed to upload profile photo. Please try again.']);
-                }
+            // Retrieve the current site settings
+            $settings = Settings::firstOrNew();
+
+            // Update the site settings
+            $settings->fill([
+                'site_name' => $validated['site_name'],
+                'site_email' => $validated['site_email'],
+                'site_phone' => $validated['site_phone'],
+                'site_address' => $validated['site_address'],
+                'site_fb' => $validated['site_fb'],
+                'site_instagram' => $validated['site_instagram'],
+                'site_linkedin' => $validated['site_linkedin'],
+                'site_youtube' => $validated['site_youtube'],
+            ])->save();
+
+            return redirect()->back()->with('success', 'Site Settings Updated Successfully');
+        } catch (Exception $e) {
+            Log::error('Error updating site settings: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error updating site settings');
+        }
+    }
+
+    public function seo()
+    {
+        return view('admin.settings.seo', [
+            'title' => 'SEO',
+        ]);
+    }
+
+    /**
+     * Update SEO settings.
+     *
+     * @throws Throwable
+     */
+    public function updateSeo(Request $request)
+    {
+        $validated = $request->validate([
+            'meta_title' => 'required|string|max:60',
+            'meta_description' => 'required|string|max:160',
+            'meta_keywords' => 'nullable|string|max:255',
+            'seo_image' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+            'og_title' => 'nullable|string|max:95',
+            'og_description' => 'nullable|string|max:200',
+            'robots' => 'nullable|string',
+            'twitter_card' => 'nullable|string|in:summary,summary_large_image',
+            'remove_seo_image' => 'nullable|in:1,true',
+        ]);
+
+        try {
+
+            DB::beginTransaction();
+
+            // Handle image deletion
+            if ($request->filled('remove_seo_image')) {
+                $this->deleteSeoImage();
+                $validated['seo_image'] = null;
             }
 
-            // Update the user
-            $user->update([
-                'name' => $validated['name'],
-            ]);
+            // Handle new image upload
+            if ($request->hasFile('seo_image')) {
+                // Delete old image if it exists
+                $this->deleteSeoImage();
 
-            // Store data for user profile
-            $profileData = [];
-            if ($profilePhotoPath) {
-                $profileData['profile_photo_path'] = $profilePhotoPath;
+                // Resize and store new image
+                $image = $request->file('seo_image');
+                $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
+                $path = 'seo_images/' . $filename;
+
+                // Initialize Intervention Image with GD driver
+                $manager = new ImageManager(new Driver());
+                $img = $manager->read($image)->resize(1920, 1080);
+
+                // Store the resized image
+                Storage::disk('public')->put($path, $img->encode());
+
+                // Store relative path
+                $validated['seo_image'] = asset('storage/' . $path);;
+            } else {
+                // Prevent overwriting seo_image with null if no new image is uploaded
+                unset($validated['seo_image']);
             }
 
-            // Create or update user profile
-            UserProfile::updateOrCreate(
-                ['user_id' => $user->id],
-                $profileData
+            // Update or create SEO settings
+            SeoSetting::updateOrCreate(
+                ['id' => seo_settings()->id ?? null],
+                $validated
             );
 
-            return redirect()->back()->with('success', __('Your personal details have been updated successfully.'));
-        } catch (Exception $exception) {
-            Log::error('Failed to update profile: ' . $exception->getMessage());
-            return redirect()->back()->with('error', __('Failed to update profile'));
-        }
-    }
-
-    /**
-     * Update the user's password.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function resetPassword(Request $request): RedirectResponse
-    {
-        // Validate the request data
-        $request->validate([
-            'current_password' => 'required|string',
-            'password' => 'required|min:8|confirmed',
-            'password_confirmation' => 'required|string|min:8',
-        ], [
-            'current_password.required' => 'Current password is required.',
-            'password.required' => 'New password is required.',
-            'password.min' => 'Password must be at least 8 characters.',
-            'password.confirmed' => 'Password confirmation does not match.',
-        ]);
-
-        $user = Auth::user();
-
-        // Verify the current password
-        if (!Hash::check($request->input('current_password'), $user->password)) {
-            return redirect()->back()->with('error', __('The current password is incorrect.'))->withInput();
-        }
-
-        // Update the user's password
-        $user->update([
-            'password' => Hash::make($request->input('password')),
-        ]);
-
-        // Send email
-        if (config('settings.email_notification')) {
-            Mail::mailer(config('settings.email_provider'))
-                ->to($user->email)
-                ->send(new PasswordResetConfirmation(
-                    $user,
-                    $request->ip(),
-                    $this->getDevice($request->userAgent())
-                ));
-        }
-
-        // Return appropriate response
-        return redirect()->back()
-            ->with('success', __('Your password has been updated successfully.'));
-    }
-
-    /**
-     * Handle image upload and return the path
-     */
-    private function handleImageUpload($file, $user)
-    {
-        try {
-            // Verify the file is a valid image
-            if (!getimagesize($file)) {
-                throw new Exception('Invalid image file.');
-            }
-
-            // Delete old image if exists
-            if ($user->profile && $user->profile->profile_photo_path) {
-                Storage::disk('public')->delete($user->profile->profile_photo_path);
-            }
-
-            $storagePath = 'admin/';
-            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
-            $fullPath = $storagePath . $filename;
-
-            // Resize and save
-            $resizedImage = Image::read($file)->resize(124, 124);
-            Storage::disk('public')->put($fullPath, $resizedImage->encode());
-
-            // Return a full absolute path
-            return asset('storage/' . $fullPath);
+            DB::commit();
+            return redirect()->back()->with('success', 'SEO settings updated successfully.');
         } catch (Exception $e) {
-            Log::error('Image upload failed: ' . $e->getMessage());
-            return null;
+            DB::rollBack();
+            Log::error('SEO update failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update SEO settings. Please try again.');
         }
     }
 
-    /**
-     * @param $userAgent
-     * @return string
-     */
-    protected function getDevice($userAgent)
+    public function maintenance()
     {
-        $parser = new Agent();
-        $parser->setUserAgent($userAgent);
+        return view('admin.settings.maintenance', [
+            'title' => 'Site Maintenance',
+        ]);
+    }
 
-        $device = $parser->device();
-        $platform = $parser->platform();
-        $browser = $parser->browser();
+    public function updateMaintenance(Request $request)
+    {
+        $validated = $request->validate([
+            'maintenance_mode' => 'boolean',
+            'maintenance_message' => 'nullable|string|max:500',
+            'maintenance_end' => 'nullable|date',
+        ]);
 
-        return $device . ' (' . $platform . ') - ' . $browser;
+        $validated['maintenance_mode'] = $request->maintenance_mode  ?? 0;
+
+        $maintenance_mode = MaintenanceMode::firstOrCreate([]);
+        $maintenance_mode->update($validated);
+
+        return redirect()->back()->with('success', 'Maintenance mode settings updated successfully.');
+    }
+
+    public function extensions ()
+    {
+        return view('admin.settings.extensions', [
+            'title' => 'Extensions',
+        ]);
+    }
+
+    public function updateExtensions(Request $request)
+    {
+        $data = $request->validate([
+            'google_tag'        => 'nullable|string|max:255',
+            'smartsupp_key'     => 'nullable|string|max:255',
+            'zoho_salesiq'      => 'nullable|string',
+            'whatsapp_number'   => 'nullable|string|max:20',
+            'telegram_username' => 'nullable|string|max:50',
+            'intercom_app_id'   => 'nullable|string|max:255',
+        ]);
+
+        $settings = ExtensionsSetting::first();
+        if ($settings) {
+            $settings->update($data);
+        } else {
+            ExtensionsSetting::create($data);
+        }
+
+        return back()->with('success', 'Extensions settings updated successfully.');
+    }
+
+    /**
+     * Delete the existing SEO image if it exists.
+     */
+    protected function deleteSeoImage()
+    {
+        $oldImage = seo_settings()->seo_image ?? '';
+        if ($oldImage) {
+            // Handle both full URL and relative path cases
+            $relativePath = str_replace(config('app.url') . Storage::url(''), '', $oldImage);
+            $relativePath = ltrim($relativePath, '/');
+            if (Storage::disk('public')->exists($relativePath)) {
+                Storage::disk('public')->delete($relativePath);
+            }
+        }
     }
 }

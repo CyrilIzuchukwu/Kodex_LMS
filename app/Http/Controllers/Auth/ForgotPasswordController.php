@@ -79,8 +79,9 @@ class ForgotPasswordController extends Controller
         ]);
 
         // Send email
-        if (config('settings.email_notification')) {
-            Mail::mailer(config('settings.email_provider'))->to($user->email)->send(new PasswordResetLink($resetUrl, $user));
+        if (email_settings()->status ?? config('settings.email_notification')) {
+            Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
+                ->to($user->email)->send(new PasswordResetLink($resetUrl, $user));
         }
 
         return back()->with('success', __('Password reset link sent to your email.'));
@@ -146,8 +147,8 @@ class ForgotPasswordController extends Controller
         Auth::login($user);
 
         // Send email
-        if (config('settings.email_notification')) {
-            Mail::mailer(config('settings.email_provider'))
+        if (email_settings()->status ?? config('settings.email_notification')) {
+            Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
                 ->to($user->email)
                 ->send(new PasswordResetConfirmation(
                     $user,

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Course;
 use Auth;
 use Exception;
 use Illuminate\Support\Facades\View;
@@ -25,7 +26,20 @@ class ViewServiceProvider extends ServiceProvider
         // Share with all views
         View::composer('*', function ($view) {
             $this->shareUserData($view);
+            $this->shareCommonData($view);
         });
+    }
+
+    /**
+     * @param $view
+     * @return void
+     */
+    protected function shareCommonData($view): void
+    {
+        $view->with([
+            'instructorAssignedCourses' => Course::orderBy('title')
+                ->get(),
+        ]);
     }
 
     /**

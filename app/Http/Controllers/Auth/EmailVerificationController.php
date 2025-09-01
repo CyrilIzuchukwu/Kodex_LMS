@@ -98,9 +98,9 @@ class EmailVerificationController extends Controller
             ]);
 
             // Send email
-            if (config('settings.email_notification')) {
+            if (email_settings()->status ?? config('settings.email_notification')) {
                 try {
-                    Mail::mailer(config('settings.email_provider'))
+                    Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
                         ->to($email)
                         ->send(new EmailVerificationNotification($token, $email));
                 } catch (Exception $e) {

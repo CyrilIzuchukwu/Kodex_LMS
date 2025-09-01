@@ -118,6 +118,11 @@ class ManageCourseCategoryController extends Controller
                 'min:2',
                 'max:50',
                 Rule::unique('course_categories', 'name')->ignore($category->id)
+            ],
+            'status' => [
+                'required',
+                'string',
+                Rule::in(['active', 'inactive']),
             ]
         ]);
 
@@ -127,6 +132,7 @@ class ManageCourseCategoryController extends Controller
             $category->update([
                 'name' => $validated['name'],
                 'slug' => Str::slug($validated['name']),
+                'status' => $validated['status'],
             ]);
 
             return response()->json([

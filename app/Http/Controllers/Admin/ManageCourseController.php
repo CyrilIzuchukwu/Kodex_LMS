@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Courses;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class ManageCourseController extends Controller
@@ -13,7 +13,7 @@ class ManageCourseController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Courses::query();
+        $query = Course::query();
 
         // Search functionality
         if ($request->filled('search')) {
@@ -21,7 +21,8 @@ class ManageCourseController extends Controller
             $query->where('title', 'like', '%' . $search . '%');
         }
 
-        $courses = $query->with('course_category')
+        $courses = $query->with(['category', 'profile.user'])
+            ->withCount(['modules', 'students'])
             ->orderBy('title', 'ASC')
             ->latest()
             ->paginate(10)
@@ -35,50 +36,16 @@ class ManageCourseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Courses $courses)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Courses $courses)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Courses $courses)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Courses $courses)
+    public function destroy(Course $course)
     {
-        //
+        $courseName = $course->title;
+        $course->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => "Course '$courseName' deleted successfully"
+        ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 /**
  * @property mixed $role
  * @property mixed $profile
+ * @property mixed $profile_photo_path
  */
 class User extends Authenticatable
 {
@@ -52,11 +54,32 @@ class User extends Authenticatable
         ];
     }
 
+    public function courses(): HasMany
+    {
+        return $this->hasMany(Course::class, 'course_id');
+    }
+
+    public function assigned(): HasOne
+    {
+        return $this->hasOne(Course::class, 'course_id');
+    }
+
     /**
      * @return HasOne|User
      */
     public function profile(): HasOne|User
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    /**
+     * Check if the user has a connected social account for the given provider.
+     *
+     * @param string $provider
+     * @return bool
+     */
+    public function hasSocialAccount(string $provider): bool
+    {
+        return !empty($this->social_login_provider) && $this->social_login_provider === $provider;
     }
 }

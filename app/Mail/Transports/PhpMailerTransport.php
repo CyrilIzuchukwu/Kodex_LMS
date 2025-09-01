@@ -31,12 +31,12 @@ class PhpMailerTransport implements TransportInterface
             try {
                 // Configure PHPMailer
                 $mailer->isSMTP();
-                $mailer->Host = config('mail.mailers.phpmailer.host', 'default-host');
+                $mailer->Host = $settings->host ?? config('mail.mailers.phpmailer.host', 'default-host');
                 $mailer->SMTPAuth = true;
-                $mailer->Username = config('mail.mailers.phpmailer.username');
-                $mailer->Password = config('mail.mailers.phpmailer.password');
-                $mailer->SMTPSecure = config('mail.mailers.phpmailer.encryption', PHPMailer::ENCRYPTION_STARTTLS);
-                $mailer->Port = config('mail.mailers.phpmailer.port');
+                $mailer->Username = $settings->username ?? config('mail.mailers.phpmailer.username');
+                $mailer->Password = $settings->password ?? config('mail.mailers.phpmailer.password');
+                $mailer->SMTPSecure = $settings->encryption ?? config('mail.mailers.phpmailer.encryption', PHPMailer::ENCRYPTION_STARTTLS);
+                $mailer->Port = $settings->port ?? config('mail.mailers.phpmailer.port');
 
                 // Set email details
                 $mailer->setFrom($message->getFrom()[0]->getAddress(), $message->getFrom()[0]->getName());

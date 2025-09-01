@@ -1,80 +1,97 @@
 @extends('layouts.admin')
 @section('content')
-    <div id="studentManagement">
-        <!-- Page Header -->
-        <p class="text-base md:text-lg font-medium text-[#5D5D5D] mb-8 md:mb-16">
-            User Management > <span class="text-[#848484]">Students</span>
-        </p>
+    <div class="mb-6">
+        <nav class="bg-white rounded-[20px] md:rounded-[30px] shadow-sm px-4 md:px-6 py-3 flex items-center justify-start w-full">
+            <ol class="flex items-center space-x-2 md:space-x-3 text-sm md:text-base font-medium text-[#141B34]">
+                <li>
+                    <a href="{{ route('admin.dashboard') }}" class="hover:text-[#E68815] transition-colors duration-200 flex items-center">
+                        <svg class="w-5 h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7m-7 7v-10"></path>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </li>
+                <li>
+                    <span class="text-[#E68815] font-semibold">Students</span>
+                </li>
+            </ol>
+        </nav>
+    </div>
 
-        <!-- Action Bar -->
-        <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
-                <!-- Add Student Button -->
-                <div class="flex-shrink-0 w-full sm:w-auto">
-                    <button id="addStudentBtn" class="bg-[#E68815] px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-medium text-white hover:bg-[#cc6f0f] transition-colors w-full sm:w-auto">
-                        + Add Student
-                    </button>
-                </div>
-
-                <!-- Search Input -->
-                <div class="flex-grow w-full min-w-0">
-                    <span class="flex items-center bg-[#EDEDED] rounded-full px-4 w-full">
-                        <i class="uil uil-search text-[#141B34] text-lg mr-2"></i>
-                        <input type="search" id="searchInput" placeholder="Search by name or email" value="{{ $searchQuery ?? '' }}" class="bg-transparent outline-none border-0 w-full py-3 text-[#141B34] font-medium text-sm md:text-base focus:ring-0 focus:border-transparent focus:outline-none">
-                    </span>
-                </div>
+    <!-- Action Bar -->
+    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4 mt-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full">
+            <!-- Add Student Button -->
+            <div class="flex-shrink-0 w-full sm:w-auto">
+                <button id="addStudentBtn" class="bg-[#E68815] px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-medium text-white hover:bg-[#cc6f0f] transition-colors w-full sm:w-auto">
+                    + Add Student
+                </button>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                <button id="allButton" class="{{ !request('status') ? 'bg-[#F5CE9F] text-[#8C530D]' : 'bg-[#EDEDED] text-[#141B34]' }} text-sm md:text-base px-6 md:px-10 py-3 rounded-full font-medium hover:bg-[#e6bb85] transition-colors">
-                    All
+            <!-- Search Input -->
+            <div class="flex-grow w-full min-w-0">
+                <span class="flex items-center bg-[#EDEDED] rounded-full px-4 w-full">
+                    <i class="uil uil-search text-[#141B34] text-lg mr-2"></i>
+                    <input type="search" id="searchInput" placeholder="Search by name or email" value="{{ $searchQuery ?? '' }}" class="bg-transparent outline-none border-0 w-full py-3 text-[#141B34] font-medium text-sm md:text-base focus:ring-0 focus:border-transparent focus:outline-none">
+                </span>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+            <button id="allButton" class="{{ !request('status') ? 'bg-[#F5CE9F] text-[#8C530D]' : 'bg-[#EDEDED] text-[#141B34]' }} text-sm md:text-base px-6 md:px-10 py-3 rounded-full font-medium hover:bg-[#e6bb85] transition-colors">
+                All
+            </button>
+
+            <div class="relative w-full sm:w-64">
+                <button id="courseDropdown" class="w-full {{ request('status') ? 'bg-[#F5CE9F] text-[#8C530D]' : 'bg-[#EDEDED] text-[#141B34]' }} rounded-full px-4 md:px-7 py-3 font-medium hover:bg-gray-300 transition-all flex justify-between items-center text-sm md:text-base">
+                    <span id="selectedCourse">Status</span>
+                    <svg class="w-5 h-5 text-gray-500 transform transition-transform" id="dropdownIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                 </button>
 
-                <div class="relative w-full sm:w-64">
-                    <button id="courseDropdown" class="w-full {{ request('status') ? 'bg-[#F5CE9F] text-[#8C530D]' : 'bg-[#EDEDED] text-[#141B34]' }} rounded-full px-4 md:px-7 py-3 font-medium hover:bg-gray-300 transition-all flex justify-between items-center text-sm md:text-base">
-                        <span id="selectedCourse">Status</span>
-                        <svg class="w-5 h-5 text-gray-500 transform transition-transform" id="dropdownIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-
-                    <div id="dropdownMenu" class="absolute mt-2 w-full bg-white text-black text-sm rounded-2xl shadow-lg overflow-hidden z-50 hidden">
-                        <ul>
-                            <li class="dropdown-option px-4 md:px-7 py-3 hover:bg-[#E68815] hover:text-white font-medium cursor-pointer transition-colors" data-value="Active Users">
-                                Active Users
-                            </li>
-                            <li class="dropdown-option px-4 md:px-7 py-3 hover:bg-[#E68815] hover:text-white font-medium cursor-pointer transition-colors" data-value="Blocked Users">
-                                Blocked Users
-                            </li>
-                        </ul>
-                    </div>
+                <div id="dropdownMenu" class="absolute mt-2 w-full bg-white text-black text-sm rounded-2xl shadow-lg overflow-hidden z-50 hidden">
+                    <ul>
+                        <li class="dropdown-option px-4 md:px-7 py-3 hover:bg-[#E68815] hover:text-white font-medium cursor-pointer transition-colors" data-value="Active Users">
+                            Active Users
+                        </li>
+                        <li class="dropdown-option px-4 md:px-7 py-3 hover:bg-[#E68815] hover:text-white font-medium cursor-pointer transition-colors" data-value="Blocked Users">
+                            Blocked Users
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Table Container -->
-        <div class="w-auto bg-white rounded-[20px] md:rounded-[30px] px-2 md:px-3 py-3 shadow-sm overflow-hidden">
-            <div class="overflow-x-auto bg-white mb-10 md:mb-20 rounded-[20px] md:rounded-[30px]">
-                <table class="min-w-full divide-y divide-gray-200 border-collapse">
-                    <thead class="bg-[#EDEDED]">
-                        <tr>
-                            <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center">#</th>
-                            <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-left">Student Name</th>
-                            <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden sm:table-cell">Email</th>
-                            <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Phone</th>
-                            <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Registered</th>
-                            <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Status</th>
-                            <th class="px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-[#fcfafa] divide-y divide-gray-200" id="users-container">
-                        @include('admin.students.student-items', ['users' => $users])
-                    </tbody>
-                </table>
-            </div>
-
-            {{ $users->links('vendor.pagination.tailwind') }}
+    <!-- Table Container -->
+    <div class="w-auto bg-white rounded-[20px] md:rounded-[30px] px-2 md:px-3 py-3 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto bg-white mb-10 md:mb-20 rounded-[20px] md:rounded-[30px]">
+            <table class="min-w-full divide-y divide-gray-200 border-collapse">
+                <thead class="bg-[#EDEDED]">
+                    <tr>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center">#</th>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-left">Student Name</th>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden sm:table-cell">Email</th>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Phone</th>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Social Login</th>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Registered</th>
+                        <th class="table-header px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center hidden md:table-cell">Status</th>
+                        <th class="px-2 md:px-6 py-3 text-xs md:text-sm font-medium text-gray-500 text-center">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-[#fcfafa] divide-y divide-gray-200" id="users-container">
+                    @include('admin.students.student-items', ['users' => $users])
+                </tbody>
+            </table>
         </div>
+
+        {{ $users->links('vendor.pagination.tailwind') }}
     </div>
 
     <!-- Delete Confirmation Modal -->

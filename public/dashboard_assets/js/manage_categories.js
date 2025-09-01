@@ -93,19 +93,25 @@ $(document).ready(function() {
     // Clear errors
     function clearErrors(form) {
         form.find('.error-message').addClass('hidden').text('');
-        form.find('input').removeClass('border-red-500').addClass('border-gray-300');
+        form.find('input, select').removeClass('border-red-500').addClass('border-gray-300');
     }
 
     // Validate add/edit form
     function validateForm(form) {
         let isValid = true;
         const nameInput = form.find('input[name="name"]');
+        const statusSelect = form.find('select[name="status"]');
 
         if (!nameInput.val().trim()) {
             showError(nameInput, 'Category name is required');
             isValid = false;
         } else if (nameInput.val().length > 255) {
             showError(nameInput, 'Category name must be less than 255 characters');
+            isValid = false;
+        }
+
+        if (!statusSelect.val()) {
+            showError(statusSelect, 'Status is required');
             isValid = false;
         }
 
@@ -134,7 +140,7 @@ $(document).ready(function() {
 
             clearErrors($this);
 
-            // Validate based on a form type
+            // Validate based on form type
             if (isDelete) {
                 if (!validateDeleteForm($this)) return;
             } else {
@@ -176,8 +182,13 @@ $(document).ready(function() {
                 error: function(xhr) {
                     togglePreloader(submitButton, false);
                     const errors = xhr.responseJSON?.errors;
-                    if (errors && errors.name && !isDelete) {
-                        showError($this.find('input[name="name"]'), errors.name[0]);
+                    if (errors && !isDelete) {
+                        if (errors.name) {
+                            showError($this.find('input[name="name"]'), errors.name[0]);
+                        }
+                        if (errors.status) {
+                            showError($this.find('select[name="status"]'), errors.status[0]);
+                        }
                     } else {
                         iziToast.error({
                             ...iziToastSettings,
@@ -189,22 +200,7 @@ $(document).ready(function() {
         });
     }
 
-    // Handle dropdown toggle
-    $(document).on('click', '.open-dropdown', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const $this = $(this);
-        const dropdown = $this.closest('.relative').find('.dropdown-menu');
-
-        // Close all other dropdowns first
-        $('.dropdown-menu').not(dropdown).addClass('hidden');
-
-        // Toggle current dropdown
-        dropdown.toggleClass('hidden');
-    });
-
-    // Handle dropdown menu item clicks
+    // Handle edit modal open
     $(document).on('click', '.open-edit-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -212,26 +208,23 @@ $(document).ready(function() {
         const $this = $(this);
         const categoryName = $this.data('category-name');
         const categoryId = $this.data('category-id');
+        const categoryStatus = $this.data('category-status');
         const editForm = $('#edit-form');
-
-        // Close dropdown
-        $this.closest('.dropdown-menu').addClass('hidden');
 
         editForm.attr('action', `/admin/categories/${categoryId}`);
         $('#edit-category-name').val(categoryName);
+        $('#edit-category-status').val(categoryStatus);
         clearErrors(editForm);
         openModal(modals.edit);
     });
 
+    // Handle delete modal open
     $(document).on('click', '.open-delete-modal', function(e) {
         e.preventDefault();
         e.stopPropagation();
 
         const $this = $(this);
         const categoryId = $this.data('category-id');
-
-        // Close dropdown
-        $this.closest('.dropdown-menu').addClass('hidden');
 
         $('#delete-form').attr('action', `/admin/categories/${categoryId}`);
         openModal(modals.delete);
@@ -248,6 +241,7 @@ $(document).ready(function() {
     $(document).on('click', '#open-add-modal', function(e) {
         e.preventDefault();
         clearErrors($('#add-form'));
+        $('#add-category-status').val('active');
         openModal(modals.add);
     });
 
@@ -256,7 +250,7 @@ $(document).ready(function() {
     $('#close-edit-modal, #cancel-edit-modal').on('click', () => closeModal(modals.edit));
     $('#cancel-delete').on('click', () => closeModal(modals.delete));
 
-    // Close modals on an Escape key
+    // Close modals on Escape key
     $(document).on('keydown', function(e) {
         if (e.key === 'Escape') {
             Object.values(modals).forEach(closeModal);

@@ -14,13 +14,16 @@ return new class extends Migration
     {
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(CourseCategory::class)->constrained()->onDelete('cascade');
             $table->string('title');
+            $table->string('subtitle');
             $table->string('slug')->unique();
-            $table->string('students_enrolled')->default(0);
-            $table->decimal('price', 15)->default(0.00);
+            $table->foreignId('category_id')->constrained('course_categories')->onDelete('cascade');
+            $table->decimal('price', 15);
+            $table->text('summary');
+            $table->string('video_url')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('status')->default('draft');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
