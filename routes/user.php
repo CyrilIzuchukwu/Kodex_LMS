@@ -8,6 +8,17 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('/user/dashboard', function () {
-    echo 'Welcome to kodex user dashboard';
-})->name('user.dashboard')->middleware(['auth', 'can:access-user-dashboard']);
+    return view('user.dashboard');
+})->name('user.dashboard');
+
+
+Route::get('/user/course-details', function () {
+    return view('user.course-details');
+})->name('user.course-details');
+
+
+Route::get('/user/carts', function () {
+    return view('user.carts');
+})->name('user.carts');
