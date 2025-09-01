@@ -22,10 +22,17 @@ export default {
                     600: "#dd7a18",
                     700: "#c96911",
                 },
+                'theme-1': '#10b981',
+                'theme-green': '#10b981',
+                'theme-purple': '#8b5cf6',
+                'theme-red': '#ef4444'
             },
             borderRadius: {
                 xl: "0.75rem",
             },
+            maxWidth: {
+                '1500px': '1500px'
+            }
         },
         darkMode: "class",
     },

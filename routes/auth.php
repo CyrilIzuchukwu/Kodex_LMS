@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OnboardingController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\Auth\SocialLoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,3 +55,20 @@ Route::middleware(['redirect.authenticated'])->group(function () {
         Route::get('social/callback/{provider}', 'handleProviderCallback')->name('social.callback');
     });
 });
+
+
+/*
+|--------------------------------------------------------------------------
+| Logout Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('logout')
+    ->middleware('auth')
+    ->controller(SessionController::class)
+    ->group(function () {
+        Route::post('/', 'destroy')->name('logout');
+        Route::post('/current-session/{sessionId}', 'destroySession')->name('logout.current');
+        Route::delete('/all-sessions', 'destroyAllSessions')->name('logout.all');
+        Route::post('social/{provider}/disconnect', 'invokeAccount')->name('social.disconnect');
+    });
+

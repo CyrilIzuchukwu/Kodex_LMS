@@ -95,8 +95,8 @@ class OnboardingController extends Controller
             Auth::login($user);
 
             // Send welcome email if enabled
-            if (config('settings.email_notification')) {
-                Mail::mailer(config('settings.email_provider'))
+            if (email_settings()->status ?? config('settings.email_notification')) {
+                Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
                     ->to($user->email)
                     ->queue(new WelcomeEmail($user));
             }

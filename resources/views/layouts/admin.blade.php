@@ -13,17 +13,31 @@
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
         <!-- SEO Meta Tags -->
-        {{-- <title>{{ $title }} | {{ config('app.name') }}</title> --}}
+        <title>{{ $title . ' | ' . (site_settings()->site_name ?? config('app.name')) ?? (seo_settings()?->meta_title ?? 'Default Site Title') }}</title>
+        <meta name="description" content="{{ seo_settings()?->meta_description ?? 'Master web development with our online courses.' }}">
+        <meta name="keywords" content="{{ seo_settings()?->meta_keywords ?? 'online learning, web development, e-learning' }}">
+        <meta name="robots" content="{{ seo_settings()?->robots ?? 'index,follow' }}">
 
-        <!-- Css -->
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="{{ seo_settings()?->og_title ?? seo_settings()?->meta_title ?? ($title . ' | ' . (site_settings()->site_name ?? config('app.name'))) }}">
+        <meta property="og:description" content="{{ seo_settings()?->og_description ?? seo_settings()?->meta_description ?? 'Join our online learning platform to master web development.' }}">
+        <meta property="og:image" content="{{ seo_settings()?->seo_image ? asset(seo_settings()->seo_image) : asset('assets/images/default-og-image.jpg') }}">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+
+        <!-- Twitter Card Meta Tags -->
+        <meta name="twitter:card" content="{{ seo_settings()?->twitter_card ?? 'summary_large_image' }}">
+        <meta name="twitter:title" content="{{ seo_settings()?->og_title ?? seo_settings()?->meta_title ?? ($title . ' | ' . (site_settings()->site_name ?? config('app.name'))) }}">
+        <meta name="twitter:description" content="{{ seo_settings()?->og_description ?? seo_settings()?->meta_description ?? 'Join our online learning platform to master web development.' }}">
+        <meta name="twitter:image" content="{{ seo_settings()?->seo_image ? asset(seo_settings()->seo_image) : asset('assets/images/default-og-image.jpg') }}">
+
+        <!-- CSS -->
         <link href="{{ asset('dashboard_assets/libs/simplebar/simplebar.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('dashboard_assets/libs/%40iconscout/unicons/css/line.css') }}" type="text/css"
-            rel="stylesheet">
-        <link href="{{ asset('dashboard_assets/libs/%40mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet"
-            type="text/css">
+        <link href="{{ asset('dashboard_assets/libs/%40iconscout/unicons/css/line.css') }}" type="text/css" rel="stylesheet">
+        <link href="{{ asset('dashboard_assets/libs/%40mdi/font/css/materialdesignicons.min.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('dashboard_assets/css/tailwind.min.css') }}">
-
         <link rel="stylesheet" href="{{ asset('assets/css/iziToast.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('dashboard_assets/css/quill.snow.css') }}">
 
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 

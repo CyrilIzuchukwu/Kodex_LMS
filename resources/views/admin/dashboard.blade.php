@@ -1,92 +1,104 @@
 @extends('layouts.admin')
 @section('content')
-    <div>
-        <div>
-            <h1 class="text-[#1B1B1B] text-xl font-semibold">Welcome back, <span>Admin <span class="text-2xl text-gray-300">&#x1F44B;</span></span></h1>
-            <p class="text-[#848484] font-[16px]">You're logged in to the Kodex Control Center.</p>
-        </div>
-
-        <div class="grid grid-cols-3 gap-4 mt-10">
-            <div style="background-image: url('{{ asset('dashboard_assets/images/img/backg.png') }}')"
-                 class="bg-cover bg-center rounded-2xl col-span-2 flex items-center py-10 px-4 gap-[18px]">
-                <div><img src="{{ asset('dashboard_assets/images/img/head.png') }}" alt="head"></div>
-                <div>
-                    <p class="text-[#1B1B1B] font-[16px]">Total Students</p>
-                    <h1 class="text-[#1B1B1B] text-2xl font-[24px]">300</h1>
-                </div>
-            </div>
-
-            <div class="relative flex items-center py-10 px-4 rounded-2xl bg-white shadow-md">
-                <div class="flex items-center gap-[18px]">
-                    <div>
-                        <div><img src="{{ asset('dashboard_assets/images/img/two.png') }}" alt="two"></div>
-                    </div>
-                    <div>
-                        <p class="text-[#1B1B1B] font-[16px]">Total Instructors</p>
-                        <h1 class="text-[#1B1B1B] text-2xl font-[24px]">120</h1>
-                    </div>
-                </div>
-                <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/mentoring.png') }}" alt="mentoring"></div>
-            </div>
-
-            <div class="relative flex items-center py-10 px-4 rounded-2xl bg-white shadow-md">
-                <div class="flex items-center gap-[18px]">
-                    <div>
-                        <div><img src="{{ asset('dashboard_assets/images/img/book.png') }}" alt="book"></div>
-                    </div>
-                    <div>
-                        <p class="text-[#1B1B1B] font-[16px]">Total courses</p>
-                        <h1 class="text-[#1B1B1B] text-2xl font-[24px]">4</h1>
-                    </div>
-                </div>
-                <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/book2.png') }}" alt="book2"></div>
-            </div>
-
-            <div class="relative flex items-center py-10 px-4 rounded-2xl bg-white shadow-md">
-                <div class="flex items-center gap-[18px]">
-                    <div>
-                        <div><img src="{{ asset('dashboard_assets/images/img/file.png') }}" alt="file"></div>
-                    </div>
-                    <div>
-                        <p class="text-[#1B1B1B] font-[16px]">Number of Modules</p>
-                        <h1 class="text-[#1B1B1B] text-2xl font-[24px]">4</h1>
-                    </div>
-                </div>
-                <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/file2.png') }}" alt="file2"></div>
-            </div>
-
-            <div class="relative flex items-center py-10 px-4 rounded-2xl bg-white shadow-md">
-                <div class="flex items-center gap-[18px]">
-                    <div>
-                        <div><img src="{{ asset('dashboard_assets/images/img/login.png') }}" alt="login"></div>
-                    </div>
-                    <div>
-                        <p class="text-[#1B1B1B] font-[16px]">Sign-ups This month</p>
-                        <h1 class="text-[#1B1B1B] text-2xl font-[24px]">4</h1>
-                    </div>
-                </div>
-                <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/login2.png') }}" alt="login2"></div>
-            </div>
-
-            <!-- Revenue chart -->
-            <section class="rounded-2xl bg-white shadow-md p-4 col-span-3">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="text-lg font-semibold">Admin Revenue</h2>
-                    <div class="relative">
-                        <button id="btn-year" class="flex items-center gap-2 px-3 py-2 border rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800">This Year
-                            <svg class="icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08Z" clip-rule="evenodd"/></svg>
-                        </button>
-                        <div id="menu-year" class="hidden absolute right-0 mt-2 w-40 bg-white dark:bg-slate-900 border rounded-xl shadow-subtle p-1">
-                            <button class="block w-full text-left rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">This Year</button>
-                            <button class="block w-full text-left rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">Last Year</button>
-                            <button class="block w-full text-left rounded-lg px-3 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">2023</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full h-80"><canvas id="chart"></canvas></div>
-            </section>
-        </div>
+    <div class="px-4 md:px-6">
+        <h1 class="text-[#1B1B1B] text-xl font-semibold">Welcome back, <span>{{ auth()->user()->name }} <span class="text-2xl text-gray-300">&#x1F44B;</span></span></h1>
+        <p class="text-[#848484] font-[16px]">You're logged in to the {{ site_settings()->site_name ?? config('app.name') }} Control Center.</p>
     </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-4 sm:px-6 lg:px-4">
+        <!-- Total Students Card -->
+        <div style="background-image: url('{{ asset('dashboard_assets/images/img/backg.png') }}')" class="bg-cover bg-center rounded-2xl flex items-center py-8 px-4 gap-4 sm:gap-6 col-span-1 sm:col-span-2">
+            <div><img src="{{ asset('dashboard_assets/images/img/head.png') }}" alt="head" class="w-12 h-12 sm:w-16 sm:h-16"></div>
+            <div>
+                <p class="text-[#1B1B1B] text-sm sm:text-base">Total Students</p>
+                <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_students'] }}</h1>
+            </div>
+        </div>
+
+        <!-- Total Instructors Card -->
+        <div class="relative flex items-center py-8 px-4 rounded-2xl bg-white shadow-md">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <div><img src="{{ asset('dashboard_assets/images/img/two.png') }}" alt="two" class="w-12 h-12 sm:w-16 sm:h-16"></div>
+                <div>
+                    <p class="text-[#1B1B1B] text-sm sm:text-base">Total Instructors</p>
+                    <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_instructors'] }}</h1>
+                </div>
+            </div>
+            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/mentoring.png') }}" alt="mentoring" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+        </div>
+
+        <!-- Total Courses Card -->
+        <div class="relative flex items-center py-8 px-4 rounded-2xl bg-white shadow-md">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <div><img src="{{ asset('dashboard_assets/images/img/book.png') }}" alt="book" class="w-12 h-12 sm:w-16 sm:h-16"></div>
+                <div>
+                    <p class="text-[#1B1B1B] text-sm sm:text-base">Total Courses</p>
+                    <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_courses'] }}</h1>
+                </div>
+            </div>
+            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/book2.png') }}" alt="book2" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+        </div>
+
+        <!-- Number of Modules Card -->
+        <div class="relative flex items-center py-8 px-4 rounded-2xl bg-white shadow-md">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <div><img src="{{ asset('dashboard_assets/images/img/file.png') }}" alt="file" class="w-12 h-12 sm:w-16 sm:h-16"></div>
+                <div>
+                    <p class="text-[#1B1B1B] text-sm sm:text-base">Number of Modules</p>
+                    <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_modules'] }}</h1>
+                </div>
+            </div>
+            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/file2.png') }}" alt="file2" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+        </div>
+
+        <!-- Sign-ups This Month Card -->
+        <div class="relative flex items-center py-8 px-4 rounded-2xl bg-white shadow-md">
+            <div class="flex items-center gap-4 sm:gap-6">
+                <div><img src="{{ asset('dashboard_assets/images/img/login.png') }}" alt="login" class="w-12 h-12 sm:w-16 sm:h-16"></div>
+                <div>
+                    <p class="text-[#1B1B1B] text-sm sm:text-base">Sign-ups This Month</p>
+                    <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_sign_ups_this_month'] }}</h1>
+                </div>
+            </div>
+            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/login2.png') }}" alt="login2" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+        </div>
+
+        <!-- Revenue Chart Section -->
+        <section class="rounded-2xl bg-white shadow-md p-4 col-span-1 sm:col-span-2 lg:col-span-3">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-base sm:text-lg font-semibold">Admin Revenue</h2>
+                <div class="relative">
+                    <select id="select-year" class="flex items-center w-50 px-3 py-2 border rounded-xl bg-white text-sm sm:text-base text-gray-900 hover:bg-gray-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-slate-700 appearance-none cursor-pointer">
+                        <option value="current-month">Current Month</option>
+                        <option value="last-month">Last Month</option>
+                        <option value="last-3-months">Last 3 Months</option>
+                        <option value="last-6-months">Last 6 Months</option>
+                        <option value="last-year">Last Year</option>
+                    </select>
+                </div>
+            </div>
+            <div class="w-full h-64 sm:h-80">
+                <canvas id="chart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Toggle dropdown menu for year selection
+        document.getElementById('btn-year').addEventListener('click', () => {
+            const menu = document.getElementById('menu-year');
+            menu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            const menu = document.getElementById('menu-year');
+            const button = document.getElementById('btn-year');
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
 @endsection
 
 @push('scripts')

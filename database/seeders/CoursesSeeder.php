@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CourseCategory;
+use App\Models\User;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,13 @@ class CoursesSeeder extends Seeder
             throw new Exception('No categories found. Please seed CourseCategoriesSeeder first.');
         }
 
-        $courses = [];
+        // Fetch all user IDs from the users table
+        $userIds = User::pluck('id')->toArray();
+
+        if (empty($userIds)) {
+            throw new Exception('No users found. Please seed UsersSeeder first.');
+        }
+
         $courseTitles = [
             'Introduction to {category}', 'Advanced {category} Techniques', 'Mastering {category}',
             '{category} for Beginners', 'Professional {category} Certification',
@@ -37,16 +44,17 @@ class CoursesSeeder extends Seeder
             'Modern {category} Development', 'Hands-On {category} Labs',
             '{category} for Professionals', 'Next-Level {category} Mastery',
             '{category} Essentials', 'Core {category} Concepts',
-            '{category} for Enterprise Solutions', '{category} with Real Projects',
-            'Advanced {category} Frameworks', 'Beginner to Pro in {category}',
-            '{category} Design Patterns', 'Scalable {category} Solutions',
-            '{category} for Data Scientists', 'Building Secure {category} Systems',
-            'Optimizing {category} Performance', '{category} Best Practices',
-            'Real-Time {category} Applications'
+            '{category} for Enterprise Solutions'
         ];
 
-        // Generate 500 courses
-        for ($i = 0; $i < 500; $i++) {
+        $courses = [];
+        $courseOutcomes = [];
+        $courseMedia = [];
+        $modules = [];
+        $moduleResources = [];
+
+        // Generate 50 courses
+        for ($i = 0; $i < 50; $i++) {
             // Randomly select a category
             $categoryId = $faker->randomElement($categoryIds);
             $category = CourseCategory::find($categoryId)->name;
@@ -58,20 +66,86 @@ class CoursesSeeder extends Seeder
             // Generate a unique slug
             $slug = Str::slug($title) . '-' . $faker->unique()->numberBetween(1000, 9999);
 
-            $courses[] = [
-                'course_category_id' => $categoryId,
+            // Create course entry
+            $course = [
+                'category_id' => $categoryId,
                 'title' => $title,
+                'subtitle' => $faker->sentence(6, true),
                 'slug' => $slug,
-                'students_enrolled' => $faker->numberBetween(0, 10000),
-                'price' => $faker->randomFloat(2, 0, 999.99), // Price between 0 and 999.99
+                'price' => $faker->randomFloat(2, 0, 999.99),
+                'summary' => $faker->paragraph(3, true),
+                'video_url' => $faker->boolean(50) ? $faker->url : null,
+                'user_id' => $faker->randomElement($userIds),
+                'status' => $faker->randomElement(['draft', 'published']),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
+
+            $courses[] = $course;
+
+            // Insert the course to get its ID
+            $courseId = DB::table('courses')->insertGetId($course);
+
+            // Generate 2–4 course outcomes
+            $numOutcomes = $faker->numberBetween(2, 4);
+            for ($j = 0; $j < $numOutcomes; $j++) {
+                $courseOutcomes[] = [
+                    'course_id' => $courseId,
+                    'outcome' => $faker->sentence(8, true),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            // Generate 1–3 course media entries
+            $numMedia = $faker->numberBetween(1, 3);
+            for ($j = 0; $j < $numMedia; $j++) {
+                $courseMedia[] = [
+                    'course_id' => $courseId,
+                    'image_url' => $faker->imageUrl(640, 480, 'course'),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
+
+            // Generate 2–5 modules
+            $numModules = $faker->numberBetween(2, 5);
+            for ($j = 0; $j < $numModules; $j++) {
+                $module = [
+                    'course_id' => $courseId,
+                    'title' => $faker->sentence(4, true),
+                    'video_url' => $faker->boolean(70) ? $faker->url : null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+                $moduleId = DB::table('modules')->insertGetId($module);
+                $modules[] = $module;
+
+                // Generate 1–3 resources per module
+                $numResources = $faker->numberBetween(1, 3);
+                for ($k = 0; $k < $numResources; $k++) {
+                    $moduleResources[] = [
+                        'module_id' => $moduleId,
+                        'resource_url' => $faker->url,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
         }
 
-        // Insert courses in chunks to avoid memory issues
-        foreach (array_chunk($courses, 100) as $chunk) {
-            DB::table('courses')->insert($chunk);
+        // Insert related data in chunks
+        foreach (array_chunk($courseOutcomes, 25) as $chunk) {
+            DB::table('course_outcomes')->insert($chunk);
+        }
+        foreach (array_chunk($courseMedia, 25) as $chunk) {
+            DB::table('course_media')->insert($chunk);
+        }
+        foreach (array_chunk($modules, 25) as $chunk) {
+            DB::table('modules')->insert($chunk);
+        }
+        foreach (array_chunk($moduleResources, 25) as $chunk) {
+            DB::table('module_resources')->insert($chunk);
         }
     }
 }

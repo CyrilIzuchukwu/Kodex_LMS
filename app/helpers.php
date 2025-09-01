@@ -1,5 +1,81 @@
 <?php
 
+use App\Models\EmailSetting;
+use App\Models\ExtensionsSetting;
+use App\Models\MaintenanceMode;
+use App\Models\SeoSetting;
+use App\Models\Settings;
+
+if (!function_exists('site_settings')) {
+    if (!function_exists('seo_settings')) {
+        /**
+         * Get the latest Site settings.
+         *
+         * @return Settings|null
+         */
+        function site_settings(): ?Settings
+        {
+            return Settings::getLatest();
+        }
+    }
+}
+
+if (!function_exists('seo_settings')) {
+    if (!function_exists('seo_settings')) {
+        /**
+         * Get the latest SEO settings.
+         *
+         * @return SeoSetting|null
+         */
+        function seo_settings(): ?SeoSetting
+        {
+            return SeoSetting::getLatest();
+        }
+    }
+}
+
+if (!function_exists('maintenance_mode')) {
+    if (!function_exists('maintenance_mode')) {
+        /**
+         * Get the latest maintenance mode.
+         *
+         * @return MaintenanceMode|null
+         */
+        function maintenance_mode(): ?MaintenanceMode
+        {
+            return MaintenanceMode::getLatest();
+        }
+    }
+}
+
+if (!function_exists('extensions_settings')) {
+    if (!function_exists('extensions_settings')) {
+        /**
+         * Get the latest extensions settings.
+         *
+         * @return ExtensionsSetting|null
+         */
+        function extensions_settings(): ?ExtensionsSetting
+        {
+            return ExtensionsSetting::getLatest();
+        }
+    }
+}
+
+if (!function_exists('email_settings')) {
+    if (!function_exists('email_settings')) {
+        /**
+         * Get the latest email settings.
+         *
+         * @return EmailSetting|null
+         */
+        function email_settings(): ?EmailSetting
+        {
+            return EmailSetting::getLatest();
+        }
+    }
+}
+
 if (!function_exists('isActive')) {
     /**
      * Check if the current route matches any of the given routes/patterns.

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @method static create(array $array)
  * @method static where(string $string, string $slug)
+ * @method static select(string[] $array)
  * @property mixed $id
  * @property mixed $name
  */
@@ -39,6 +40,6 @@ class CourseCategory extends Model
      */
     public function courses()
     {
-        return $this->hasMany(Courses::class);
+        return $this->hasMany(Course::class, 'category_id');
     }
 }

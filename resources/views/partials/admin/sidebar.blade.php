@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar-wrapper overflow-hidden">
     <div class="sidebar-content">
         <div class="sidebar-brand">
-            <a href="" class="!hover:bg-none ">
+            <a href="" class="!hover:bg-none">
                 <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="w-24" alt="Logo">
             </a>
         </div>
@@ -9,7 +9,7 @@
         <ul class="sidebar-menu border-t border-white/10" data-simplebar>
             <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <a href="{{ route('admin.dashboard') }}">
-                    <i class="mdi mdi-view-dashboard-outline me-1"></i>Dashboard
+                    <i class="uil uil-dashboard me-1"></i>Dashboard
                 </a>
             </li>
 
@@ -17,77 +17,143 @@
                 <a href="javascript:void(0)">
                     <i class="uil uil-users-alt me-1"></i>User Management
                 </a>
-
                 <div class="sidebar-submenu">
                     <ul>
                         <li class="{{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
-                            <a href="{{ route('admin.students.index') }}">Student</a>
+                            <a href="{{ route('admin.students.index') }}">Students</a>
                         </li>
-
                         <li class="{{ request()->routeIs('admin.instructors.*') ? 'active' : '' }}">
-                            <a href="#">Instructor</a>
+                            <a href="{{ route('admin.instructors.index') }}">Instructors</a>
                         </li>
                     </ul>
                 </div>
             </li>
 
-            <li
-                class="sidebar-dropdown {{ request()->routeIs(['admin.courses.*', 'admin.categories.*']) ? 'active' : '' }}">
-                <a href="javascript:void(0)"><i class="uil uil-book-alt me-1"></i>Course Oversight</a>
+            <li class="sidebar-dropdown {{ request()->routeIs(['admin.courses.*', 'admin.categories.*']) ? 'active' : '' }}">
+                <a href="javascript:void(0)">
+                    <i class="uil uil-book-alt me-1"></i>Course Oversight
+                </a>
+
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}"><a href="{{ route('admin.courses.index') }}">Manage Courses</a></li>
-                        <li class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}"><a href="{{ route('admin.categories.index') }}">Course Categories</a></li>
+                        <li class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.courses.index') }}">Manage Courses</a>
+                        </li>
+                        <li class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.categories.index') }}">Course Categories</a>
+                        </li>
                     </ul>
                 </div>
-            </li>
-
-            <li class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
-                <a href="#">
-                    <i class="mdi mdi-bullhorn-variant-outline me-1"></i>Announcement
-                </a>
-            </li>
-
-            <li class="{{ request()->routeIs('admin.payments.*') ? 'active' : '' }}">
-                <a href="{{ route('admin.payments.index') }}">
-                    <i class="uil uil-bill me-1"></i>Payments
-                </a>
             </li>
 
             <li class="mt-5 ps-2">
-                <span class="text-[#262626] text-sm">Account</span>
+                <span class="text-[#262626] text-sm">Financials</span>
             </li>
 
-            <li class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
-                <a href="{{ route('admin.settings.index') }}">
-                    <i class="uil uil-setting me-1"></i>Settings
+            <li class="{{ request()->routeIs('admin.payment-methods.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.payment-methods.index') }}">
+                    <i class="uil uil-credit-card me-1"></i>Payment Methods
                 </a>
             </li>
 
-            <li class="mt-auto border-t border-white/10">
+            <li class="sidebar-dropdown {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+                <a href="javascript:void(0)">
+                    <i class="uil uil-chart-bar me-1"></i>Reports
+                </a>
+
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li class="{{ request()->routeIs('admin.reports.transactions') ? 'active' : '' }}">
+                            <a href="{{ route('admin.reports.transactions') }}">Transaction History</a>
+                        </li>
+                        <li class="{{ request()->routeIs('admin.reports.logins') ? 'active' : '' }}">
+                            <a href="{{ route('admin.reports.logins') }}">Login History</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="mt-5 ps-2">
+                <span class="text-[#262626] text-sm">Notifications</span>
+            </li>
+
+            <li class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.announcements.create') }}">
+                    <i class="uil uil-megaphone me-1"></i>Announcements
+                </a>
+            </li>
+
+            <li class="sidebar-dropdown {{ request()->routeIs('admin.email.*') ? 'active' : '' }}">
+                <a href="javascript:void(0)">
+                    <i class="uil uil-envelope me-1"></i>Email Settings
+                </a>
+
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li class="{{ request()->routeIs('admin.email.config') ? 'active' : '' }}">
+                            <a href="{{ route('admin.email.config') }}">Configuration</a>
+                        </li>
+
+                        <li class="{{ request()->routeIs('admin.email.send') ? 'active' : '' }}">
+                            <a href="{{ route('admin.email.send') }}">Test Email</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="mt-5 ps-2">
+                <span class="text-[#262626] text-sm">Settings</span>
+            </li>
+
+            <li class="sidebar-dropdown {{ request()->routeIs(['admin.settings.*']) ? 'active' : '' }}">
+                <a href="javascript:void(0)">
+                    <i class="uil uil-setting me-1"></i>System Settings
+                </a>
+                <div class="sidebar-submenu">
+                    <ul>
+                        <li class="{{ request()->routeIs('admin.settings.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.settings.index') }}">General Settings</a>
+                        </li>
+
+                        <li class="{{ request()->routeIs('admin.settings.seo') ? 'active' : '' }}">
+                            <a href="{{ route('admin.settings.seo') }}">SEO</a>
+                        </li>
+                        <li class="{{ request()->routeIs('admin.settings.maintenance') ? 'active' : '' }}">
+                            <a href="{{ route('admin.settings.maintenance') }}">Maintenance</a>
+                        </li>
+                        <li class="{{ request()->routeIs('admin.settings.extensions') ? 'active' : '' }}">
+                            <a href="{{ route('admin.settings.extensions') }}">Extensions</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="{{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.profile.index') }}">
+                    <i class="uil uil-user me-1"></i>Edit Profile
+                </a>
+            </li>
+
+            <li class="mt-auto border-t border-white/10 pt-3">
                 <a href="#" id="logout-button" class="!text-[#9F0600]">
                     <i class="uil uil-sign-out-alt me-1"></i>Logout
                 </a>
             </li>
-
         </ul>
     </div>
 </nav>
 
-
 <!-- Logout Confirmation Modal -->
-<div id="logoutModal"
-    class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[9999] hidden p-4">
+<div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[9999] hidden p-4">
     <div
         class="logout-modal-content bg-white rounded-[20px] md:rounded-[30px] shadow-lg w-full max-w-sm md:max-w-md h-auto p-4 md:p-6 flex flex-col items-center justify-center z-[10000]">
-        <img src="{{ asset('dashboard_assets/images/img/logout-modal-icon.png') }}" alt="logout"
-            class="w-12 h-12 md:w-16 md:h-16 mb-4">
+        <img src="{{ asset('dashboard_assets/images/img/logout-modal-icon.png') }}" alt="logout" class="w-12 h-12 md:w-16 md:h-16 mb-4">
         <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-4 text-center">Logout?</h2>
         <p class="text-gray-600 mb-6 text-center text-xs md:text-sm">
             Are you sure you want to log out? You'll need to sign in again to access your account.
         </p>
 
-        <form id="logout-form" method="POST" action="">
+        <form id="logout-form" method="POST" action="{{ route('logout') }}">
             @csrf
 
             <div class="flex justify-center gap-3 w-full">
@@ -134,7 +200,7 @@
                 const cancelLogout = document.getElementById('cancelLogout');
                 const logoutButton = document.getElementById('logout-button');
 
-                // Open modal when logout button is clicked
+                // Open modal when the logout button is clicked
                 logoutButton.addEventListener('click', function(e) {
                     e.preventDefault();
 
@@ -156,7 +222,6 @@
                     e.preventDefault();
 
                     const submitBtn = document.getElementById('confirmLogout');
-                    const originalBtnText = submitBtn.innerHTML;
 
                     // Show loading state
                     submitBtn.innerHTML = `
@@ -165,7 +230,7 @@
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
                             </svg>
-                            Logging out...
+                            Processing...
                         </span>
                     `;
                     submitBtn.disabled = true;

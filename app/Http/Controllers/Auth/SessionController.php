@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SessionController extends Controller
 {
+    protected array $supportedProviders = ['google', 'facebook'];
+
     /**
      * Logout the admin user.
      */
@@ -62,21 +65,32 @@ class SessionController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param string $provider
      * @return RedirectResponse
      */
-    public function invokeAccount(string $provider): RedirectResponse
+    public function invokeAccount(Request $request, string $provider): RedirectResponse
     {
+        // Check if the provider is supported
         if (!in_array($provider, $this->supportedProviders)) {
-            return redirect()->back()->with('error',  __('auth.unsupported_provider', ['provider' => $provider]));
+            return redirect()->back()->with('error', __('auth.unsupported_provider', ['provider' => $provider]));
         }
 
-        $user = Auth::user();
+        // Validate the student input
+        $request->validate([
+            'student' => 'required|exists:users,id'
+        ]);
+
+        // Find the user by ID
+        $user = User::findOrFail($request->student);
+
+        // Update the user's social login fields
         $user->update([
             'social_login_provider' => null,
             'social_login_id' => null
         ]);
 
+        // Redirect back with success message
         return redirect()->back()->with('success', __('Account information updated successfully.'));
     }
 }

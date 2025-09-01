@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\AccountDeletedConfirmation;
+use App\Mail\PasswordResetConfirmation;
+use App\Mail\UserEmailConfirmation;
 use App\Mail\WelcomeEmail;
+use App\Models\LoginHistory;
 use App\Models\User;
 use App\Models\UserProfile;
 use Exception;
@@ -12,6 +15,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -19,17 +23,19 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
+use Jenssegers\Agent\Agent;
 use Throwable;
 
 class ManageStudentsController extends Controller
 {
     /**
-     * Show students page
+     * Show students' page
      * @return Renderable
      */
     public function index(Request $request)
     {
-        $query = User::with('profile')->where('role', '!=', 'admin');
+        $query = User::with('profile')->where('role', '!=', 'admin')
+            ->where('role', '!=', 'instructor');
 
         // Search functionality
         if ($request->filled('search')) {
@@ -116,9 +122,9 @@ class ManageStudentsController extends Controller
             );
 
             // Send email
-            if (config('settings.email_notification')) {
+            if (email_settings()->status ?? config('settings.email_notification')) {
                 try {
-                    Mail::mailer(config('settings.email_provider'))
+                    Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
                         ->to($request->email)
                         ->send(new WelcomeEmail($user));
                 } catch (Exception $e) {
@@ -154,8 +160,8 @@ class ManageStudentsController extends Controller
         try {
 
             // Send email
-            if (config('settings.email_notification')) {
-                Mail::mailer(config('settings.email_provider'))
+            if (email_settings()->status ?? config('settings.email_notification')) {
+                Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
                     ->to($student->email)
                     ->send(new AccountDeletedConfirmation($student));
             }
@@ -176,13 +182,269 @@ class ManageStudentsController extends Controller
         }
     }
 
-
     public function show(User $student)
     {
+        $loginHistories = LoginHistory::where('user_id', $student->id)
+            ->orderBy('login_at', 'desc')
+            ->paginate(10);
+
         return view('admin.students.show', [
             'title' => 'Student Profile',
             'student' => $student,
+            'loginHistories' => $loginHistories,
         ]);
+    }
+
+    public function edit(User $student)
+    {
+        return view('admin.students.edit', [
+            'title' => 'Edit Student Profile',
+            'student' => $student,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, User $student)
+    {
+        // Validate the request data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'biography' => 'nullable|string|max:255'
+        ]);
+
+        try {
+
+            // Update the student's profile
+            $student->update([
+                'name' => $validated['name'],
+            ]);
+
+            // Prepare profile data
+            $data = $request->only(
+                'phone_number',
+                'address',
+                'biography'
+            );
+
+            UserProfile::updateOrCreate(
+                ['user_id' => $student->id],
+                $data
+            );
+
+            return redirect()->back()->with('success', __('Student\'s personal details have been updated successfully.'));
+
+        } catch (Exception $exception) {
+            Log::error('Failed to update profile: ' . $exception->getMessage());
+            return redirect()->back()->with('error', __('Failed to update profile'));
+        }
+    }
+
+    /**
+     * Update the user's profile picture.
+     *
+     * @param Request $request
+     * @param User $student
+     * @return JsonResponse
+     */
+    public function updatePicture(Request $request, User $student): JsonResponse
+    {
+        $request->validate([
+            'profile_image' => [
+                'required',
+                'image',
+                'mimes:png,jpg,jpeg',
+                'max:2048',
+            ],
+        ], [
+            'profile_image.required' => 'Please select an image to upload.',
+            'profile_image.image' => 'The file must be an image.',
+            'profile_image.mimes' => 'The image must be a PNG, JPG, or JPEG file.',
+            'profile_image.max' => 'The image must not exceed 2MB in size.',
+        ]);
+
+        try {
+
+            $storagePath = 'students/';
+
+            // Delete old image if exists
+            if ($student->profile->profile_photo_path) {
+                $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $student->profile->profile_photo_path);
+                Storage::disk('public')->delete($oldImagePath);
+            }
+
+            // Store new image
+            $image = $request->file('profile_image');
+            $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            $fullPath = $storagePath . $filename;
+
+            // Resize and save
+            $resizedImage = Image::read($image)->resize(124, 124);
+            Storage::disk('public')->put($fullPath, $resizedImage->encode());
+
+            $data = [
+                'profile_photo_path' => asset('storage/' . $fullPath),
+            ];
+
+            // Update student
+            UserProfile::updateOrCreate(
+                ['user_id' => $student->id],
+                $data
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => __('Student\'s profile picture successfully uploaded.')
+            ]);
+        } catch (Exception $e) {
+            Log::error("Profile picture update error: " . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ], 500);
+        }
+    }
+
+    /**
+     * Remove the user's profile picture.
+     *
+     * @param User $student
+     * @return RedirectResponse
+     */
+    public function removePicture(User $student): RedirectResponse
+    {
+        // Delete the profile picture if it exists
+        if ($student->profile->profile_photo_path) {
+            $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $student->profile->profile_photo_path);
+
+            try {
+                Storage::disk('public')->delete($oldImagePath);
+            } catch (Exception) {
+                return redirect()->back()
+                    ->withErrors(['error' => 'Failed to delete the profile picture. Please try again.']);
+            }
+        }
+
+        // Set the profile image to null in the database
+        $data = [
+            'profile_photo_path' => null,
+        ];
+
+        // Update student
+        UserProfile::updateOrCreate(
+            ['user_id' => $student->id],
+            $data
+        );
+
+        // Redirect back with a success message
+        return redirect()->back()
+            ->with('success', 'User\'s profile picture removed successfully.');
+    }
+
+    /**
+     * Send email to user.
+     */
+    public function sendNotification(Request $request, User $student)
+    {
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        try {
+
+            // Send notifications
+            if (email_settings()->status ?? config('settings.email_notification')) {
+                Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
+                    ->to($student->email)
+                    ->send(new UserEmailConfirmation($student, $request->subject, $request->message));
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Email sent successfully'
+            ]);
+        } catch (Exception $e) {
+            Log::error('Email sending failed', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Failed to send email'], 500);
+        }
+    }
+
+    /**
+     * Reset user password.
+     */
+    public function resetPassword(Request $request, User $student)
+    {
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        try {
+
+            $student->password = Hash::make($request->password);
+            $student->save();
+
+            // Send email
+            if (email_settings()->status ?? config('settings.email_notification')) {
+                Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
+                    ->to($student->email)
+                    ->send(new PasswordResetConfirmation(
+                        $student,
+                        $request->ip(),
+                        $this->getDevice($request->userAgent())
+                    ));
+            }
+
+            if ($request->wantsJson()) {
+                return response()->json(['success' => true, 'message' => 'Password reset successfully']);
+            }
+
+            return redirect()->back()->with('success', 'Password reset successfully');
+        } catch (Exception $e) {
+            Log::error('Password reset failed', ['error' => $e->getMessage()]);
+
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'message' => 'Failed to reset password'], 500);
+            }
+
+            return redirect()->back()->with('error', 'Failed to reset password');
+        }
+    }
+
+    /**
+     * Block user account.
+     */
+    public function suspend(User $student)
+    {
+        try {
+
+            $student->status = 'inactive';
+            $student->save();
+
+            return response()->json(['success' => true, 'message' => 'Account blocked successfully']);
+        } catch (Exception $e) {
+            Log::error('Account blocking failed', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Failed to block account'], 500);
+        }
+    }
+
+    /**
+     * Unblock user account.
+     */
+    public function unsuspend(User $student)
+    {
+        try {
+            $student->status = 'active';
+            $student->save();
+
+            return response()->json(['success' => true, 'message' => 'Account unblocked successfully']);
+        } catch (Exception $e) {
+            Log::error('Account unblocking failed', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Failed to unblock account'], 500);
+        }
     }
 
     /**
@@ -207,5 +469,38 @@ class ManageStudentsController extends Controller
             Log::error('Image upload failed: ' . $e->getMessage());
             return null;
         }
+    }
+
+    /**
+     * Login as user.
+     */
+    public function loginAsUser(User $student)
+    {
+        try {
+            Auth::login($student);
+            return response()->json([
+                'success' => true,
+                'redirect' => route('user.dashboard')
+            ]);
+        } catch (Exception $e) {
+            Log::error('Login as student failed', ['error' => $e->getMessage()]);
+            return response()->json(['success' => false, 'message' => 'Failed to login as student'], 500);
+        }
+    }
+
+    /**
+     * @param $userAgent
+     * @return string
+     */
+    protected function getDevice($userAgent)
+    {
+        $parser = new Agent();
+        $parser->setUserAgent($userAgent);
+
+        $device = $parser->device();
+        $platform = $parser->platform();
+        $browser = $parser->browser();
+
+        return $device . ' (' . $platform . ') - ' . $browser;
     }
 }
