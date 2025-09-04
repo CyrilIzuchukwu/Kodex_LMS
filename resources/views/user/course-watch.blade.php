@@ -250,6 +250,44 @@
                             </div>
                         </div>
 
+
+                        <button
+                            class="bg-[#E68815] text-white w-full hover:bg-[#f6b76b] px-8 sm:px-14 py-2 rounded-[100px] text-sm sm:text-base my-8">
+                            <a href="">Show more</a>
+                        </button>
+
+                        <div>
+                            <h1 class="font-medium text-lg text-[#1B1B1B]">Ask a question</h1>
+
+                            <form action="" class="mt-4 flex flex-col gap-y-4">
+                                <div class="space-y-2">
+                                    <label for="" class="text-[#1B1B1B] font-medium text-sm">Title</label><br>
+                                    <input type="text"
+                                        class="w-full h-12 border bg-white border-[#E1E1E1] rounded-[8px] px-4 py-2 text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-[#E68815] focus:border-transparent "><br>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label for="" class="text-[#1B1B1B] font-medium text-sm">Details</label><br>
+                                    <textarea name="" id=""
+                                        class="w-full h-40 border bg-white border-[#E1E1E1] rounded-[8px] px-4 py-2 text-sm sm:text-base text-black focus:outline-none focus:ring-2 focus:ring-[#E68815] focus:border-transparent"
+                                        id=""></textarea><br>
+                                    <div class="flex items-center justify-end">
+                                        <!-- Hidden file input -->
+                                        <input type="file" id="attachment" class="hidden">
+
+                                        <!-- Styled label as button -->
+                                        <label for="attachment"
+                                            class="cursor-pointer bg-[#F5CE9F] text-[#8C530D] hover:bg-[#f3d7b4] rounded-full px-6 py-2 text-sm sm:text-base font-medium">
+                                            Add Attachment
+                                        </label>
+                                    </div>
+                                </div>
+                                <button
+                                    class="bg-[#E68815] text-white w-full hover:bg-[#f6b76b] px-8 sm:px-14 py-2 rounded-[100px] text-sm sm:text-base my-8">
+                                    <a href="">Publish</a>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -285,37 +323,38 @@
                                     <div
                                         class="flex items-center space-x-2 bg-[#FDF3E8] border border-[#8C530D] rounded-[20px] px-3 py-1 cursor-pointer w-full sm:w-auto justify-between sm:justify-start">
                                         <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
-                                        class="text-[#8C530D] bg-[#FDF3E8] hover:bg-[#faf3ed] focus:ring-4 focus:outline-none focus:ring-[#FDF3E8] font-medium rounded text-xs px-3 py-1 w-full sm:w-auto justify-between sm:justify-start inline-flex items-center dark:bg-[#FDF3E8] dark:hover:bg-[#faf3ed] dark:focus:ring-[#faf3ed] "
-                                        type="button"><div> <span class="mdi mdi-folder-open-outline w-6 h-6"></span>
+                                            class="text-[#8C530D] bg-[#FDF3E8] hover:bg-[#faf3ed] focus:ring-4 focus:outline-none focus:ring-[#FDF3E8] font-medium rounded text-xs px-3 py-1 w-full sm:w-auto justify-between sm:justify-start inline-flex items-center dark:bg-[#FDF3E8] dark:hover:bg-[#faf3ed] dark:focus:ring-[#faf3ed] "
+                                            type="button">
+                                            <div> <span class="mdi mdi-folder-open-outline w-6 h-6"></span>
                                                 <span class="text-xs font-medium">Resources</span>
                                             </div>
                                             <div> <span class="mdi mdi-chevron-down w-6 h-6"></span></div>
-                                    </button>
+                                        </button>
 
-                                    <!-- Dropdown menu -->
-                                    <div id="dropdown"
-                                        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-white">
-                                        <ul class="py-2 text-sm text-[#8C530D] dark:text-[#8C530D]"
-                                            aria-labelledby="dropdownDefaultButton">
-                                            <li>
-                                                <a href="#"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                                            </li>
-                                            <li>
-                                                <a href="#"
-                                                    class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
-                                                    out</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <!-- Dropdown menu -->
+                                        <div id="dropdown"
+                                            class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-white">
+                                            <ul class="py-2 text-sm text-[#8C530D] dark:text-[#8C530D]"
+                                                aria-labelledby="dropdownDefaultButton">
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#"
+                                                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign
+                                                        out</a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
                                     </div>
 
