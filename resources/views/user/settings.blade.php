@@ -32,7 +32,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-1">Fullname</label>
                                 <input type="text" value="Purpose"
-                                    class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:shadow-none focus:ring-2 focus:ring-orange-400">
+                                    class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:shadow-none focus:border-none focus:ring-2 focus:ring-[#E68815]">
                             </div>
                         </div>
 
