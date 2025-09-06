@@ -2,39 +2,53 @@
 <div class="top-header">
     <div class="header-bar flex justify-between">
         <div class="flex items-center space-x-1">
-            <!-- Logo -->
-            <a href="{{ route('admin.dashboard') }}" class="xl:hidden block me-2">
-                <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="md:hidden block" alt="">
-                <span class="md:block hidden">
-                    <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="inline-block dark:hidden" alt="">
-                    <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="hidden dark:inline-block" alt="">
-                </span>
-            </a>
-            <!-- Logo -->
 
             <!-- show or close sidebar -->
-            <a id="close-sidebar" class="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-[20px] text-center bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 border border-gray-100 dark:border-gray-800 text-slate-900 dark:text-white rounded-full" href="javascript:void(0)">
+            <a id="close-sidebar"
+                class="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-[20px] text-center bg-gray-50 dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700 border border-gray-100 dark:border-gray-800 text-slate-900 dark:text-white rounded-full"
+                href="javascript:void(0)">
                 <i data-feather="menu" class="size-4"></i>
+
+
+                <!-- Logo -->
+                <a href="{{ route('admin.dashboard') }}" class="xl:hidden block me-2 mt-2 md:mt-0">
+                    <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="md:hidden block" alt="">
+                    <span class="md:block hidden">
+                        <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="inline-block dark:hidden"
+                            alt="">
+                        <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="hidden dark:inline-block"
+                            alt="">
+                    </span>
+                </a>
+                <!-- Logo -->
+
+
             </a>
         </div>
 
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse mr-4">
             <!-- Notification Dropdown -->
             <div class="relative inline-block">
-                <button type="button" class="flex text-sm bg-gray-100 rounded-full p-1 hover:bg-gray-200 focus:ring-4 focus:ring-[#E68815]/30 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-[#E68815]/50" id="notification-menu-button" aria-expanded="false" data-dropdown-toggle="notification-dropdown" data-dropdown-placement="bottom">
+                <button type="button"
+                    class="flex text-sm bg-gray-100 rounded-full p-1 hover:bg-gray-200 focus:ring-4 focus:ring-[#E68815]/30 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-[#E68815]/50"
+                    id="notification-menu-button" aria-expanded="false" data-dropdown-toggle="notification-dropdown"
+                    data-dropdown-placement="bottom">
                     <i data-feather="bell" class="w-6 h-6 text-gray-600 dark:text-gray-300"></i>
-                    @if(auth()->user()->unreadNotifications->count() > 0)
-                        <span class="absolute top-0 end-0 flex items-center justify-center bg-[#E68815] text-white text-[10px] font-bold rounded-full size-2 after:content-[''] after:absolute after:size-2 after:bg-[#E68815] after:top-0 after:end-0 after:rounded-full after:animate-ping"></span>
+                    @if (auth()->user()->unreadNotifications->count() > 0)
+                        <span
+                            class="absolute top-0 end-0 flex items-center justify-center bg-[#E68815] text-white text-[10px] font-bold rounded-full size-2 after:content-[''] after:absolute after:size-2 after:bg-[#E68815] after:top-0 after:end-0 after:rounded-full after:animate-ping"></span>
                     @endif
                 </button>
 
                 <!-- Notification Dropdown menu -->
-                <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-80 absolute right-3 sm:right-3 md:right-3 lg:right-3 xl:right-3" id="notification-dropdown" style="max-width: calc(100vw - 2rem);">
+                <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-80 absolute right-3 sm:right-3 md:right-3 lg:right-3 xl:right-3"
+                    id="notification-dropdown" style="max-width: calc(100vw - 2rem);">
                     <div class="px-4 py-3 border-b border-gray-100">
                         <div class="flex justify-between items-center">
                             <span class="block text-sm font-semibold text-gray-900">Notifications</span>
-                            @if(auth()->user()->unreadNotifications->count() > 0)
-                                <span class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-[#EB8C22] rounded-full">
+                            @if (auth()->user()->unreadNotifications->count() > 0)
+                                <span
+                                    class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-[#EB8C22] rounded-full">
                                     {{ auth()->user()->unreadNotifications->count() }}
                                 </span>
                             @endif
@@ -47,7 +61,8 @@
                                 <div class="block">
                                     <div class="flex items-start space-x-3">
                                         <div class="flex-shrink-0">
-                                            <div class="w-8 h-8 bg-[#EB8C22]/10 rounded-full flex items-center justify-center">
+                                            <div
+                                                class="w-8 h-8 bg-[#EB8C22]/10 rounded-full flex items-center justify-center">
                                                 <i class="uil uil-megaphone text-[#EB8C22]"></i>
                                             </div>
                                         </div>
@@ -61,8 +76,9 @@
                                                 {!! Str::limit(strip_tags($notification->data['content']), 50) !!}
                                             </p>
 
-                                            @if($notification->data['attachment_url'])
-                                                <a href="{{ $notification->data['attachment_url'] }}" class="text-[#EB8C22] hover:text-[#d17a1e] text-xs" target="_blank">
+                                            @if ($notification->data['attachment_url'])
+                                                <a href="{{ $notification->data['attachment_url'] }}"
+                                                    class="text-[#EB8C22] hover:text-[#d17a1e] text-xs" target="_blank">
                                                     Download Attachment
                                                 </a>
                                             @endif
@@ -71,7 +87,7 @@
                                             </p>
                                         </div>
 
-                                        @if(!$notification->read_at)
+                                        @if (!$notification->read_at)
                                             <div class="flex-shrink-0">
                                                 <div class="w-2 h-2 bg-[#EB8C22] rounded-full"></div>
                                             </div>
@@ -87,7 +103,7 @@
                         @endforelse
                     </div>
 
-                    @if(auth()->user()->notifications->count() > 0)
+                    @if (auth()->user()->notifications->count() > 0)
                         <div class="px-4 py-2 bg-gray-50">
                             <a href="#" class="text-sm text-[#EB8C22] hover:text-[#d17a1e] font-medium">
                                 View all notifications
@@ -99,22 +115,27 @@
 
             <!-- User Profile Dropdown -->
             <div class="relative inline-block">
-                <button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-[#EB8C22]/30" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                <button type="button"
+                    class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-[#EB8C22]/30"
+                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                    data-dropdown-placement="bottom">
                     <span class="sr-only">Open user menu</span>
                     <img class="w-8 h-8 rounded-full" src="{{ $avatar }}" alt="user photo">
                 </button>
 
                 <!-- User Dropdown menu -->
-                <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-56 absolute right-3 sm:right-3 md:right-3 lg:right-3 xl:right-3" id="user-dropdown" style="max-width: calc(100vw - 2rem);">
+                <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-56 absolute right-3 sm:right-3 md:right-3 lg:right-3 xl:right-3"
+                    id="user-dropdown" style="max-width: calc(100vw - 2rem);">
                     <div class="px-4 py-3">
                         <span class="block text-sm text-gray-900">{{ auth()->user()->name ?? 'User Name' }}</span>
-                        <span class="block text-sm text-gray-600 truncate">{{ auth()->user()->email ?? 'user@example.com' }}</span>
+                        <span
+                            class="block text-sm text-gray-600 truncate">{{ auth()->user()->email ?? 'user@example.com' }}</span>
                     </div>
 
                     <ul class="py-2" aria-labelledby="user-menu-button">
                         <li>
                             <a href="{{ route('admin.profile.index') }}"
-                               class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
+                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
                                 <i data-feather="user" class="w-4 h-4 me-2"></i>
                                 Profile
                             </a>
@@ -122,14 +143,15 @@
 
                         <li>
                             <a href="{{ route('admin.settings.index') }}"
-                               class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
+                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
                                 <i data-feather="settings" class="w-4 h-4 me-2"></i>
                                 Settings
                             </a>
                         </li>
 
                         <li>
-                            <a href="#" id="logout-button-top" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
+                            <a href="#" id="logout-button-top"
+                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
                                 <i data-feather="log-out" class="w-4 h-4 me-2"></i>
                                 Sign out
                             </a>
@@ -142,11 +164,12 @@
 </div>
 
 <!-- Logout Confirmation Modal -->
-<div id="logoutModal-top" class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[9999] hidden p-4">
+<div id="logoutModal-top"
+    class="fixed inset-0 bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center z-[9999] hidden p-4">
     <div
         class="logout-modal-content bg-white rounded-[20px] md:rounded-[30px] shadow-lg w-full max-w-sm md:max-w-md h-auto p-4 md:p-6 flex flex-col items-center justify-center z-[10000]">
         <img src="{{ asset('dashboard_assets/images/img/logout-modal-icon.png') }}" alt="logout"
-             class="w-12 h-12 md:w-16 md:h-16 mb-4">
+            class="w-12 h-12 md:w-16 md:h-16 mb-4">
         <h2 class="text-base md:text-lg font-semibold text-gray-800 mb-4 text-center">Logout?</h2>
         <p class="text-gray-600 mb-6 text-center text-xs md:text-sm">
             Are you sure you want to log out? You'll need to sign in again to access your account.
@@ -156,11 +179,13 @@
             @csrf
 
             <div class="flex justify-center gap-3 w-full">
-                <button type="button" id="cancelLogout-top" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
+                <button type="button" id="cancelLogout-top"
+                    class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                     Cancel
                 </button>
 
-                <button type="submit" id="confirmLogout-top" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#E30800] text-white hover:bg-red-600 transition-colors text-xs md:text-sm">
+                <button type="submit" id="confirmLogout-top"
+                    class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#E30800] text-white hover:bg-red-600 transition-colors text-xs md:text-sm">
                     Logout
                 </button>
             </div>
@@ -184,9 +209,11 @@
     #user-dropdown {
         transition: all 0.2s ease-in-out;
         transform-origin: top right;
-        min-width: 280px; /* Ensure minimum width on mobile */
+        min-width: 280px;
+        /* Ensure minimum width on mobile */
         background-color: white !important;
-        margin-top: 0.75rem; /* Adjusted for better top alignment */
+        margin-top: 0.75rem;
+        /* Adjusted for better top alignment */
     }
 
     #notification-dropdown.hidden,
@@ -200,23 +227,27 @@
         #notification-dropdown {
             width: calc(100vw - 2.5rem) !important;
             max-width: 320px;
-            right: 1.25rem !important; /* Slightly more left for small screens */
+            right: 1.25rem !important;
+            /* Slightly more left for small screens */
         }
 
         #user-dropdown {
             width: calc(100vw - 2.5rem) !important;
             max-width: 280px;
-            right: 1.25rem !important; /* Slightly more left for small screens */
+            right: 1.25rem !important;
+            /* Slightly more left for small screens */
         }
     }
 
     @media (min-width: 641px) and (max-width: 768px) {
         #notification-dropdown {
-            right: 0.75rem !important; /* Adjusted for medium screens */
+            right: 0.75rem !important;
+            /* Adjusted for medium screens */
         }
 
         #user-dropdown {
-            right: 0.75rem !important; /* Adjusted for medium screens */
+            right: 0.75rem !important;
+            /* Adjusted for medium screens */
         }
     }
 
@@ -227,9 +258,12 @@
 
     /* Notification badge pulse effect */
     @keyframes pulse {
-        0%, 100% {
+
+        0%,
+        100% {
             transform: scale(1);
         }
+
         50% {
             transform: scale(1.1);
         }

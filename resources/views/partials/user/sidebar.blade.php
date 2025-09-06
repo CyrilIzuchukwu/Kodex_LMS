@@ -1,7 +1,7 @@
 <nav id="sidebar" class="sidebar-wrapper overflow-hidden">
     <div class="sidebar-content">
         <div class="sidebar-brand">
-            <a href="" class="!hover:bg-none ">
+            <a href="" class="hover:!bg-[#fff]">
                 <img src="{{ asset('assets/auth/Kodex-logo.png') }}" class="w-24" alt="Logo">
             </a>
         </div>
@@ -9,12 +9,43 @@
         <ul class="sidebar-menu border-t border-white/10" data-simplebar>
             <li class="">
                 <a href="{{ route('user.dashboard') }}">
-                    <i class="mdi mdi-view-dashboard-outline me-1"></i>Dashboard
+                    <i class="hgi hgi-stroke hgi-dashboard-square-03 me-1"></i>Dashboard
+                </a>
+            </li>
+
+
+            <li class="">
+                <a href="{{ route('user.my-learning') }}">
+                    <i class="uil uil-book-open me-1"></i>
+                    My learning
+                </a>
+            </li>
+
+
+            <li class="">
+                <a href="{{ route('user.courses') }}">
+                    <i class="hgi hgi-stroke hgi-book-04 me-1"></i>
+                    Courses
                 </a>
             </li>
 
 
 
+
+            <li class="mt-5 ps-2">
+                <span class="text-[#262626] text-sm">Settings</span>
+            </li>
+
+
+
+            <li class="">
+                <a href="{{ route('user.settings') }}">
+                    <i class="hgi hgi-stroke hgi-setting-07 me-1"></i>
+                    Settings
+                </a>
+            </li>
+
+            {{-- use the same logout for admin  --}}
             <li class="mt-auto border-t border-white/10">
                 <a href="#" id="logout-button" class="!text-[#9F0600]">
                     <i class="uil uil-sign-out-alt me-1"></i>Logout
