@@ -23,8 +23,6 @@ Route::get('/user/course-watch', function () {
     return view('user.course-watch');
 })->name('user.course-watch');
 
-
-
 Route::get('/user/courses', function () {
     return view('user.courses');
 })->name('user.courses');

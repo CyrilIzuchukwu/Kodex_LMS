@@ -105,7 +105,7 @@
                     <div class="mb-3">
                         <div class="h-2 bg-[#D9D9D9] rounded-full overflow-hidden" role="progressbar" aria-valuemin="0"
                             aria-valuemax="100" aria-valuenow="45" aria-label="Course progress: 45% complete">
-                            <div class="h-full bg-[#D97706] transition-all duration-300" style="width: 65%"></div>
+                            <div class="h-full bg-[#D97706] transition-all duration-300 w-1/2"></div>
                         </div>
                     </div>
 

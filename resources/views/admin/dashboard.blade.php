@@ -7,7 +7,7 @@
             Control Center.</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-4 sm:px-6 lg:px-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-0 sm:px-0 lg:px-0">
         <!-- Total Students Card -->
         <div style="background-image: url('{{ asset('dashboard_assets/images/img/backg.png') }}')"
             class="bg-cover bg-center rounded-2xl flex items-center py-8 px-4 gap-4 sm:gap-6 col-span-1 sm:col-span-2">
