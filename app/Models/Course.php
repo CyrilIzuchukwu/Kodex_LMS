@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static create(array $array)
  * @method static count()
  * @method static orderBy(string $string)
+ * @method static where(string $string, string $slug)
+ * @method static whereIn(string $string, array $courseIds)
  * @property mixed $id
  * @property mixed $outcomes
  * @property mixed $media

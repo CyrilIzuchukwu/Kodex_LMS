@@ -377,7 +377,7 @@
                                         <select name="course" id="course" class="w-full px-4 py-3 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 appearance-none cursor-pointer placeholder:text-gray-500 invalid:text-gray-500">
                                             <option value="" disabled selected>Select a course</option>
                                             @foreach($instructorAssignedCourses as $course)
-                                                <option value="{{ $course->id }}"{{ old('course', $instructor->profile->course_id) == $course->id ? 'selected' : '' }}>
+                                                <option value="{{ $course->id }}"{{ old('course', $instructor->profile?->course_id) == $course->id ? 'selected' : '' }}>
                                                     {{ $course->title }}
                                                 </option>
                                             @endforeach

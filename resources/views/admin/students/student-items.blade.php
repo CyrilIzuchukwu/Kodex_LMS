@@ -13,7 +13,7 @@
 
         <td class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 hidden sm:table-cell text-center">{{ $user->email }}</td>
 
-        <td class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 hidden md:table-cell text-center">{{ $user->profile->phone_number }}</td>
+        <td class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 hidden md:table-cell text-center">{{ $user->profile->phone_number ?? '(123) 456 7890' }}</td>
 
         <td class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 hidden md:table-cell text-center">
             @if ($user->hasSocialAccount('google'))
