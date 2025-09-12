@@ -40,7 +40,11 @@ Route::prefix('user')
         // Learning Routes
         Route::controller(UserLearningController::class)->group(function () {
             Route::get('/my-learning', 'myLearning')->name('my.learning');
-            Route::get('/course-watch', 'courseWatch')->name('course.watch');
+            Route::get('/my-purchases', 'myCoursesPurchases')->name('my.purchases');
+            Route::get('/course/watch/{slug}/module/{module}', 'courseWatch')->name('course.watch');
+            Route::get('/course/{slug}/module/{module}/quiz', 'courseQuiz')->name('course.quiz.start');
+            Route::post('/course/{slug}/module/{module}/quiz/submit', 'submitQuiz')->name('course.quiz.submit');
+            Route::get('/course/certificate/{slug}/download', 'courseCertificate')->name('course.certificate.download');
         });
 
         // Course Routes

@@ -5,6 +5,7 @@ use App\Models\ExtensionsSetting;
 use App\Models\MaintenanceMode;
 use App\Models\SeoSetting;
 use App\Models\Settings;
+use App\Services\VideoHelper;
 
 if (!function_exists('site_settings')) {
     if (!function_exists('seo_settings')) {
@@ -193,5 +194,21 @@ if (!function_exists('ordinal')) {
             return $number . 'th';
         }
         return $number . $ends[$number % 10];
+    }
+}
+
+if (!function_exists('video_helper')) {
+    /**
+     * Helper function to parse a video URL and return the host and video ID.
+     *
+     * Supported hosts: YouTube and Vimeo.
+     * Example return: ['host' => 'YouTube', 'id' => 'Xyz123Abc']
+     *
+     * @param string $url  The full video URL (e.g., https://youtu.be/Xyz123Abc)
+     * @return array|null  Returns ['host' => string, 'id' => string] or null if unsupported
+     */
+    function video_helper(string $url): ?array
+    {
+        return VideoHelper::parse($url);
     }
 }

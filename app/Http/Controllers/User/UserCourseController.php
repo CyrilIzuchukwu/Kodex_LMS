@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Throwable;
@@ -17,6 +18,7 @@ class UserCourseController extends Controller
      */
     public function index(Request $request)
     {
+        $user_id = Auth::id();
         $query = Course::query();
 
         // Search functionality
@@ -51,9 +53,14 @@ class UserCourseController extends Controller
             $query->orderBy('title');
         }
 
-        // Fetch courses
+        // Fetch courses the user hasn't enrolled in
         $courses = $query->with(['category', 'profile.user'])
-            ->withCount(['modules', 'students'])
+            ->withCount(['modules'])
+            ->whereNotIn('id', function ($query) use ($user_id) {
+                $query->select('course_id')
+                    ->from('course_enrollments')
+                    ->where('user_id', $user_id);
+            })
             ->latest()
             ->paginate(9)
             ->withQueryString();
@@ -88,6 +95,8 @@ class UserCourseController extends Controller
 
     public function courseDetails (string $slug)
     {
+        $user_id = Auth::id();
+
         $course = Course::where('slug', $slug)
             ->withCount(['modules'])
             ->firstOrFail();
@@ -96,11 +105,17 @@ class UserCourseController extends Controller
         $course_modules = $course->modules;
 
         $relatedCourses = Course::with(['category', 'profile.user'])
-            ->orderBy('title', 'ASC')
             ->where('category_id', $course->category->id)
             ->where('id', '!=', $course->id)
+            ->whereNotIn('id', function ($query) use ($user_id) {
+                $query->select('course_id')
+                    ->from('course_enrollments')
+                    ->where('user_id', $user_id);
+            })
+            ->orderBy('title', 'ASC')
             ->latest()
-            ->limit(3)->get();
+            ->limit(3)
+            ->get();
 
         return view('user.courses.course-details', [
             'title' => 'Course Details',

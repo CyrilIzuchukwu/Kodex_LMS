@@ -9,25 +9,14 @@
                         <p class="text-gray-500 mt-1 sm:mt-2 text-sm sm:text-base">Track your payment and order details</p>
                     </div>
 
-                    @if($retry)
-                        <a href="{{ route('user.cart') }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl w-full sm:w-auto">
-                            <span class="flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                </svg>
-                                <span>Try Again</span>
-                            </span>
-                        </a>
-                    @else
-                        <a href="{{ route('user.courses') }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl w-full sm:w-auto">
-                            <span class="flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                                </svg>
-                                <span>Browse Courses</span>
-                            </span>
-                        </a>
-                    @endif
+                    <a href="{{ route('user.courses') }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl w-full sm:w-auto">
+                        <span class="flex items-center justify-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            <span>Browse Courses</span>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -38,35 +27,13 @@
                     <div class="lg:col-span-2 space-y-6">
                         <div class="bg-gray-500 rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl overflow-hidden border border-gray-200">
                             <!-- Status Header -->
-                            <div class="bg-gradient-to-r
-                                @if($title == 'Payment Cancelled')
-                                    from-yellow-500 to-yellow-600
-                                @elseif($title == 'Payment Error')
-                                    from-red-500 to-red-600
-                                @else
-                                    from-red-500 to-red-600
-                                @endif
-                                p-6 sm:p-8 relative">
-
+                            <div class="bg-gradient-to-r from-green-500 to-green-600 p-6 sm:p-8 relative">
                                 <!-- Status Icon -->
                                 <div class="absolute top-0 right-0 opacity-10">
-                                    @if($title == 'Payment Cancelled')
-                                        <svg class="w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64" viewBox="0 0 200 200" fill="white">
-                                            <circle cx="100" cy="100" r="80" stroke="white" stroke-width="8" fill="none"/>
-                                            <circle cx="100" cy="100" r="8" fill="white"/>
-                                            <path d="M100 60v40" stroke="white" stroke-width="6" stroke-linecap="round"/>
-                                        </svg>
-                                    @elseif($title == 'Payment Error')
-                                        <svg class="w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64" viewBox="0 0 200 200" fill="white">
-                                            <circle cx="100" cy="100" r="80" stroke="white" stroke-width="8" fill="none"/>
-                                            <path d="M70 70l60 60M130 70l-60 60" stroke="white" stroke-width="8" stroke-linecap="round"/>
-                                        </svg>
-                                    @else
-                                        <svg class="w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64" viewBox="0 0 200 200" fill="white">
-                                            <circle cx="100" cy="100" r="80" stroke="white" stroke-width="8" fill="none"/>
-                                            <path d="M70 70l60 60M130 70l-60 60" stroke="white" stroke-width="8" stroke-linecap="round"/>
-                                        </svg>
-                                    @endif
+                                    <svg class="w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64" viewBox="0 0 200 200" fill="white">
+                                        <circle cx="100" cy="100" r="80" stroke="white" stroke-width="8" fill="none"/>
+                                        <path d="M80 110l20 20l40-40" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
                                 </div>
 
                                 <div class="relative z-10">
@@ -77,14 +44,7 @@
 
                                         <div class="text-left sm:text-right">
                                             <span class="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                                                <span class="w-2 h-2
-                                                    @if($title == 'Payment Cancelled')
-                                                        bg-yellow-300
-                                                    @elseif($title == 'Payment Error')
-                                                        bg-red-300
-                                                    @else
-                                                        bg-red-300
-                                                    @endif rounded-full mr-2 animate-pulse"></span>
+                                                <span class="w-2 h-2 bg-green-300 rounded-full mr-2 animate-pulse"></span>
                                                 {{ ucfirst($title) }}
                                             </span>
                                         </div>
@@ -138,10 +98,7 @@
                                     <!-- Mobile View -->
                                     <div class="block md:hidden space-y-3">
                                         @foreach($courses as $course)
-                                            <div class="bg-gray-100 rounded-lg p-4 border-l-4
-                                                @if($title == 'Payment Cancelled') border-yellow-500
-                                                @elseif($title == 'Payment Error') border-red-500
-                                                @else border-red-500 @endif border">
+                                            <div class="bg-gray-100 rounded-lg p-4 border-l-4 border-green-500 border">
                                                 <div class="flex items-start justify-between">
                                                     <div class="flex-1">
                                                         <p class="font-medium text-gray-900 mb-1">{{ $course->title }}</p>
@@ -153,9 +110,9 @@
                                                         <div class="mt-1">
                                                             <span class="inline-flex items-center text-xs text-gray-600">
                                                                 <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
+                                                                    <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v2h1V6a3 3 0 013-3h3a3 3 0 013 3v2h1V6a4 4 0 00-4-4zm-5 8a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6z" clip-rule="evenodd"/>
                                                                 </svg>
-                                                                Locked
+                                                                Purchased
                                                             </span>
                                                         </div>
                                                     </div>
@@ -167,42 +124,67 @@
                                     <!-- Desktop View -->
                                     <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-300">
                                         <table class="min-w-full divide-y divide-gray-200">
-                                            <thead class="bg-gray-100">
-                                                <tr>
-                                                    <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Course</th>
-                                                    <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-right text-xs font-semibold text-gray-700 uppercase tracking-wider">Price</th>
-                                                    <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
-                                                </tr>
+                                            <thead class="bg-gray-50">
+                                            <tr>
+                                                <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Course</th>
+                                                <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Price</th>
+                                                <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">Subtotal</th>
+                                                <th scope="col" class="px-4 lg:px-6 py-3 lg:py-4 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
+                                            </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                                @foreach($courses as $course)
-                                                    <tr>
-                                                        <td class="px-4 lg:px-6 py-3 lg:py-4">
-                                                            <div class="flex items-center">
-                                                                <div class="w-1 h-12 rounded-full mr-3 @if($title == 'Payment Cancelled') bg-yellow-500 @elseif($title == 'Payment Error') bg-red-500 @else bg-red-500 @endif"></div>
-                                                                <div>
-                                                                    <p class="text-sm font-medium text-gray-900">{{ $course->title }}</p>
-                                                                    <p class="text-xs text-gray-500">@truncate($course->subtitle, 50)</p>
-                                                                    <span class="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-xs mt-1 inline-block border border-gray-300">{{ $course->category->name }}</span>
-                                                                </div>
+                                            @foreach($courses as $course)
+                                                <tr>
+                                                    <td class="px-4 lg:px-6 py-3 lg:py-4">
+                                                        <div class="flex items-center">
+                                                            <div class="w-1 h-12 rounded-full mr-3 bg-green-500"></div>
+                                                            <div>
+                                                                <p class="text-sm font-medium text-gray-900">{{ $course->title }}</p>
+                                                                <p class="text-xs text-gray-500">@truncate($course->subtitle, 45)</p>
+                                                                <span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full text-xs mt-1 inline-block">{{ $course->category->name }}</span>
                                                             </div>
-                                                        </td>
+                                                        </div>
+                                                    </td>
 
-                                                        <td class="px-4 lg:px-6 py-3 lg:py-4 text-right text-sm font-medium text-gray-900">
-                                                            ₦{{ number_format($course->price, 2) }}
-                                                        </td>
+                                                    <td class="px-4 lg:px-6 py-3 lg:py-4 text-right text-sm text-gray-900">
+                                                        <div class="flex flex-col items-end">
+                                                            <span>₦{{ number_format($course->price, 2) }}</span>
+                                                            @php
+                                                                $vat = $course->price * config('settings.vat_rate', 0.075);
+                                                            @endphp
+                                                            <span class="text-xs text-gray-500">+ ₦{{ number_format($vat, 2) }} VAT</span>
+                                                        </div>
+                                                    </td>
 
-                                                        <td class="px-4 lg:px-6 py-3 lg:py-4 text-center">
-                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-700 border border-gray-300">
-                                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/>
-                                                                </svg>
-                                                                Locked
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
+                                                    <td class="px-4 lg:px-6 py-3 lg:py-4 text-right text-sm font-medium text-gray-900">
+                                                        @php
+                                                            $subtotal = $course->price + $vat;
+                                                        @endphp
+                                                        ₦{{ number_format($subtotal, 2) }}
+                                                    </td>
+
+                                                    <td class="px-4 lg:px-6 py-3 lg:py-4 text-center">
+                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v2h1V6a3 3 0 116 0v2h1V6a4 4 0 00-4-4zm-5 8a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6z" clip-rule="evenodd"/>
+                                                            </svg>
+                                                            Purchased
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+
+                                            <tr class="bg-gray-50">
+                                                <td colspan="3" class="px-4 lg:px-6 py-3 lg:py-4 text-right text-sm text-gray-500">Discount</td>
+                                                <td class="px-4 lg:px-6 py-3 lg:py-4 text-right text-sm text-gray-500">- ₦{{ number_format($payment->discount, 2) }}</td>
+                                            </tr>
                                             </tbody>
+                                            <tfoot>
+                                            <tr class="bg-[#E68815] text-white">
+                                                <td colspan="3" class="px-4 lg:px-6 py-3 lg:py-4 text-right font-semibold text-base lg:text-lg">Total Paid</td>
+                                                <td class="px-4 lg:px-6 py-3 lg:py-4 text-right font-bold text-lg lg:text-xl">₦{{ number_format($payment->total, 2) }}</td>
+                                            </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -228,18 +210,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Action Buttons -->
-                                @if($retry)
-                                    <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                                        <a href="{{ route('user.cart') }}" class="flex-1 bg-[#E68815] hover:bg-[#d47a12] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 text-center shadow-lg hover:shadow-xl">
-                                            Try Again
-                                        </a>
-                                        <a href="{{ route('user.dashboard') }}" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium transition-all duration-200 text-center border border-gray-300">
-                                            Go to Dashboard
-                                        </a>
-                                    </div>
-                                @endif
 
                                 <!-- Footer -->
                                 <div class="mt-1 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
@@ -283,3 +253,37 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+    <style>
+        .cp-dwp--popup{
+            display: none !important;
+        }
+        a[href="https://confettipage.com"][target="_blank"] {
+            display: none !important;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    @if(session('show_confetti'))
+        <script src="https://run.confettipage.com/here.js" data-confetticode="U2FsdGVkX1+uarLIXjpz8KMb3BuJCvqsgFESX2e381w55IXrc0wLxyUYYfdDZ/dz0lDQLIe03dQJSq7FhMqo+eYeW9ON/iu96G1Cz8NVARge2TwenuHuiDV56HF6PEN6n8wRBgJ762kdDpq1llR4wf42tbiR6cMJLcKGrylbMhbFOnPC5NUcE4zz6UpCeqK9Bfuymx7DeEuMp805rQInZERpaWH9w2XrAzBYRRvq15fmZT/in/Yhovxzx31/HCVHlsdL7HNIFI7nWFdCNOl5POSLrkhJPmQap0dTK4zRrK5TLksdAkHHSZM27sMYv3D2YYfzJP5jfVfG1copCn7X6ASkhi8uOy0lP5SEJgcJjEoy6qyq9Tvpbx3rPp0qk7x/lpx4oSuGQQbp+1bULhLyAatpoX3D7vumLP7LQP/cRvPSoANakCndAUfezcOBZ6a8ObC/DaWLs+oEWuJ27izlDE2yo2lGguJ6yNNOU67oaxT9SwZ3sbe0b5Eyqm4088BF8aO+fIVI0r5xobmJb0Q7lA+MuBCCNr35yAkXLPkStCOE5d3xNEL8FdEhcyx8UXcHSIsJ9s3cYerTYX6X7UaYU4ZRk/7psX0Ot2HcEJ15JszX1MRW9pv8fReOPYMI7uQK8nR6BPfP+8EtM842Dt0VgKlXFs1t4WWSyBKVSlFe7xIPcapq2btGAyrczrlmjRo+krNHocWepacDRjUsK9qVfdaQVmzQetmYbCzdEuqqM8xpZzzQUSch8x1u/48GxQY3+2+X8i6wzvn5mfCZTy56W7vjvK6K1zkerL6fG+akwvmdZefg2nSKia/JcxLAF4Pl"></script>
+    @endif
+
+    <script type="text/javascript">
+        // Hide ALL links pointing to confettipage.com
+        document.querySelectorAll('a[href*="confettipage.com"]').forEach(link => {
+            link.style.display = 'none';
+        });
+
+        // OR hide only the specific one with fixed positioning
+        const confettiLink = document.querySelector('a[href="https://confettipage.com"][style*="position: fixed"]');
+        if (confettiLink) {
+            confettiLink.style.display = 'none';
+        }
+
+        document.querySelectorAll('a[style*="position: fixed"][style*="bottom: 0"]').forEach(link => {
+            link.style.display = 'none';
+        });
+    </script>
+@endpush

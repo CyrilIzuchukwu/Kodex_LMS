@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static whereIn(string $string, mixed $deleteModuleIds)
  * @method static findOrFail(mixed $id)
  * @method static count()
+ * @method static where(string $string, string $module)
  */
 class Module extends Model
 {
@@ -20,5 +21,10 @@ class Module extends Model
     public function resources()
     {
         return $this->hasMany(ModuleResource::class);
+    }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class, 'module_id');
     }
 }

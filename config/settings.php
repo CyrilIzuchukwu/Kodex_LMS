@@ -29,4 +29,6 @@ return [
     */
     'email_notification' => true,    // Enable/disable all email notifications
     'email_provider' => 'phpmailer',      // Default mailer service to use for all emails
+
+    'vat_rate' => 0.075
 ];

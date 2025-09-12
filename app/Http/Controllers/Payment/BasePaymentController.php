@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payment;
 use App\Http\Controllers\Controller;
 use App\Mail\CoursePurchasedConfirmation;
 use App\Models\CartItem;
+use App\Models\CourseEnrollment;
 use App\Models\Transaction;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -61,7 +62,24 @@ abstract class BasePaymentController extends Controller
         DB::beginTransaction();
 
         try {
+            // Get Authenticated User
             $user = Auth::user();
+
+            // Store Enrolled Courses
+            $items = CartItem::where('user_id', $user->id)->get();
+            foreach ($items as $item) {
+                if (!empty($item->course_id)) {
+                    $course = $item->course;
+                    $firstModule = $course->modules ? $course->modules->first() : null;
+                    CourseEnrollment::create([
+                        'course_id' => $item->course_id,
+                        'user_id' => $user->id,
+                        'module_id' => $firstModule->id,
+                    ]);
+                } else {
+                    Log::warning('Invalid course_id in CartItem', ['cart_item_id' => $item->id]);
+                }
+            }
 
             // Delete all cart items for the user
             CartItem::where('user_id', $user->id)->delete();

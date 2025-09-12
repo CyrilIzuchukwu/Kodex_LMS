@@ -54,7 +54,7 @@ class Course extends Model
 
     public function modules()
     {
-        return $this->hasMany(Module::class, 'course_id');
+        return $this->hasMany(Module::class, 'course_id', 'id');
     }
 
     public function category(): BelongsTo
@@ -72,7 +72,7 @@ class Course extends Model
         return $this->hasOne(UserProfile::class, 'course_id');
     }
 
-    public function students()
+    public function enrollments()
     {
         return $this->hasMany(CourseEnrollment::class, 'course_id');
     }

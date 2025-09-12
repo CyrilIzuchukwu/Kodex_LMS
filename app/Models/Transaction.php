@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $id
  * @property mixed $user
  * @property mixed $cart_items
+ * @property mixed $transaction_reference
  */
 class Transaction extends Model
 {

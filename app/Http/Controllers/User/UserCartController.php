@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CartItem;
 use App\Models\Coupon;
 use App\Models\Course;
+use App\Models\CourseEnrollment;
 use App\Models\Gateway;
 use App\Models\Transaction;
 use App\Services\PaymentHandlerService;
@@ -37,7 +38,7 @@ class UserCartController extends Controller
         $discount = session('discount', 0);
         $applied_coupon = session('applied_coupon', '');
 
-        $charges = $subtotal * 0.075; // Calculate 7.5% of subtotal
+        $charges = $subtotal * config('settings.vat_rate', 0.075); // Calculate 7.5% of subtotal
         $total = $subtotal + $charges - $discount;
 
         $gateways = Gateway::where('status', 'active')
@@ -75,6 +76,17 @@ class UserCartController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'This course is already in your cart.',
+            ], 422);
+        }
+
+        $enrolled = CourseEnrollment::where('user_id', $user_id)
+            ->where('course_id', $course->id)
+            ->first();
+
+        if ($enrolled) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are already enrolled in this course.',
             ], 422);
         }
 
@@ -132,7 +144,7 @@ class UserCartController extends Controller
         // Ensure discount doesn't exceed subtotal
         $discount = min($discount, $subtotal);
 
-        $charges = $subtotal * 0.075; // 7.5% VAT
+        $charges = $subtotal * config('settings.vat_rate', 0.075); // 7.5% VAT
         $total = $subtotal + $charges - $discount;
 
         // Store the applied coupon in session
@@ -205,7 +217,7 @@ class UserCartController extends Controller
             $subtotal = $cartItems->sum(function ($item) {
                 return $item->course->price;
             });
-            $vatRate = config('payment.vat_rate', 0.075);
+            $vatRate = config('settings.vat_rate', 0.075);
             $charges = $subtotal * $vatRate;
 
             // Apply discount

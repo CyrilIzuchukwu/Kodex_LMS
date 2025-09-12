@@ -1,8 +1,9 @@
 $(document).ready(function() {
-    // Add to cart button click handler
-    $('.uil-shopping-cart').closest('button').on('click', function() {
-        const courseId = $(this).data('course');
+    // Add to cart button click handler with event delegation
+    $(document).on('click', '#add-to-cart', function(e) {
+        e.preventDefault();
         const $button = $(this);
+        const courseId = $button.data('course');
         const originalBtnHTML = $button.html();
 
         // Disable button to prevent multiple clicks
@@ -19,24 +20,23 @@ $(document).ready(function() {
         $.ajax({
             url: `/user/cart/add/${courseId}`,
             type: 'POST',
-            data: {
-                _token: $('meta[name="csrf-token"]').attr('content')
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-Requested-With': 'XMLHttpRequest'
             },
             success: function(response) {
                 if (response.success) {
                     // Update cart count
                     updateCartCount(response.cartCount);
-
-                    iziToast.success({ ...iziToastSettings, message: response.message });
-
-                    // Reset button
-                    $button.prop('disabled', false).html(originalBtnHTML);
+                    iziToast.success({ ...iziToastSettings, message: response.message || 'Course added to cart successfully!' });
                 } else {
-                    iziToast.error({ ...iziToastSettings, message: response.message });
-                    $button.prop('disabled', false).html(originalBtnHTML);
+                    iziToast.error({ ...iziToastSettings, message: response.message || 'Failed to add course to cart.' });
                 }
+                // Reset button
+                $button.prop('disabled', false).html(originalBtnHTML);
             },
             error: function(xhr) {
+                console.error('Add to cart error:', xhr.responseJSON);
                 iziToast.error({ ...iziToastSettings, message: xhr.responseJSON?.message || 'An error occurred. Please try again.' });
                 $button.prop('disabled', false).html(originalBtnHTML);
             }
@@ -52,10 +52,18 @@ $(document).ready(function() {
     $.ajax({
         url: '/user/cart/count',
         type: 'GET',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
         success: function(response) {
             if (response.success) {
                 updateCartCount(response.cartCount);
+            } else {
+                console.error('Cart count fetch error:', response);
             }
+        },
+        error: function(xhr) {
+            console.error('Cart count fetch error:', xhr.responseJSON);
         }
     });
 });
