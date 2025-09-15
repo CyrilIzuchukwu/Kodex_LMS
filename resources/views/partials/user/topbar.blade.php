@@ -62,7 +62,7 @@
                                                 {!! Str::limit(strip_tags($notification->data['content']), 50) !!}
                                             </p>
 
-                                            @if ($notification->data['attachment_url'])
+                                            @if ($notification->data['attachment_url'] ?? '')
                                                 <a href="{{ $notification->data['attachment_url'] }}"
                                                    class="text-[#EB8C22] hover:text-[#d17a1e] text-xs" target="_blank">
                                                     Download Attachment

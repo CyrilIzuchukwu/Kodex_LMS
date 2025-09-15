@@ -1,13 +1,12 @@
 @extends('layouts.user')
 @section('content')
-    <script src="https://cdn.tailwindcss.com"></script>
     <div class="px-2 lg:p-8">
         <div class="mx-auto">
             <!-- Header -->
             <div class="glass-effect rounded-2xl p-6 mb-8">
                 <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
                     <div class="flex items-center gap-4">
-                        <a href="{{ route('user.course.watch', [$course->slug, $currentModule->id]) }}" class="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
+                        <a href="{{ route('user.course.watch', [$course->id, $currentModule->id]) }}" class="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
                             <i class="mdi mdi-arrow-left text-xl"></i>
                         </a>
 
@@ -68,18 +67,17 @@
                         </div>
 
                         <!-- Previous Attempts -->
-                        <div class="bg-white rounded-xl p-6 shadow-sm border mb-8">
+                        <div class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border mb-6 sm:mb-8">
                             @if($previousAttempts->count() > 0)
-                                <h3 class="flex items-center gap-2 text-lg font-semibold text-gray-800 mb-4">
-                                    <i class="mdi mdi-history text-orange-500 text-xl"></i>
+                                <h3 class="flex items-center gap-2 text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">
+                                    <i class="mdi mdi-history text-orange-500 text-lg sm:text-xl"></i>
                                     Previous Attempts
                                 </h3>
-
-                                <div class="space-y-3">
+                                <div class="space-y-2 sm:space-y-3">
                                     @foreach($previousAttempts as $attempt)
-                                        <div class="flex justify-between items-center text-sm p-3 rounded-lg hover:bg-orange-50 transition-colors" role="listitem" aria-label="Attempt {{$loop->iteration}} status">
-                                            <div class="flex items-center gap-2">
-                                                <i class="mdi mdi-numeric-{{ $loop->iteration }}-circle-outline text-gray-600"></i>
+                                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs sm:text-sm p-2 sm:p-3 rounded-lg hover:bg-orange-50 transition-colors" role="listitem" aria-label="Attempt {{$loop->iteration}} status">
+                                            <div class="flex items-center gap-2 mb-2 sm:mb-0">
+                                                <i class="mdi mdi-numeric-{{ $loop->iteration }}-circle-outline text-gray-600 text-base sm:text-lg"></i>
                                                 <span class="text-gray-800">
                                                     Attempt {{ $loop->iteration }}
                                                     ({{ $attempt->completed_at ? $attempt->completed_at->format('M d, Y') : 'Incomplete' }})
@@ -89,14 +87,14 @@
                                                 <span class="{{ $attempt->passed ? 'text-green-600' : 'text-red-600' }} font-medium">
                                                     {{ $attempt->score }}/{{ $attempt->total_questions }} ({{ $attempt->percentage }}%)
                                                 </span>
-                                                <i class="mdi {{ $attempt->passed ? 'mdi-check-circle' : 'mdi-close-circle' }} {{ $attempt->passed ? 'text-green-600' : 'text-red-600' }} text-lg"></i>
+                                                <i class="mdi {{ $attempt->passed ? 'mdi-check-circle' : 'mdi-close-circle' }} {{ $attempt->passed ? 'text-green-600' : 'text-red-600' }} text-base sm:text-lg"></i>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
                             @else
-                                <div class="text-center text-gray-600 text-sm">
-                                    <i class="mdi mdi-information-outline text-orange-500 text-xl mb-2"></i>
+                                <div class="text-center text-gray-600 text-xs sm:text-sm">
+                                    <i class="mdi mdi-information-outline text-orange-500 text-lg sm:text-xl mb-1 sm:mb-2"></i>
                                     <p>No previous attempts yet. Start the quiz to track your progress!</p>
                                 </div>
                             @endif
@@ -339,7 +337,7 @@
         let reviewMode = false;
         const questions = @json($questions);
         const quizId = {{ $quiz->id }};
-        const submitUrl = "{{ route('user.course.quiz.submit', [$course->slug, $currentModule->id]) }}";
+        const submitUrl = "{{ route('user.course.quiz.submit', [$course->id, $currentModule->id]) }}";
         const passPercentage = {{ $quiz->pass_percentage }};
         let correctAnswers = [];
 

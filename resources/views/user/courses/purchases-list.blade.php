@@ -37,7 +37,7 @@
 
         <div class="p-4 md:p-5">
             <h3 class="text-[#1B1B1B] font-semibold text-lg mb-2 leading-tight line-clamp-2">
-                <a href="{{ route('user.course.watch', ['slug' => $purchase->course->slug, 'module' => $purchase->module_id]) }}">
+                <a href="{{ route('user.course.watch', ['course' => $purchase->course->id, 'module' => $purchase->module_id]) }}">
                     {{ $purchase->course->title }}
                 </a>
             </h3>
@@ -61,12 +61,12 @@
 
             <div class="flex items-center justify-between mb-4">
                 <span class="text-sm text-gray-600">Last Accessed: {{ $purchase->last_accessed ? $purchase->last_accessed->diffForHumans() : 'Not started' }}</span>
-                <a href="{{ route('user.course.details', $purchase->course->slug) }}" class="text-[#E68815] font-medium text-sm hover:underline">
+                <a href="{{ route('user.course.details', $purchase->course->id) }}" class="text-[#E68815] font-medium text-sm hover:underline">
                     View Details
                 </a>
             </div>
 
-            <a href="{{ route('user.course.watch', ['slug' => $purchase->course->slug, 'module' => $purchase->module_id]) }}" class="w-full bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-4 rounded-[100px] font-medium transition-colors flex items-center justify-center gap-1.5">
+            <a href="{{ route('user.course.watch', ['course' => $purchase->course->id, 'module' => $purchase->module_id]) }}" class="w-full bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-4 rounded-[100px] font-medium transition-colors flex items-center justify-center gap-1.5">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.2A1 1 0 0010 9.8v4.4a1 1 0 001.555.832l3.197-2.2a1 1 0 000-1.664z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

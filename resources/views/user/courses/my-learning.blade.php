@@ -69,7 +69,7 @@
         <div class="mt-8" id="courses-container">
             @if($courses->count())
                 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl px-3 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="courses-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="courses-grid">
                         @include('user.courses.purchases-list', ['courses' => $courses])
                     </div>
                     <div id="pagination-container" class="mt-6">
@@ -269,7 +269,7 @@
                                         <h3 class="text-xl font-bold text-gray-800">Continue Your Learning Journey</h3>
                                         <p class="text-sm text-gray-600 mt-1">Recommended courses based on your purchase</p>
                                     </div>
-                                    <a href="{{ route('user.my.learning') }}" class="text-[#E68815] hover:text-[#d47a12] font-medium text-sm flex items-center space-x-1 transition-colors">
+                                    <a href="{{ route('user.course.my.learning') }}" class="text-[#E68815] hover:text-[#d47a12] font-medium text-sm flex items-center space-x-1 transition-colors">
                                         <span>View All Courses</span>
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>

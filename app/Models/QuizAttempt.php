@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static where(string $string, $id)
  * @method static create(array $array)
+ * @property mixed $score
+ * @property mixed $total_questions
+ * @property mixed $percentage
+ * @property mixed $id
  */
 class QuizAttempt extends Model
 {

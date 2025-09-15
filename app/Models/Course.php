@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static orderBy(string $string)
  * @method static where(string $string, string $slug)
  * @method static whereIn(string $string, array $courseIds)
+ * @method withCount(string $string)
  * @property mixed $id
  * @property mixed $outcomes
  * @property mixed $media
@@ -22,6 +23,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $category_id
  * @property mixed $price
  * @property mixed $summary
+ * @property mixed $enrollments
+ * @property mixed $modules
  */
 class Course extends Model
 {
@@ -75,6 +78,16 @@ class Course extends Model
     public function enrollments()
     {
         return $this->hasMany(CourseEnrollment::class, 'course_id');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class);
     }
 
     /**

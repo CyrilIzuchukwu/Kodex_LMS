@@ -84,6 +84,21 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
+    public function questions(): User|HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function questionReplies(): User|HasMany
+    {
+        return $this->hasMany(QuestionReply::class);
+    }
+
+    public function notes(): User|HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
     /**
      * Check if the user has a connected social account for the given provider.
      *

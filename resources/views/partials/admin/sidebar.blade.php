@@ -7,39 +7,38 @@
         </div>
 
         <ul class="sidebar-menu border-t border-white/10" data-simplebar>
-            <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <li class="{{ isActive('admin.dashboard') }}">
                 <a href="{{ route('admin.dashboard') }}">
                     <i class="uil uil-dashboard me-1"></i>Dashboard
                 </a>
             </li>
 
-            <li class="sidebar-dropdown {{ request()->routeIs(['admin.students.*', 'admin.instructors.*']) ? 'active' : '' }}">
+            <li class="sidebar-dropdown {{ isActive(['admin.students.*', 'admin.instructors.*']) }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-users-alt me-1"></i>User Management
                 </a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.students.*') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.students.*') }}">
                             <a href="{{ route('admin.students.index') }}">Students</a>
                         </li>
-                        <li class="{{ request()->routeIs('admin.instructors.*') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.instructors.*') }}">
                             <a href="{{ route('admin.instructors.index') }}">Instructors</a>
                         </li>
                     </ul>
                 </div>
             </li>
 
-            <li class="sidebar-dropdown {{ request()->routeIs(['admin.courses.*', 'admin.categories.*']) ? 'active' : '' }}">
+            <li class="sidebar-dropdown {{ isActive(['admin.courses.*', 'admin.categories.*']) }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-book-alt me-1"></i>Course Oversight
                 </a>
-
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.courses.*') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.courses.*') }}">
                             <a href="{{ route('admin.courses.index') }}">Manage Courses</a>
                         </li>
-                        <li class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.categories.*') }}">
                             <a href="{{ route('admin.categories.index') }}">Course Categories</a>
                         </li>
                     </ul>
@@ -50,23 +49,22 @@
                 <span class="text-[#262626] text-sm">Financials</span>
             </li>
 
-            <li class="{{ request()->routeIs('admin.payment-methods.*') ? 'active' : '' }}">
+            <li class="{{ isActive('admin.payment-methods.*') }}">
                 <a href="{{ route('admin.payment-methods.index') }}">
                     <i class="uil uil-credit-card me-1"></i>Payment Methods
                 </a>
             </li>
 
-            <li class="sidebar-dropdown {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
+            <li class="sidebar-dropdown {{ isActive('admin.reports.*') }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-chart-bar me-1"></i>Reports
                 </a>
-
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.reports.transactions') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.reports.transactions') }}">
                             <a href="{{ route('admin.reports.transactions') }}">Transaction History</a>
                         </li>
-                        <li class="{{ request()->routeIs('admin.reports.logins') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.reports.logins') }}">
                             <a href="{{ route('admin.reports.logins') }}">Login History</a>
                         </li>
                     </ul>
@@ -77,24 +75,22 @@
                 <span class="text-[#262626] text-sm">Notifications</span>
             </li>
 
-            <li class="{{ request()->routeIs('admin.announcements.*') ? 'active' : '' }}">
+            <li class="{{ isActive('admin.announcements.*') }}">
                 <a href="{{ route('admin.announcements.create') }}">
                     <i class="uil uil-megaphone me-1"></i>Announcements
                 </a>
             </li>
 
-            <li class="sidebar-dropdown {{ request()->routeIs('admin.email.*') ? 'active' : '' }}">
+            <li class="sidebar-dropdown {{ isActive('admin.email.*') }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-envelope me-1"></i>Email Settings
                 </a>
-
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.email.config') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.email.config') }}">
                             <a href="{{ route('admin.email.config') }}">Configuration</a>
                         </li>
-
-                        <li class="{{ request()->routeIs('admin.email.send') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.email.send') }}">
                             <a href="{{ route('admin.email.send') }}">Test Email</a>
                         </li>
                     </ul>
@@ -105,30 +101,29 @@
                 <span class="text-[#262626] text-sm">Settings</span>
             </li>
 
-            <li class="sidebar-dropdown {{ request()->routeIs(['admin.settings.*']) ? 'active' : '' }}">
+            <li class="sidebar-dropdown {{ isActive('admin.settings.*') }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-setting me-1"></i>System Settings
                 </a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs('admin.settings.index') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.settings.index') }}">
                             <a href="{{ route('admin.settings.index') }}">General Settings</a>
                         </li>
-
-                        <li class="{{ request()->routeIs('admin.settings.seo') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.settings.seo') }}">
                             <a href="{{ route('admin.settings.seo') }}">SEO</a>
                         </li>
-                        <li class="{{ request()->routeIs('admin.settings.maintenance') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.settings.maintenance') }}">
                             <a href="{{ route('admin.settings.maintenance') }}">Maintenance</a>
                         </li>
-                        <li class="{{ request()->routeIs('admin.settings.extensions') ? 'active' : '' }}">
+                        <li class="{{ isActive('admin.settings.extensions') }}">
                             <a href="{{ route('admin.settings.extensions') }}">Extensions</a>
                         </li>
                     </ul>
                 </div>
             </li>
 
-            <li class="{{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+            <li class="{{ isActive('admin.profile.*') }}">
                 <a href="{{ route('admin.profile.index') }}">
                     <i class="uil uil-user me-1"></i>Edit Profile
                 </a>

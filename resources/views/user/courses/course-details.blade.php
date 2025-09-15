@@ -119,7 +119,7 @@
         @if($relatedCourses->count())
             <div>
                 <h2 class="text-[#1B1B1B] text-xl sm:text-2xl font-semibold mb-6">Related Courses</h2>
-                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     @include('user.courses.course-items', ['courses' => $relatedCourses])
                 </section>
             </div>

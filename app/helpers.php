@@ -103,6 +103,21 @@ if (!function_exists('isActive')) {
     }
 }
 
+if (!function_exists('isMenuOpen')) {
+    /**
+     * Returns "open" (or custom class) if any child route matches.
+     * Useful for sidebar dropdowns.
+     *
+     * @param array|string $routes
+     * @param string $output
+     * @return bool|string
+     */
+    function isMenuOpen(array|string $routes, string $output = 'open'): bool|string
+    {
+        return isActive($routes, $output);
+    }
+}
+
 if(!function_exists('getTime')){
     /**
      * Calculates the time difference between the current time and a given date

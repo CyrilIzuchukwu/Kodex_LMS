@@ -26,7 +26,7 @@
                         <h3 class="text-xl font-bold text-gray-800">Continue Your Learning Journey</h3>
                         <p class="text-sm text-gray-600 mt-1">Track your learning progress and continue your courses</p>
                     </div>
-                    <a href="{{ route('user.my.learning') }}" class="text-[#E68815] hover:text-[#d47a12] font-medium text-sm flex items-center space-x-1 transition-colors">
+                    <a href="{{ route('user.course.my.learning') }}" class="text-[#E68815] hover:text-[#d47a12] font-medium text-sm flex items-center space-x-1 transition-colors">
                         <span>View All Courses</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -58,7 +58,7 @@
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <h2 class="text-lg text-black font-semibold mb-1 line-clamp-2">
-                                        <a href="{{ route('user.course.watch', ['slug' => $purchase->course->slug, 'module' => $purchase->module_id]) }}">{{ $purchase->course->title }}</a>
+                                        <a href="{{ route('user.course.watch', ['course' => $purchase->course->id, 'module' => $purchase->module_id]) }}">{{ $purchase->course->title }}</a>
                                     </h2>
                                     <p class="text-sm text-[#A6A6A6] font-medium">
                                         by {{ $purchase->course->profile?->user->name ?? 'Not Assigned' }}
@@ -85,7 +85,7 @@
                             </div>
 
                             <div class="flex justify-start">
-                                <a href="{{ route('user.course.watch', ['slug' => $purchase->course->slug, 'module' => $purchase->module_id]) }}" class="text-[#E68815] font-medium hover:underline focus:underline outline-none flex items-center gap-1.5">
+                                <a href="{{ route('user.course.watch', ['course' => $purchase->course->id, 'module' => $purchase->module_id]) }}" class="text-[#E68815] font-medium hover:underline focus:underline outline-none flex items-center gap-1.5">
                                     {{ (round($purchase->progress) > 0 || $purchase->last_accessed !== null) ? 'Resume Course' : 'Start Learning' }} →
                                 </a>
                             </div>
@@ -111,7 +111,7 @@
                         </a>
                     </div>
 
-                    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         @include('user.courses.course-items', ['courses' => $courses])
                     </section>
                 @else

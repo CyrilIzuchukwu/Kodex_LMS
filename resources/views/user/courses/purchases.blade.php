@@ -23,15 +23,15 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-3 mx-auto">
             <!-- Total Courses Card -->
-            <div style="background-image: url({{ asset('dashboard_assets/images/img/backg.png') }})" class="bg-cover bg-center rounded-2xl flex items-center py-12 px-4 gap-4 sm:gap-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div class="flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F]">
+            <div class="bg-[#1B1B1B] rounded-2xl flex items-center py-12 px-4 gap-4 sm:gap-6 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div class="flex items-center justify-center rounded-full w-14 h-14 bg-[#ffffff]">
                     <svg class="w-8 h-8 text-[#8C530D]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-[#1B1B1B] text-sm sm:text-base">Total Courses</p>
-                    <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metrics['total_course_count'] }}</h1>
+                    <p class="text-[#ffffff] text-sm sm:text-base">Total Courses</p>
+                    <h1 class="text-[#ffffff] text-xl sm:text-2xl font-bold">{{ $metrics['total_course_count'] }}</h1>
                 </div>
             </div>
 
@@ -81,7 +81,7 @@
                             <h3 class="text-xl font-bold text-gray-800">Continue Your Learning Journey</h3>
                             <p class="text-sm text-gray-600 mt-1">Track your learning progress and continue your courses</p>
                         </div>
-                        <a href="{{ route('user.my.learning') }}" class="text-[#E68815] hover:text-[#d47a12] font-medium text-sm flex items-center space-x-1 transition-colors">
+                        <a href="{{ route('user.course.my.learning') }}" class="text-[#E68815] hover:text-[#d47a12] font-medium text-sm flex items-center space-x-1 transition-colors">
                             <span>View All Courses</span>
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -89,7 +89,7 @@
                         </a>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         @include('user.courses.purchases-list', ['courses' => $myLearning])
                     </div>
                 </div>
@@ -150,7 +150,7 @@
 
                     <!-- Courses Container -->
                     <div id="courses-container">
-                        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5" id="courses-grid">
+                        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-5" id="courses-grid">
                             @include('user.courses.purchases-list', ['courses' => $courses])
                         </section>
                         <div id="pagination-container" class="pagination">
@@ -158,18 +158,20 @@
                         </div>
                     </div>
                 @else
-                    <section class="flex items-center justify-center min-h-[50vh]">
-                        <div class="p-8 max-w-md text-center">
-                            <div class="w-20 h-20 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-6 mx-auto">
-                                <svg class="w-12 h-12 text-[#8C530D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                </svg>
+                    @if(!$myLearning->count())
+                        <section class="flex items-center justify-center min-h-[50vh]">
+                            <div class="p-8 max-w-md text-center">
+                                <div class="w-20 h-20 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-6 mx-auto">
+                                    <svg class="w-12 h-12 text-[#8C530D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                                <h2 class="text-2xl font-semibold text-[#444444] mb-4">No Purchased Courses Found</h2>
+                                <p class="text-base text-[#1B1B1B] mb-6">You haven't purchased any courses yet. Explore our catalog to find courses that interest you!</p>
+                                <a href="{{ route('user.courses') }}" class="inline-block bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-8 rounded-[100px] font-semibold text-base transition-colors shadow-sm hover:shadow-md">Explore Courses</a>
                             </div>
-                            <h2 class="text-2xl font-semibold text-[#444444] mb-4">No Purchased Courses Found</h2>
-                            <p class="text-base text-[#1B1B1B] mb-6">You haven't purchased any courses yet. Explore our catalog to find courses that interest you!</p>
-                            <a href="{{ route('user.courses') }}" class="inline-block bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-8 rounded-[100px] font-semibold text-base transition-colors shadow-sm hover:shadow-md">Explore Courses</a>
-                        </div>
-                    </section>
+                        </section>
+                    @endif
                 @endif
             </div>
         </div>

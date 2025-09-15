@@ -7,12 +7,16 @@ use App\Mail\CoursePurchasedConfirmation;
 use App\Models\CartItem;
 use App\Models\CourseEnrollment;
 use App\Models\Transaction;
+use App\Models\User;
+use App\Notifications\CoursePurchasedNotification;
+use App\Notifications\NewCoursePurchased;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use RuntimeException;
 use Throwable;
 
@@ -93,6 +97,12 @@ abstract class BasePaymentController extends Controller
                 Mail::mailer($emailSettings?->provider ?? config('settings.email_provider'))
                     ->to($user->email)
                     ->send(new CoursePurchasedConfirmation($payment));
+
+                // Notify user
+                Notification::send(User::where('id', Auth::id())->get(), new CoursePurchasedNotification($payment));
+
+                // Notify all admins
+                Notification::send(User::where('role', 'admin')->get(), new NewCoursePurchased($payment));
             }
 
             DB::commit();

@@ -130,38 +130,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($courses as $course)
-                    @php
-                        $cartItem = collect(json_decode($payment->cart_items, true))->firstWhere('course_id', $course->id);
-                        $price = $cartItem['price'] ?? 'N/A';
-                    @endphp
+                    @foreach ($courses as $course)
+                        @php
+                            $cartItem = collect(json_decode($payment->cart_items, true))->firstWhere('course_id', $course->id);
+                            $price = $cartItem['price'] ?? 'N/A';
+                        @endphp
+                        <tr>
+                            <td>{{ $course->title }}</td>
+                            <td>{{ $course->category->name ?? 'N/A' }}</td>
+                            <td>₦ {{ number_format($price, 2) }}</td>
+                        </tr>
+                    @endforeach
                     <tr>
-                        <td>{{ $course->title }}</td>
-                        <td>{{ $course->category->name ?? 'N/A' }}</td>
-                        <td>₦ {{ number_format($price, 2) }}</td>
+                        <td colspan="2" class="total">Subtotal</td>
+                        <td class="total">₦ {{ number_format($payment->subtotal, 2) }}</td>
                     </tr>
-                @endforeach
-                <tr>
-                    <td colspan="2" class="total">Subtotal</td>
-                    <td class="total">₦ {{ number_format($payment->subtotal, 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Charges</td>
-                    <td>₦ {{ number_format($payment->charges, 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2">Discount</td>
-                    <td>₦ {{ number_format($payment->discount, 2) }}</td>
-                </tr>
-                <tr>
-                    <td colspan="2" class="total">Total</td>
-                    <td class="total">₦ {{ number_format($payment->subtotal + $payment->charges - $payment->discount, 2) }}</td>
-                </tr>
+                    <tr>
+                        <td colspan="2">Charges</td>
+                        <td>₦ {{ number_format($payment->charges, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">Discount</td>
+                        <td>₦ {{ number_format($payment->discount, 2) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="total">Total</td>
+                        <td class="total">₦ {{ number_format($payment->subtotal + $payment->charges - $payment->discount, 2) }}</td>
+                    </tr>
                 </tbody>
             </table>
 
             <p>You can access your {{ $courses->count() > 1 ? 'courses' : 'course' }} at any time by logging into your dashboard.</p>
-            <a href="{{ route('user.my.learning') }}" class="button">View Your Courses</a>
+            <a href="{{ route('user.course.my.learning') }}" class="button">View Your Courses</a>
 
             <p>If you have any questions or need assistance, our support team is here to help. Contact us at <a href="mailto:support@kodex.com">support@kodex.com</a>.</p>
             <p><strong>Note:</strong> This email serves as your official receipt for this payment.</p>

@@ -5,12 +5,18 @@ use App\Http\Controllers\Payment\MonnifyCallbackController;
 use App\Http\Controllers\Payment\PaymentStatusController;
 use App\Http\Controllers\Payment\PaystackCallbackController;
 use App\Http\Controllers\Payment\StripeCallbackController;
+use App\Http\Controllers\User\LearningProgress\CertificateController;
+use App\Http\Controllers\User\LearningProgress\LearningController;
+use App\Http\Controllers\User\LearningProgress\NoteController;
+use App\Http\Controllers\User\LearningProgress\QuestionController;
+use App\Http\Controllers\User\LearningProgress\QuestionReplyController;
+use App\Http\Controllers\User\LearningProgress\QuizController;
+use App\Http\Controllers\User\LearningProgress\ResourceController;
 use App\Http\Controllers\User\ManageUserProfileController;
 use App\Http\Controllers\User\ManageUserReportsController;
 use App\Http\Controllers\User\UserCartController;
 use App\Http\Controllers\User\UserCourseController;
 use App\Http\Controllers\User\UserDashboardController;
-use App\Http\Controllers\User\UserLearningController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,22 +43,67 @@ Route::prefix('user')
                 Route::delete('/delete/profile', 'destroy')->name('destroy');
             });
 
-        // Learning Routes
-        Route::controller(UserLearningController::class)->group(function () {
-            Route::get('/my-learning', 'myLearning')->name('my.learning');
-            Route::get('/my-purchases', 'myCoursesPurchases')->name('my.purchases');
-            Route::get('/course/watch/{slug}/module/{module}', 'courseWatch')->name('course.watch');
-            Route::get('/course/{slug}/module/{module}/quiz', 'courseQuiz')->name('course.quiz.start');
-            Route::post('/course/{slug}/module/{module}/quiz/submit', 'submitQuiz')->name('course.quiz.submit');
-            Route::get('/course/certificate/{slug}/download', 'courseCertificate')->name('course.certificate.download');
-        });
-
         // Course Routes
         Route::controller(UserCourseController::class)->group(function () {
             Route::get('/courses', 'index')->name('courses');
-            Route::get('/more-course', 'moreCourses')->name('more.courses');
-            Route::get('/course/{slug}', 'courseDetails')->name('course.details');
         });
+
+        // Learning Management
+        Route::prefix('course')
+            ->name('course.')
+            ->group(function () {
+
+                // Course Details Routes
+                Route::controller(UserCourseController::class)->group(function () {
+                    Route::get('/details/{slug}', 'courseDetails')->name('details');
+                });
+
+                // Learning Routes
+                Route::controller(LearningController::class)->group(function () {
+                    Route::get('/my-learning', 'myLearning')->name('my.learning');
+                    Route::get('/my-purchases', 'myCoursesPurchases')->name('my.purchases');
+
+                    Route::get('/watch/{course}/module/{module}', 'watch')->name('watch');
+                });
+
+                // Quiz Routes
+                Route::controller(QuizController::class)->group(function () {
+                    Route::get('/{course}/module/{module}/quiz', 'courseQuiz')->name('quiz.start');
+                    Route::post('/{course}/module/{module}/quiz/submit', 'submitQuiz')->name('quiz.submit');
+                });
+
+                // Resource Routes
+                Route::controller(ResourceController::class)->group(function () {
+                    Route::get('/resource/{resource}/download', 'download')->name('resource.download');
+                });
+
+                // Certificate Routes
+                Route::controller(CertificateController::class)->group(function () {
+                    Route::get('/certificate/{course}/download', 'courseCertificate')->name('certificate.download');
+                });
+
+                // Questions Routes
+                Route::controller(QuestionController::class)->group(function () {
+                    Route::post('/{course}/questions/fetch', 'fetchQuestions')->name('questions.fetch');
+                    Route::post('/questions/{course}/store', 'store')->name('questions.store');
+                    Route::put('/question/{question}/update', 'update')->name('questions.update');
+                    Route::delete('/question/{question}/destroy', 'destroy')->name('questions.destroy');
+                });
+
+                // Question Replies Routes
+                Route::controller(QuestionReplyController::class)->group(function () {
+                    Route::post('/replies/{course}/store', 'store')->name('replies.store');
+                    Route::put('/reply/{reply}/update', 'update')->name('replies.update');
+                    Route::delete('/reply/{reply}/destroy', 'destroy')->name('replies.destroy');
+                });
+
+                // Notes Routes
+                Route::controller(NoteController::class)->group(function () {
+                    Route::post('/notes/{course}/store', 'store')->name('notes.store');
+                    Route::put('/note/{note}/update', 'update')->name('notes.update');
+                    Route::delete('/note/{note}/destroy', 'destroy')->name('notes.destroy');
+                });
+            });
 
         // Cart Routes
         Route::controller(UserCartController::class)->group(function () {
@@ -73,6 +124,7 @@ Route::prefix('user')
             ->controller(ManageUserReportsController::class)
             ->group(function () {
                 Route::get('/transactions', 'transactions')->name('transactions');
+                Route::get('/transactions/{transaction}/show', 'showTransaction')->name('transactions.show');
                 Route::get('/logins', 'logins')->name('logins');
             });
 

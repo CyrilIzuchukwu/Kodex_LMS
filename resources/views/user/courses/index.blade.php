@@ -103,7 +103,7 @@
 
     <div class="mt-7" id="courses-container">
         @if($courses->count())
-            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5" id="courses-grid">
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-5" id="courses-grid">
                 @include('user.courses.course-items', ['courses' => $courses])
             </section>
 

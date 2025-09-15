@@ -1,4 +1,4 @@
-<div class="glass-effect rounded-2xl p-6 shadow-lg">
+<div class="glass-effect rounded-2xl p-6 shadow-sm">
     <h2 class="text-lg font-bold text-gray-800 mb-6">Meet Your Instructor</h2>
     <div class="flex items-start gap-6">
         <div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">

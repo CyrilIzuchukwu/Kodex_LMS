@@ -12,25 +12,29 @@
                 <span class="text-[#262626] text-sm">Main Menu</span>
             </li>
 
-            <li class="{{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
+            <li class="{{ isActive('user.dashboard') }}">
                 <a href="{{ route('user.dashboard') }}">
                     <i class="uil uil-dashboard me-1"></i>Dashboard
                 </a>
             </li>
-            <li class="sidebar-dropdown {{ request()->routeIs(['user.courses', 'user.course.details', 'user.cart', 'user.my.purchases', 'user.my.learning', 'user.course.watch', 'user.course.quiz.start']) ? 'active' : '' }}">
+
+            <li class="sidebar-dropdown {{ isActive(['user.courses', 'user.course.details', 'user.cart', 'user.my.purchases', 'user.my.learning', 'user.course.watch', 'user.course.quiz.start']) }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-book-open me-1"></i>Courses
                 </a>
+
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->is(['user.courses', 'user.course.details', 'user.cart', 'user.course.watch', 'user.course.quiz.start']) ? 'active' : '' }}">
+                        <li class="{{ isActive(['user.courses', 'user.course.details', 'user.cart']) }}">
                             <a href="{{ route('user.courses') }}">All Courses</a>
                         </li>
-                        <li class="{{ request()->is('user.my.purchases') ? 'active' : '' }}">
-                            <a href="{{ route('user.my.purchases') }}">My Purchases</a>
+
+                        <li class="{{ isActive(['user.course.my.purchases', 'user.course.watch', 'user.course.quiz.start']) }}">
+                            <a href="{{ route('user.course.my.purchases') }}">My Purchases</a>
                         </li>
-                        <li class="{{ request()->is('user.my.learning') ? 'active' : '' }}">
-                            <a href="{{ route('user.my.learning') }}">Learning Journey</a>
+
+                        <li class="{{ isActive('user.course.my.learning') }}">
+                            <a href="{{ route('user.course.my.learning') }}">Learning Journey</a>
                         </li>
                     </ul>
                 </div>
@@ -40,7 +44,7 @@
             <li class="mt-5 ps-2">
                 <span class="text-[#262626] text-sm">Evaluation</span>
             </li>
-            <li class="">
+            <li>
                 <a href="#">
                     <i class="uil uil-award me-1"></i>Certificates
                 </a>
@@ -50,7 +54,7 @@
             <li class="mt-5 ps-2">
                 <span class="text-[#262626] text-sm">Communications</span>
             </li>
-            <li class="{{ request()->is('panel/notifications') ? 'active' : '' }}">
+            <li class="{{ isActive('panel/notifications') }}">
                 <a href="/panel/notifications">
                     <i class="uil uil-bell me-1"></i>Announcements
                 </a>
@@ -59,17 +63,16 @@
             <li class="mt-5 ps-2">
                 <span class="text-[#262626] text-sm">Activities</span>
             </li>
-            <li class="sidebar-dropdown {{ request()->routeIs(['user.reports.*', 'user.payment.*']) ? 'active' : '' }}">
+            <li class="sidebar-dropdown {{ isActive(['user.reports.*', 'user.payment.*']) }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-chart-bar me-1"></i>Reports
                 </a>
-
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ request()->routeIs(['user.reports.transactions', 'user.payment.*']) ? 'active' : '' }}">
+                        <li class="{{ isActive(['user.reports.transactions', 'user.payment.*']) }}">
                             <a href="{{ route('user.reports.transactions') }}">Transaction History</a>
                         </li>
-                        <li class="{{ request()->routeIs('user.reports.logins') ? 'active' : '' }}">
+                        <li class="{{ isActive('user.reports.logins') }}">
                             <a href="{{ route('user.reports.logins') }}">Login History</a>
                         </li>
                     </ul>
@@ -80,7 +83,7 @@
                 <span class="text-[#262626] text-sm">Settings</span>
             </li>
 
-            <li class="{{ request()->routeIs('user.profile.*') ? 'active' : '' }}">
+            <li class="{{ isActive('user.profile.*') }}">
                 <a href="{{ route('user.profile.index') }}">
                     <i class="uil uil-user me-1"></i>Edit Profile
                 </a>
