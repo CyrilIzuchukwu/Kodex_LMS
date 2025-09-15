@@ -85,7 +85,7 @@
                 <!-- Course Title -->
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-900 mb-1">Course Title *</label>
-                    <input type="text" name="title" id="title" value="{{ old('title', $sessionDetails['title'] ?? '') }}" placeholder="Enter course title" class="w-full border border-gray-300 rounded-md px-3 sm:px-4 py-2 text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition" aria-describedby="title-error">
+                    <input type="text" name="title" id="title" value="{{ old('title', $sessionDetails['title'] ?? '') }}" placeholder="Enter course title" class="w-full border border-gray-300 rounded-md px-3 sm:px-4 py-2 text-gray-900 focus:ring-1 focus:ring-[#E68815] focus:border-[#E68815] outline-none transition" aria-describedby="title-error">
                     @error('title')
                     <p class="mt-1 text-sm text-red-600" id="title-error">{{ $message }}</p>
                     @enderror
@@ -94,7 +94,7 @@
                 <!-- Course Subtitle -->
                 <div>
                     <label for="subtitle" class="block text-sm font-medium text-gray-900 mb-1">Course Subtitle *</label>
-                    <input type="text" name="subtitle" id="subtitle" value="{{ old('subtitle', $sessionDetails['subtitle'] ?? '') }}" placeholder="Enter course subtitle" class="w-full border border-gray-300 rounded-md px-3 sm:px-4 py-2 text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition" aria-describedby="subtitle-error">
+                    <input type="text" name="subtitle" id="subtitle" value="{{ old('subtitle', $sessionDetails['subtitle'] ?? '') }}" placeholder="Enter course subtitle" class="w-full border border-gray-300 rounded-md px-3 sm:px-4 py-2 text-gray-900 focus:ring-1 focus:ring-[#E68815] focus:border-[#E68815] outline-none transition" aria-describedby="subtitle-error">
                     @error('subtitle')
                     <p class="mt-1 text-sm text-red-600" id="subtitle-error">{{ $message }}</p>
                     @enderror
@@ -117,7 +117,7 @@
                     <!-- Course Price -->
                     <div>
                         <label for="price" class="block text-sm font-medium text-gray-900 mb-1">Course Price *</label>
-                        <input type="number" name="price" id="price" value="{{ old('price', $sessionDetails['price'] ?? '') }}" placeholder="Enter price (e.g., 99.99)" step="0.01" min="0" class="w-full border border-gray-300 rounded-md px-3 sm:px-4 py-2 text-gray-900 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition" aria-describedby="price-error">
+                        <input type="number" name="price" id="price" value="{{ old('price', $sessionDetails['price'] ?? '') }}" placeholder="Enter price (e.g., 99.99)" step="0.01" min="0" class="w-full border border-gray-300 rounded-md px-3 sm:px-4 py-2 text-gray-900 focus:ring-1 focus:ring-[#E68815] focus:border-[#E68815] outline-none transition" aria-describedby="price-error">
                         @error('price')
                         <p class="mt-1 text-sm text-red-600" id="price-error">{{ $message }}</p>
                         @enderror
@@ -126,7 +126,7 @@
                     <!-- Category -->
                     <div>
                         <label for="category_id" class="block text-sm font-medium text-gray-900 mb-1">Category *</label>
-                        <select name="category_id" id="category_id" class="w-full px-4 py-3 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 appearance-none cursor-pointer placeholder:text-gray-500 invalid:text-gray-500" aria-describedby="category-error">
+                        <select name="category_id" id="category_id" class="w-full px-4 py-3 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-[#E68815] focus:border-[#E68815] transition-colors duration-200 appearance-none cursor-pointer placeholder:text-gray-500 invalid:text-gray-500" aria-describedby="category-error">
                             <option value="" disabled {{ old('category_id') ? '' : 'selected' }}>Select category</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id', $sessionDetails['category_id'] ?? '') == $category->id ? 'selected' : '' }}>
@@ -141,7 +141,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" id="save-course-btn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 sm:py-3 rounded-full transition focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                <button type="submit" id="save-course-btn" class="w-full bg-[#E68815] hover:bg-[#c96d0f] text-white font-medium py-2 sm:py-3 rounded-full transition focus:outline-none ">
                     Save and Continue
                 </button>
             </form>
