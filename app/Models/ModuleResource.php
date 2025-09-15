@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static create(array $array)
  * @method static where(string $string, mixed $moduleId)
+ * @property mixed $resource_url
+ * @property mixed $id
  */
 class ModuleResource extends Model
 {

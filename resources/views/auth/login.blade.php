@@ -21,11 +21,21 @@
             <form id="login-form" action="{{ route('login.store') }}" method="POST" class="space-y-5" novalidate>
                 @csrf
 
+                <!-- Check for provider-specific errors -->
+                @if ($errors->any())
+                    <div class="mt-1 text-sm text-red-500">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
                 <!-- Email -->
                 <div class="space-y-2">
                     <label for="email" class="text-sm font-medium">Email</label>
                     <input id="email" name="email" type="email" placeholder="Enter your e-mail" autocomplete="email" class="flex h-11 w-full rounded-none border-0 border-b border-neutral-300 bg-transparent px-0 py-2 text-base placeholder:text-neutral-400 focus:outline-none focus:border-brand focus:ring-0" value="{{ old('email') }}" />
                 </div>
+
                 @error('email')
                 <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                 @enderror

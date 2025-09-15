@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\CartItem;
 use App\Models\Course;
 use Auth;
 use Exception;
@@ -27,7 +28,19 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $this->shareUserData($view);
             $this->shareCommonData($view);
+            $this->shareCartCountData($view);
         });
+    }
+
+    /**
+     * @param $view
+     * @return void
+     */
+    protected function shareCartCountData($view): void
+    {
+        $view->with([
+            'cartCount' => CartItem::where('user_id', Auth::id())->count(),
+        ]);
     }
 
     /**
@@ -53,9 +66,9 @@ class ViewServiceProvider extends ServiceProvider
         try {
 
             // Initialize default avatar
-            $avatar = asset('dashboard_assets/images/client/user-03.png');
+            $avatar = asset('dashboard_assets/images/client/default.png');
 
-            // Check if user is authenticated
+            // Check if the user is authenticated
             if (Auth::check()) {
                 $user = Auth::user();
 
@@ -70,7 +83,7 @@ class ViewServiceProvider extends ServiceProvider
         } catch (Exception $e) {
             // Log error and set a fallback avatar
             logger()->error('ViewComposer Error: ' . $e->getMessage());
-            $avatar = asset('dashboard_assets/images/client/user-03.png');
+            $avatar = asset('dashboard_assets/images/client/default.png');
             $view->with(compact('avatar'));
         }
     }

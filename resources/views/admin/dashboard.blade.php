@@ -1,16 +1,13 @@
 @extends('layouts.admin')
 @section('content')
     <div class="px-4 md:px-6">
-        <h1 class="text-[#1B1B1B] text-xl font-semibold">Welcome back, <span>{{ auth()->user()->name }} <span
-                    class="text-2xl text-gray-300">&#x1F44B;</span></span></h1>
-        <p class="text-[#848484] font-[16px]">You're logged in to the {{ site_settings()->site_name ?? config('app.name') }}
-            Control Center.</p>
+        <h1 class="text-[#1B1B1B] text-xl font-semibold">Welcome back, <span>{{ auth()->user()->name }} <span class="text-2xl text-gray-300">&#x1F44B;</span></span></h1>
+        <p class="text-[#848484] font-[16px]">You're logged in to the {{ site_settings()->site_name ?? config('app.name') }} Control Center.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6 px-0 sm:px-0 lg:px-0">
         <!-- Total Students Card -->
-        <div style="background-image: url('{{ asset('dashboard_assets/images/img/backg.png') }}')"
-            class="bg-cover bg-center rounded-2xl flex items-center py-8 px-4 gap-4 sm:gap-6 col-span-1 sm:col-span-2">
+        <div style="background-image: url('{{ asset('dashboard_assets/images/img/backg.png') }}')" class="bg-cover bg-center rounded-2xl flex items-center py-8 px-4 gap-4 sm:gap-6 col-span-1 sm:col-span-2">
             <div class=" flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F] ">
                 <span class="hgi hgi-stroke hgi-student text-[#8C530D] text-3xl font-light"></span>
             </div>

@@ -122,7 +122,7 @@
                     </div>
                     <h2 class="font-[400] text-[#444444] text-[20px] mb-4">No Categories Found</h2>
                     <p class="text-[14px] text-[#1B1B1B] max-w-lg mb-6">It looks like there are no categories available at the moment. Try adding a new category or adjusting your search to find what you're looking for.</p>
-                    <button id="open-add-modal" class="inline-block px-6 py-3 bg-[#E68815] text-white text-[14px] font-medium rounded-[5px] hover:bg-[#d67a12] transition-colors">Add New Category</button>
+                    <button id="open-add-modal" class="rounded-full inline-block px-6 py-3 bg-[#E68815] text-white text-[14px] font-medium hover:bg-[#d67a12] transition-colors">Add New Category</button>
                 </div>
             @endif
         </div>

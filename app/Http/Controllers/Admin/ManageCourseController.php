@@ -22,7 +22,7 @@ class ManageCourseController extends Controller
         }
 
         $courses = $query->with(['category', 'profile.user'])
-            ->withCount(['modules', 'students'])
+            ->withCount(['modules'])
             ->orderBy('title', 'ASC')
             ->latest()
             ->paginate(10)

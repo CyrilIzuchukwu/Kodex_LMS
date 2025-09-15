@@ -5,6 +5,7 @@ use App\Models\ExtensionsSetting;
 use App\Models\MaintenanceMode;
 use App\Models\SeoSetting;
 use App\Models\Settings;
+use App\Services\VideoHelper;
 
 if (!function_exists('site_settings')) {
     if (!function_exists('seo_settings')) {
@@ -102,6 +103,21 @@ if (!function_exists('isActive')) {
     }
 }
 
+if (!function_exists('isMenuOpen')) {
+    /**
+     * Returns "open" (or custom class) if any child route matches.
+     * Useful for sidebar dropdowns.
+     *
+     * @param array|string $routes
+     * @param string $output
+     * @return bool|string
+     */
+    function isMenuOpen(array|string $routes, string $output = 'open'): bool|string
+    {
+        return isActive($routes, $output);
+    }
+}
+
 if(!function_exists('getTime')){
     /**
      * Calculates the time difference between the current time and a given date
@@ -193,5 +209,21 @@ if (!function_exists('ordinal')) {
             return $number . 'th';
         }
         return $number . $ends[$number % 10];
+    }
+}
+
+if (!function_exists('video_helper')) {
+    /**
+     * Helper function to parse a video URL and return the host and video ID.
+     *
+     * Supported hosts: YouTube and Vimeo.
+     * Example return: ['host' => 'YouTube', 'id' => 'Xyz123Abc']
+     *
+     * @param string $url  The full video URL (e.g., https://youtu.be/Xyz123Abc)
+     * @return array|null  Returns ['host' => string, 'id' => string] or null if unsupported
+     */
+    function video_helper(string $url): ?array
+    {
+        return VideoHelper::parse($url);
     }
 }

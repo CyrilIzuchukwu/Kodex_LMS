@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -14,11 +15,12 @@ use Illuminate\Notifications\Notifiable;
  * @property mixed $role
  * @property mixed $profile
  * @property mixed $profile_photo_path
+ * @property mixed $cartItems
  */
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -54,6 +56,16 @@ class User extends Authenticatable
         ];
     }
 
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(CartItem::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function courses(): HasMany
     {
         return $this->hasMany(Course::class, 'course_id');
@@ -70,6 +82,21 @@ class User extends Authenticatable
     public function profile(): HasOne|User
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    public function questions(): User|HasMany
+    {
+        return $this->hasMany(Question::class);
+    }
+
+    public function questionReplies(): User|HasMany
+    {
+        return $this->hasMany(QuestionReply::class);
+    }
+
+    public function notes(): User|HasMany
+    {
+        return $this->hasMany(Note::class);
     }
 
     /**

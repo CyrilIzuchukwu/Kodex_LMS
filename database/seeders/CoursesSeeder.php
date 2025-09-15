@@ -70,11 +70,11 @@ class CoursesSeeder extends Seeder
             $course = [
                 'category_id' => $categoryId,
                 'title' => $title,
-                'subtitle' => $faker->sentence(6, true),
+                'subtitle' => $faker->sentence(10),
                 'slug' => $slug,
-                'price' => $faker->randomFloat(2, 0, 999.99),
-                'summary' => $faker->paragraph(3, true),
-                'video_url' => $faker->boolean(50) ? $faker->url : null,
+                'price' => $faker->randomFloat(2, 0, 99999.99),
+                'summary' => $faker->paragraph(10),
+                'video_url' => $faker->boolean() ? $faker->url : null,
                 'user_id' => $faker->randomElement($userIds),
                 'status' => $faker->randomElement(['draft', 'published']),
                 'created_at' => now(),
@@ -102,7 +102,7 @@ class CoursesSeeder extends Seeder
             for ($j = 0; $j < $numMedia; $j++) {
                 $courseMedia[] = [
                     'course_id' => $courseId,
-                    'image_url' => $faker->imageUrl(640, 480, 'course'),
+                    'image_url' => 'https://picsum.photos/640/480?random=' . $faker->unique()->randomNumber(),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];

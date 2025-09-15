@@ -45,4 +45,26 @@ return [
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
+
+    'paystack' => [
+        'secret_key' => env('PAYSTACK_SECRET_KEY'),
+        'public_key' => env('PAYSTACK_PUBLIC_KEY'),
+    ],
+
+    'flutterwave' => [
+        'secret_key' => env('FLUTTERWAVE_SECRET_KEY'),
+        'public_key' => env('FLUTTERWAVE_PUBLIC_KEY'),
+        'secret_hash' => env('FLUTTERWAVE_SECRET_HASH')
+    ],
+
+    'monnify' => [
+        'secret_key' => env('MONNIFY_SECRET_KEY'),
+        'api_key' => env('MONNIFY_API_KEY'),
+        'contract_code' => env('MONNIFY_CONTRACT_CODE')
+    ],
+
+    'stripe' => [
+        'secret' => env('STRIPE_SECRET_KEY'),
+        'key' => env('STRIPE_PUBLIC_KEY'),
+    ],
 ];

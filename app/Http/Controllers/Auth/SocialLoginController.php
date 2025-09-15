@@ -24,10 +24,8 @@ class SocialLoginController extends Controller
     public function redirectToProvider(string $provider)
     {
         if (!in_array($provider, $this->supportedProviders)) {
-            return view('auth.login', [
-                'errors' => ['provider' => __('auth.unsupported_provider', ['provider' => $provider])],
-                'supported_providers' => $this->supportedProviders,
-                'social_login' => config('settings.login.social_enabled')
+            return redirect()->route('login')->withErrors([
+                'provider' => __('auth.unsupported_provider', ['provider' => $provider]),
             ]);
         }
 
@@ -35,9 +33,8 @@ class SocialLoginController extends Controller
             return Socialite::driver($provider)->stateless()->redirect();
         } catch (Exception $e) {
             Log::error("Socialite redirect failed for $provider: " . $e->getMessage());
-            return view('auth.login', [
-                'errors' => ['provider' => __('auth.provider_connection_failed')],
-                'social_login' => config('settings.login.social_enabled')
+            return redirect()->route('login')->withErrors([
+                'provider' => __('auth.provider_connection_failed'),
             ]);
         }
     }
@@ -49,20 +46,16 @@ class SocialLoginController extends Controller
     public function handleProviderCallback(string $provider)
     {
         if (!in_array($provider, $this->supportedProviders)) {
-            return view('auth.login', [
-                'errors' => ['provider' => __('auth.unsupported_provider', ['provider' => $provider])],
-                'supported_providers' => $this->supportedProviders,
-                'social_login' => config('settings.login.social_enabled')
+            return redirect()->route('login')->withErrors([
+                'provider' => __('auth.unsupported_provider', ['provider' => $provider]),
             ]);
         }
 
         try {
             $socialUser = Socialite::driver($provider)->stateless()->user();
-
             if (!$socialUser->getEmail()) {
-                return view('auth.login', [
-                    'errors' => ['provider' => __('auth.no_email')],
-                    'social_login' => config('settings.login.social_enabled')
+                return redirect()->route('login')->withErrors([
+                    'provider' => __('auth.no_email'),
                 ]);
             }
 
@@ -72,9 +65,8 @@ class SocialLoginController extends Controller
             return $this->sendLoginResponse();
         } catch (Exception $e) {
             Log::error("Social login failed for $provider: " . $e->getMessage());
-            return view('auth.login', [
-                'errors' => ['provider' => $e->getMessage()],
-                'social_login' => config('settings.login.social_enabled')
+            return redirect()->route('login')->withErrors([
+                'provider' => $e->getMessage(),
             ]);
         }
     }
@@ -130,12 +122,9 @@ class SocialLoginController extends Controller
      */
     protected function createNewUser(string $provider, $socialUser): User
     {
-        [$firstname, $lastname] = $this->extractNames($provider, $socialUser);
-
         return User::create([
             'avatar' => $socialUser->getAvatar(),
-            'first_name' => $this->sanitizeName($firstname),
-            'last_name' => $this->sanitizeName($lastname),
+            'name' => $this->sanitizeName(ucfirst($socialUser->getName())),
             'email' => $socialUser->getEmail(),
             'social_login_provider' => $provider,
             'social_login_id' => $socialUser->getId(),
@@ -143,29 +132,6 @@ class SocialLoginController extends Controller
             'role' => 'user',
             'email_verified_at' => now(),
         ]);
-    }
-
-    /**
-     * Extract and format names from provider data
-     */
-    protected function extractNames(string $provider, $socialUser): array
-    {
-        $name = $socialUser->getName() ?? '';
-
-        switch ($provider) {
-            case 'google':
-                return [
-                    $socialUser->user['given_name'] ?? $name,
-                    $socialUser->user['family_name'] ?? ''
-                ];
-
-            default:
-                $parts = explode(' ', $name, 2);
-                return [
-                    $parts[0] ?? $name,
-                    $parts[1] ?? ''
-                ];
-        }
     }
 
     /**

@@ -183,6 +183,7 @@ Route::prefix('admin')
             ->controller(ManageReportsController::class)
             ->group(function () {
                 Route::get('/transactions', 'transactions')->name('transactions');
+                Route::get('/transactions/{transaction}/show', 'showTransaction')->name('transaction.show');
                 Route::get('/logins', 'logins')->name('logins');
             });
 
