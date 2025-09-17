@@ -34,83 +34,9 @@
                     id="notification-menu-button" aria-expanded="false" data-dropdown-toggle="notification-dropdown"
                     data-dropdown-placement="bottom">
                     <i data-feather="bell" class="w-6 h-6 text-gray-600 dark:text-gray-300"></i>
-                    @if (auth()->user()->unreadNotifications->count() > 0)
-                        <span
-                            class="absolute top-0 end-0 flex items-center justify-center bg-[#E68815] text-white text-[10px] font-bold rounded-full size-2 after:content-[''] after:absolute after:size-2 after:bg-[#E68815] after:top-0 after:end-0 after:rounded-full after:animate-ping"></span>
-                    @endif
+                   
                 </button>
 
-                <!-- Notification Dropdown menu -->
-                <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-80 absolute right-3 sm:right-3 md:right-3 lg:right-3 xl:right-3"
-                    id="notification-dropdown" style="max-width: calc(100vw - 2rem);">
-                    <div class="px-4 py-3 border-b border-gray-100">
-                        <div class="flex justify-between items-center">
-                            <span class="block text-sm font-semibold text-gray-900">Notifications</span>
-                            @if (auth()->user()->unreadNotifications->count() > 0)
-                                <span
-                                    class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-[#EB8C22] rounded-full">
-                                    {{ auth()->user()->unreadNotifications->count() }}
-                                </span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="max-h-64 overflow-y-auto">
-                        @forelse(auth()->user()->notifications()->latest()->take(5)->get() as $notification)
-                            <div class="px-4 py-3 hover:bg-gray-50 {{ $notification->read_at ? '' : 'bg-orange-50' }}">
-                                <div class="block">
-                                    <div class="flex items-start space-x-3">
-                                        <div class="flex-shrink-0">
-                                            <div
-                                                class="w-8 h-8 bg-[#EB8C22]/10 rounded-full flex items-center justify-center">
-                                                <i class="uil uil-megaphone text-[#EB8C22]"></i>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex-1 min-w-0">
-                                            <p class="text-sm font-medium text-gray-900 truncate">
-                                                {{ $notification->data['title'] }}
-                                            </p>
-
-                                            <p class="text-sm text-gray-600 truncate">
-                                                {!! Str::limit(strip_tags($notification->data['content']), 50) !!}
-                                            </p>
-
-                                            @if ($notification->data['attachment_url'] ?? '')
-                                                <a href="{{ $notification->data['attachment_url'] }}"
-                                                    class="text-[#EB8C22] hover:text-[#d17a1e] text-xs" target="_blank">
-                                                    Download Attachment
-                                                </a>
-                                            @endif
-                                            <p class="text-xs text-gray-500 mt-1">
-                                                {{ Carbon::parse($notification->created_at)->diffForHumans() }}
-                                            </p>
-                                        </div>
-
-                                        @if (!$notification->read_at)
-                                            <div class="flex-shrink-0">
-                                                <div class="w-2 h-2 bg-[#EB8C22] rounded-full"></div>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="px-4 py-6 text-center">
-                                <i class="uil uil-megaphone w-8 h-8 text-gray-400 mx-auto mb-2"></i>
-                                <p class="text-sm text-gray-500">No notifications</p>
-                            </div>
-                        @endforelse
-                    </div>
-
-                    @if (auth()->user()->notifications->count() > 0)
-                        <div class="px-4 py-2 bg-gray-50">
-                            <a href="#" class="text-sm text-[#EB8C22] hover:text-[#d17a1e] font-medium">
-                                View all notifications
-                            </a>
-                        </div>
-                    @endif
-                </div>
             </div>
 
             <!-- User Profile Dropdown -->
@@ -123,41 +49,6 @@
                     <img class="w-8 h-8 rounded-full" src="{{ $avatar }}" alt="user photo">
                 </button>
 
-                <!-- User Dropdown menu -->
-                <div class="z-50 hidden mt-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-200 w-56 absolute right-3 sm:right-3 md:right-3 lg:right-3 xl:right-3"
-                    id="user-dropdown" style="max-width: calc(100vw - 2rem);">
-                    <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-900">{{ auth()->user()->name ?? 'User Name' }}</span>
-                        <span
-                            class="block text-sm text-gray-600 truncate">{{ auth()->user()->email ?? 'user@example.com' }}</span>
-                    </div>
-
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="{{ route('admin.profile.index') }}"
-                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
-                                <i data-feather="user" class="w-4 h-4 me-2"></i>
-                                Profile
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="{{ route('admin.settings.index') }}"
-                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
-                                <i data-feather="settings" class="w-4 h-4 me-2"></i>
-                                Settings
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#" id="logout-button-top"
-                                class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#EB8C22]">
-                                <i data-feather="log-out" class="w-4 h-4 me-2"></i>
-                                Sign out
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
