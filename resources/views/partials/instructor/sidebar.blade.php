@@ -35,9 +35,15 @@
 
 
 
-            <li class="{{ isActive('admin.profile.*') }}">
-                <a href="{{ route('admin.profile.index') }}">
+            <li class="">
+                <a href="">
                     <i class="uil uil-user me-1"></i>Edit Profile
+                </a>
+            </li>
+
+            <li class="">
+                <a href="">
+                    <i class="uil uil-question me-1"></i>Admin module question
                 </a>
             </li>
 
