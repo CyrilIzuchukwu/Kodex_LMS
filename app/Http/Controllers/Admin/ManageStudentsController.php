@@ -7,7 +7,11 @@ use App\Mail\AccountDeletedConfirmation;
 use App\Mail\PasswordResetConfirmation;
 use App\Mail\UserEmailConfirmation;
 use App\Mail\WelcomeEmail;
+use App\Models\Certificate;
+use App\Models\Course;
+use App\Models\CourseEnrollment;
 use App\Models\LoginHistory;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserProfile;
 use Exception;
@@ -184,14 +188,52 @@ class ManageStudentsController extends Controller
 
     public function show(User $student)
     {
-        $loginHistories = LoginHistory::where('user_id', $student->id)
-            ->orderBy('login_at', 'desc')
-            ->paginate(10);
+        $enrollments = CourseEnrollment::where('user_id', $student->id)->get();
+
+        $enrolled_courses = $enrollments->count();
+        $completed_courses = $enrollments->where('status', 'completed')->count();
+        $active_courses = $enrollments->where('status', 'running')->count();
+
+        // Base query for enrolled courses
+        $query = CourseEnrollment::with([
+            'course' => fn($query) => $query->with(['profile.user'])->withCount('modules'),
+        ])->where('user_id', $student->id);
+
+        // Paginate results
+        $courses = $query->orderBy('title')->latest()->paginate(6)->withQueryString();
+
+        // Certificates
+        $certificates_count = Certificate::where('user_id', $student->id)->count();
+        $certificates = Certificate::with('course')
+            ->where('user_id', $student->id)
+            ->latest()->paginate(6)
+            ->withQueryString();
+
+        // Fetch transactions for the authenticated user
+        $payments = Transaction::where('user_id', $student->id)->paginate(10);
+
+        // Collect all course IDs from cart_items across all transactions
+        $courseIds = [];
+        foreach ($payments as $payment) {
+            $cartItems = json_decode($payment->cart_items, true) ?? [];
+            $courseIds = array_merge($courseIds, array_column($cartItems, 'course_id'));
+        }
+        $courseIds = array_unique($courseIds);
+
+        // Fetch Course models for the collected course IDs
+        $courses_purchased = Course::whereIn('id', $courseIds)->with('category')->get();
 
         return view('admin.students.show', [
             'title' => 'Student Profile',
             'student' => $student,
-            'loginHistories' => $loginHistories,
+            'enrolled_courses' => $enrolled_courses,
+            'completed_courses' => $completed_courses,
+            'active_courses' => $active_courses,
+            'courses' => $courses,
+            'certificates' => $certificates,
+            'certificates_count' => $certificates_count,
+            'payments' => $payments,
+            'courses_purchased' => $courses_purchased,
         ]);
     }
 

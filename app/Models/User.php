@@ -56,6 +56,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function certifications(): HasMany
+    {
+        return $this->hasMany(Certificate::class);
+    }
+
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
@@ -97,6 +102,11 @@ class User extends Authenticatable
     public function notes(): User|HasMany
     {
         return $this->hasMany(Note::class);
+    }
+
+    public function enrollments(): HasMany
+    {
+        return $this->hasMany(CourseEnrollment::class);
     }
 
     /**

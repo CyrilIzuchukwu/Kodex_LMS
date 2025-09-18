@@ -23,7 +23,7 @@
                     </defs>
                 </svg>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <span class="text-sm font-bold text-gray-700">{{ round($progress) }}%</span>
+                    <span class="text-xs font-bold text-gray-700">{{ round($progress) }}%</span>
                 </div>
             </div>
 

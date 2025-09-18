@@ -94,6 +94,8 @@ class ManageCourseCategoryController extends Controller
         }
 
         $courses = $query->orderBy('title', 'ASC')
+            ->withCount(['modules', 'enrollments'])
+            ->orderBy('title', 'ASC')
             ->latest()
             ->paginate(10)
             ->withQueryString();

@@ -7,6 +7,7 @@ use App\Mail\AccountDeletedConfirmation;
 use App\Mail\PasswordResetConfirmation;
 use App\Mail\UserEmailConfirmation;
 use App\Mail\WelcomeEmail;
+use App\Models\CourseEnrollment;
 use App\Models\LoginHistory;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -164,14 +165,17 @@ class ManageInstructorsController extends Controller
 
     public function show(User $instructor)
     {
-        $loginHistories = LoginHistory::where('user_id', $instructor->id)
-            ->orderBy('login_at', 'desc')
-            ->paginate(10);
+        $students = CourseEnrollment::with(['user.profile', 'course'])
+            ->where('course_id', $instructor->profile->course_id)
+            ->latest()
+            ->paginate(6)
+            ->withQueryString();
 
         return view('admin.instructors.show', [
             'title' => 'Instructors Profile',
             'instructor' => $instructor,
-            'loginHistories' => $loginHistories
+            'students' => $students,
+            'enrolled_students' => $students->count(),
         ]);
     }
 
