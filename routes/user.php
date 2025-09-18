@@ -79,6 +79,7 @@ Route::prefix('user')
 
                 // Certificate Routes
                 Route::controller(CertificateController::class)->group(function () {
+                    Route::get('/certificates', 'index')->name('certificates');
                     Route::get('/certificate/{course}/download', 'courseCertificate')->name('certificate.download');
                 });
 

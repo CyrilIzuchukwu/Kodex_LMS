@@ -18,7 +18,7 @@
         </td>
 
         <td class="px-6 py-4 whitespace-nowrap sm:table-cell text-center">
-            <span class="text-sm text-gray-900">{{ $course->students_count ?? 0 }}</span>
+            <span class="text-sm text-gray-900">{{ $course->enrollments_count ?? 0 }}</span>
         </td>
 
         <td class="px-6 py-4 whitespace-nowrap text-center">

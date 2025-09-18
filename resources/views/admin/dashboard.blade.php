@@ -11,6 +11,7 @@
             <div class=" flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F] ">
                 <span class="hgi hgi-stroke hgi-student text-[#8C530D] text-3xl font-light"></span>
             </div>
+
             <div>
                 <p class="text-[#1B1B1B] text-sm sm:text-base">Total Students</p>
                 <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_students'] }}</h1>
@@ -23,13 +24,15 @@
                 <div class=" flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F] ">
                     <span class="hgi  hgi-stroke hgi-mentoring text-[#8C530D] text-3xl font-light"></span>
                 </div>
+
                 <div>
                     <p class="text-[#1B1B1B] text-sm sm:text-base">Total Instructors</p>
                     <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_instructors'] }}</h1>
                 </div>
             </div>
-            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/mentoring.png') }}"
-                    alt="mentoring" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+            <div class="absolute bottom-0 right-0">
+                <img src="{{ asset('dashboard_assets/images/img/mentoring.png') }}" alt="mentoring" class="w-16 h-16 sm:w-20 sm:h-20">
+            </div>
         </div>
 
         <!-- Total Courses Card -->
@@ -38,13 +41,15 @@
                 <div class=" flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F] ">
                     <span class="hgi hgi-stroke hgi-book-02 text-[#8C530D] text-3xl font-light"></span>
                 </div>
+
                 <div>
                     <p class="text-[#1B1B1B] text-sm sm:text-base">Total Courses</p>
                     <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_courses'] }}</h1>
                 </div>
             </div>
-            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/book2.png') }}"
-                    alt="book2" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+            <div class="absolute bottom-0 right-0">
+                <img src="{{ asset('dashboard_assets/images/img/book2.png') }}" alt="book2" class="w-16 h-16 sm:w-20 sm:h-20">
+            </div>
         </div>
 
         <!-- Number of Modules Card -->
@@ -53,13 +58,15 @@
                 <div class=" flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F] ">
                     <span class="hgi hgi-stroke hgi-file-02 text-[#8C530D] text-3xl font-light"></span>
                 </div>
+
                 <div>
                     <p class="text-[#1B1B1B] text-sm sm:text-base">Number of Modules</p>
                     <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_modules'] }}</h1>
                 </div>
             </div>
-            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/file2.png') }}"
-                    alt="file2" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+            <div class="absolute bottom-0 right-0">
+                <img src="{{ asset('dashboard_assets/images/img/file2.png') }}" alt="file2" class="w-16 h-16 sm:w-20 sm:h-20">
+            </div>
         </div>
 
         <!-- Sign-ups This Month Card -->
@@ -68,14 +75,16 @@
                 <div class=" flex items-center justify-center rounded-full w-14 h-14 bg-[#F5CE9F] ">
                     <span class="hgi hgi-stroke hgi-login-03 text-[#8C530D] text-3xl font-light"></span>
                 </div>
+
                 <div>
                     <p class="text-[#1B1B1B] text-sm sm:text-base">Sign-ups This Month</p>
                     <h1 class="text-[#1B1B1B] text-xl sm:text-2xl font-bold">{{ $metric['total_sign_ups_this_month'] }}
                     </h1>
                 </div>
             </div>
-            <div class="absolute bottom-0 right-0"><img src="{{ asset('dashboard_assets/images/img/login2.png') }}"
-                    alt="login2" class="w-16 h-16 sm:w-20 sm:h-20"></div>
+            <div class="absolute bottom-0 right-0">
+                <img src="{{ asset('dashboard_assets/images/img/login2.png') }}" alt="login2" class="w-16 h-16 sm:w-20 sm:h-20">
+            </div>
         </div>
 
         <!-- Revenue Chart Section -->
@@ -83,13 +92,12 @@
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-base sm:text-lg font-semibold">Admin Revenue</h2>
                 <div class="relative">
-                    <select id="select-year"
-                        class="flex items-center w-50 px-3 py-2 border rounded-xl bg-white text-sm sm:text-base text-gray-900 hover:bg-gray-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-slate-700 appearance-none cursor-pointer">
-                        <option value="current-month">Current Month</option>
-                        <option value="last-month">Last Month</option>
-                        <option value="last-3-months">Last 3 Months</option>
-                        <option value="last-6-months">Last 6 Months</option>
-                        <option value="last-year">Last Year</option>
+                    <select id="select-year" class="flex items-center px-3 py-2 border rounded-xl bg-white text-sm sm:text-base text-gray-900 hover:bg-gray-50 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-slate-700 appearance-none cursor-pointer" style="width: 160px;">
+                        <option value="current_month">Current month</option>
+                        <option value="last_month">Last month</option>
+                        <option value="last_3_months">Last 3 months</option>
+                        <option value="last_6_months">Last 6 months</option>
+                        <option value="last_year">Last year</option>
                     </select>
                 </div>
             </div>
@@ -98,41 +106,25 @@
             </div>
         </section>
     </div>
-
-    <script>
-        // Toggle dropdown menu for year selection
-        document.getElementById('btn-year').addEventListener('click', () => {
-            const menu = document.getElementById('menu-year');
-            menu.classList.toggle('hidden');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (event) => {
-            const menu = document.getElementById('menu-year');
-            const button = document.getElementById('btn-year');
-            if (!menu.contains(event.target) && !button.contains(event.target)) {
-                menu.classList.add('hidden');
-            }
-        });
-    </script>
 @endsection
 
 @push('scripts')
     <script>
-        // Chart.js setup
         const ctx = document.getElementById("chart").getContext("2d");
-        const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-        const values = [0, 0, 0, 0, 0, 0, 200000, 1500000, 10000, 20000, 10000, 20000];
+
+        // Gradient for line fill
         const gradient = ctx.createLinearGradient(0, 0, 0, 200);
         gradient.addColorStop(0, "rgba(245,158,11,.25)");
         gradient.addColorStop(1, "rgba(245,158,11,0)");
-        new Chart(ctx, {
+
+        // Initialize an empty chart
+        const revenueChart = new Chart(ctx, {
             type: "line",
             data: {
-                labels: months,
+                labels: [],   // filled dynamically
                 datasets: [{
-                    label: "This Year",
-                    data: values,
+                    label: "Revenue",
+                    data: [],
                     tension: 0.35,
                     borderColor: "#F59E0B",
                     borderWidth: 3,
@@ -146,39 +138,55 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
                         callbacks: {
-                            label: (ctx) => new Intl.NumberFormat("en-NG", {
-                                style: "currency",
-                                currency: "NGN",
-                                maximumFractionDigits: 0
-                            }).format(ctx.raw)
+                            label: (ctx) =>
+                                new Intl.NumberFormat("en-NG", {
+                                    style: "currency",
+                                    currency: "NGN",
+                                    maximumFractionDigits: 0
+                                }).format(ctx.raw)
                         }
                     }
                 },
                 scales: {
                     x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: "#6B7280"
-                        }
+                        grid: { display: false },
+                        ticks: { color: "#6B7280" }
                     },
                     y: {
-                        grid: {
-                            color: "rgba(31,41,55,0.08)"
-                        },
+                        grid: { color: "rgba(31,41,55,0.08)" },
                         ticks: {
                             color: "#6B7280",
                             callback: (v) => v / 1000 + "k"
                         }
-                    },
+                    }
                 },
             },
+        });
+
+        // Fetch and update chart
+        function fetchRevenue(period = 'current_month') {
+            fetch(`{{ route('admin.dashboard') }}?period=${period}`)
+                .then(res => res.json())
+                .then(data => {
+                    // Access nested 'original' object
+                    revenueChart.data.labels = data.original.labels;
+                    revenueChart.data.datasets[0].data = data.original.values;
+                    revenueChart.data.datasets[0].label = data.original.label;
+                    revenueChart.update();
+                })
+                .catch(err => console.error('Error fetching revenue data:', err));
+        }
+
+        // Detect dropdown + load initial
+        const selectYear = document.getElementById('select-year');
+        fetchRevenue(selectYear.value);
+
+        // Handle dropdown change
+        selectYear.addEventListener('change', (e) => {
+            fetchRevenue(e.target.value);
         });
     </script>
 @endpush

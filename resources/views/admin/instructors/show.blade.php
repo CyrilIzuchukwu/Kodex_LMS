@@ -11,25 +11,21 @@
                         Dashboard
                     </a>
                 </li>
-
                 <li>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </li>
-
                 <li>
                     <a href="{{ route('admin.instructors.index') }}" class="hover:text-[#E68815] transition-colors duration-200 flex items-center">
                         Instructors
                     </a>
                 </li>
-
                 <li>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </li>
-
                 <li>
                     <span class="text-[#E68815] font-semibold">{{ $instructor->name }}</span>
                 </li>
@@ -45,12 +41,10 @@
                 <div class="flex-shrink-0">
                     <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg avatar bg-gray-800 flex items-center justify-center text-white font-bold text-xl sm:text-2xl" style="background-image: url({{ $instructor->profile && $instructor->profile->profile_photo_path ? $instructor->profile->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($instructor->name, 0, 1) }});"></div>
                 </div>
-
                 <!-- Instructor Info -->
                 <div class="flex-grow text-center sm:text-left">
                     <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{{ $instructor->name }}</h3>
                     <p class="text-gray-600 mb-3 text-sm sm:text-base">{{ $instructor->email }}</p>
-
                     <div class="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
                         @if ($instructor->hasSocialAccount('google'))
                             <div class="inline-flex items-center h-10 px-3 py-1.5 text-xs font-medium text-white bg-green-600 rounded-full hover:bg-green-700 transition-colors duration-150 space-x-2">
@@ -176,7 +170,7 @@
             <div class="lg:col-span-9">
                 <!-- Learning Summary -->
                 <div class="bg-white border border-gray-200 rounded-2xl mb-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
+                    <div class="grid grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
                         <div class="p-4 sm:p-6 flex flex-col h-full">
                             <div class="flex justify-between items-center mb-4">
                                 <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Courses Assigned</h5>
@@ -184,171 +178,67 @@
                             </div>
                             <div class="flex items-center mt-auto">
                                 <i class="uil uil-book-open text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">15</h3>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">1</h3>
                             </div>
                         </div>
 
                         <div class="p-4 sm:p-6 flex flex-col h-full">
                             <div class="flex justify-between items-center mb-4">
                                 <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Students Enrolled</h5>
-                                <i class="uil uil-user-circle text-lg sm:text-xl text-gray-400"></i>
                             </div>
                             <div class="flex items-center mt-auto">
                                 <i class="uil uil-user-circle text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">8</h3>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $enrolled_students }}</h3>
                             </div>
                         </div>
-
-                        <div class="p-4 sm:p-6 flex flex-col h-full">
-                            <div class="flex justify-between items-center mb-4">
-                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Average Rating</h5>
-                                <i class="uil uil-star text-[#EB8C22] text-lg sm:text-xl"></i>
-                            </div>
-                            <div class="flex items-center mt-auto">
-                                <i class="uil uil-star text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">4.8/5</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tabs Navigation -->
-                <div class="bg-white border border-gray-200 rounded-2xl mb-6">
-                    <div class="p-4 border-b border-gray-200">
-                        <nav class="flex flex-wrap gap-2" id="tab-navigation">
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors bg-[#EB8C22] text-white" data-tab="courses">Courses</button>
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors text-gray-600 hover:text-gray-900" data-tab="students">Students</button>
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors text-gray-600 hover:text-gray-900" data-tab="activity">Activity Log</button>
-                        </nav>
                     </div>
                 </div>
 
                 <!-- Tab Content -->
                 <div class="bg-white border border-gray-200 rounded-2xl">
                     <div class="p-4 sm:p-6">
-                        <div class="tab-content">
-                            <!-- Courses Tab -->
-                            <div class="tab-pane active" id="courses">
-                                <div class="bg-gray-50 border border-gray-200 rounded-2xl mb-6">
-                                    <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
-                                        <div class="p-4 sm:p-6">
-                                            <div class="flex justify-between items-center mb-2">
-                                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Active Courses</h5>
-                                                <i class="uil uil-check-circle text-[#EB8C22] text-lg sm:text-xl"></i>
-                                            </div>
-
-                                            <div class="flex items-center">
-                                                <i class="uil uil-book text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">7</h2>
-                                            </div>
-                                        </div>
-
-                                        <div class="p-4 sm:p-6">
-                                            <div class="flex justify-between items-center mb-2">
-                                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Completed Courses</h5>
-                                                <i class="uil uil-check-circle text-[#EB8C22] text-lg sm:text-xl"></i>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <i class="uil uil-book text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">8</h2>
-                                            </div>
-                                        </div>
-                                        <div class="p-4 sm:p-6">
-                                            <div class="flex justify-between items-center mb-2">
-                                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Student Enrollment</h5>
-                                                <i class="uil uil-check-circle text-[#EB8C22] text-lg sm:text-xl"></i>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <i class="uil uil-user text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">15</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="bg-white border border-gray-200 rounded-2xl">
-                                    <div class="p-4 border-b border-gray-200">
-                                        <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Course History</h5>
-                                    </div>
-                                    <div class="overflow-x-auto">
-                                        <table class="w-full min-w-[640px]">
-                                            <thead class="bg-gray-50">
-                                                <tr>
-                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Name</th>
-                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Students</th>
-                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Start Date</th>
-                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="bg-white divide-y divide-gray-200">
-                                                <tr>
-                                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">Web Development Bootcamp</td>
-                                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">100</td>
-                                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">12 weeks</td>
-                                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-600">20 March 2024</td>
-                                                    <td class="px-4 py-4 whitespace-nowrap">
-                                                        <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">Active</span>
-                                                    </td>
-                                                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                                                        <button class="text-blue-600 hover:text-blue-900 mr-3">View</button>
-                                                        <button class="text-red-600 hover:text-red-900">Edit</button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                        <h5 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Student List</h5>
+                        <div class="bg-white border border-gray-200 rounded-2xl mb-6">
+                            <div class="p-4 border-b border-gray-200">
+                                <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Enrolled Students</h5>
                             </div>
 
-                            <!-- Students Tab -->
-                            <div class="tab-pane" id="students">
-                                <h5 class="text-lg font-semibold text-gray-900 mb-4">Student List</h5>
-                                <p class="text-gray-600">Student roster and performance details would go here...</p>
-                            </div>
-
-                            <!-- Activity Log Tab -->
-                            <div class="tab-pane" id="activity">
-                                <h5 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Activity Log</h5>
-                                <div class="bg-white border border-gray-200 rounded-2xl mb-4">
-                                    <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                                        <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Audit Log</h5>
-                                        <div class="flex gap-2">
-                                            <button class="text-[#EB8C22] hover:text-[#D47A1E] text-xs sm:text-sm">Export CSV</button>
-                                            <button class="text-[#EB8C22] hover:text-[#D47A1E] text-xs sm:text-sm">Export PDF</button>
-                                        </div>
-                                    </div>
-                                    <div class="overflow-x-auto">
-                                        <table class="w-full min-w-[480px]">
-                                            <thead class="bg-gray-50">
-                                                <tr>
-                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
-                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Agent</th>
-                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Login Time</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody class="bg-white divide-y divide-gray-200">
-                                                @forelse($loginHistories as $history)
-                                                    <tr>
-                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $history->ip_address }}</td>
-                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $history->user_agent }}</td>
-                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ getTime($history->login_at) }}</td>
-                                                    </tr>
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="3" class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 text-center">
-                                                            No Login History
-                                                        </td>
-                                                    </tr>
-                                                @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                {{ $loginHistories->links('vendor.pagination.tailwind') }}
+                            <div class="overflow-x-auto">
+                                <table class="w-full min-w-[640px]">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Name</th>
+                                            <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                                            <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+                                            <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrolled Date</th>
+                                            <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        @forelse($students as $student)
+                                            <tr>
+                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $student->user->name }}</td>
+                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $student->course?->title ?? 'N/A' }}</td>
+                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">
+                                                    {{ $student->lessons_completed }}/{{ $student->modules_count }} lessons
+                                                </td>
+                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $student->created_at ? getTime($student->created_at) : 'N/A' }}</td>
+                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap">
+                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $student->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                                        {{ ucfirst($student->status) }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="px-4 py-3 sm:py-4 text-center text-sm text-gray-600">No students found.</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
+                        {{ $students->links('vendor.pagination.tailwind') }}
                     </div>
                 </div>
 
@@ -360,7 +250,6 @@
                                 &times;
                             </button>
                         </div>
-
                         <form id="manage-courses-form" action="{{ route('admin.instructors.assign.course', $instructor->id) }}" method="POST">
                             @csrf
 
@@ -377,7 +266,7 @@
                                         <select name="course" id="course" class="w-full px-4 py-3 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 appearance-none cursor-pointer placeholder:text-gray-500 invalid:text-gray-500">
                                             <option value="" disabled selected>Select a course</option>
                                             @foreach($instructorAssignedCourses as $course)
-                                                <option value="{{ $course->id }}"{{ old('course', $instructor->profile?->course_id) == $course->id ? 'selected' : '' }}>
+                                                <option value="{{ $course->id }}" {{ old('course', $instructor->profile?->course_id) == $course->id ? 'selected' : '' }}>
                                                     {{ $course->title }}
                                                 </option>
                                             @endforeach
@@ -386,7 +275,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="flex flex-col md:flex-row justify-end gap-4 mt-8 w-full">
                                 <button type="button" onclick="closeModal('manageCoursesModal')" class="bg-[#EDEDED] w-full md:w-[200px] text-gray-800 text-sm font-medium px-6 py-3 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
                                     Cancel
@@ -414,10 +302,8 @@
                                 &times;
                             </button>
                         </div>
-
                         <form id="notification-form" action="{{ route('admin.instructors.send.notification', $instructor->id) }}" method="POST">
                             @csrf
-
                             <div class="mb-6">
                                 <div class="flex items-center space-x-2 mb-8">
                                     <div class="w-10 h-10 rounded-full bg-[#E68815] flex items-center justify-center">
@@ -438,7 +324,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="flex flex-col md:flex-row justify-end gap-4 mt-8 w-full">
                                 <button type="button" onclick="closeModal('notificationModal')" class="bg-[#EDEDED] w-full md:w-[200px] text-gray-800 text-sm font-medium px-6 py-3 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
                                     Cancel
@@ -466,10 +351,8 @@
                                 &times;
                             </button>
                         </div>
-
                         <form id="password-form" action="{{ route('admin.instructors.reset.password', $instructor->id) }}" method="POST">
                             @csrf
-
                             <div class="mb-6">
                                 <div class="flex items-center space-x-2 mb-8">
                                     <div class="w-10 h-10 rounded-full bg-[#E68815] flex items-center justify-center">
@@ -521,7 +404,6 @@
                         <form id="suspend-form" action="{{ route('admin.instructors.suspend', $instructor->id) }}" method="POST">
                             @csrf
                             @method('PATCH')
-
                             <div class="flex justify-center gap-3 w-full">
                                 <button type="button" onclick="closeModal('suspendModal')" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                                     Cancel
@@ -582,7 +464,6 @@
                         <form id="delete-form" action="{{ route('admin.instructors.destroy', $instructor->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-
                             <div class="flex justify-center gap-3 w-full">
                                 <button type="button" onclick="closeModal('deleteModal')" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                                     Cancel
@@ -612,7 +493,6 @@
                         </p>
                         <form id="login-form" action="{{ route('admin.instructors.login', $instructor->id) }}" method="POST">
                             @csrf
-
                             <div class="flex justify-center gap-3 w-full">
                                 <button type="button" onclick="closeModal('loginAsUserModal')" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                                     Cancel
@@ -638,26 +518,6 @@
 
 @push('scripts')
     <script>
-        // Tab functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabPanes = document.querySelectorAll('.tab-pane');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetTab = button.getAttribute('data-tab');
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('bg-[#EB8C22]', 'text-white');
-                        btn.classList.add('text-gray-600', 'hover:text-gray-900');
-                    });
-                    button.classList.add('bg-[#EB8C22]', 'text-white');
-                    button.classList.remove('text-gray-600', 'hover:text-gray-900');
-                    tabPanes.forEach(pane => pane.classList.remove('active'));
-                    document.getElementById(targetTab).classList.add('active');
-                });
-            });
-        });
-
         // Modal functionality
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -676,6 +536,9 @@
                 modal.classList.remove('flex');
             }, 300);
         }
+
+        // Initialize tabs on a page load
+        document.addEventListener('DOMContentLoaded', setActiveTab);
 
         // Form handling
         const formFieldMap = {

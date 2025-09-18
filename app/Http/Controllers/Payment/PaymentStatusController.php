@@ -12,7 +12,7 @@ use Route;
 class PaymentStatusController extends Controller
 {
     /**
-     * Show payment success page with a confirmation message
+     * Show a payment success page with a confirmation message
      */
     public function success(Request $request, string $payment)
     {

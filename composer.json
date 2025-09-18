@@ -15,6 +15,9 @@
         "laravel/tinker": "^2.10.1",
         "mailjet/laravel-mailjet": "^3.1",
         "phpmailer/phpmailer": "^6.9",
+        "spatie/image": "^3.8",
+        "spatie/laravel-pdf": "^1.8",
+        "spatie/pdf-to-image": "^1.2",
         "stripe/stripe-php": "^17.2"
     },
     "require-dev": {

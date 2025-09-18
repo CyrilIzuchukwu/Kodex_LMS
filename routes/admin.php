@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\EditCourseController;
 use App\Http\Controllers\Admin\ManageCourseCategoryController;
 use App\Http\Controllers\Admin\ManageCourseController;
 use App\Http\Controllers\Admin\ManageInstructorsController;
-use App\Http\Controllers\Admin\ManagePaymentsController;
 use App\Http\Controllers\Admin\ManageSettingsController;
 use App\Http\Controllers\Admin\ManageStudentsController;
 use App\Http\Controllers\Admin\ManageProfileController;
@@ -162,19 +161,13 @@ Route::prefix('admin')
                 Route::delete('/{category}', 'destroy')->name('destroy');
             });
 
-        // Payment Management
-        Route::prefix('payments')
-            ->name('payments.')
-            ->controller(ManagePaymentsController::class)
-            ->group(function () {
-                Route::get('/', 'index')->name('index');
-            });
-
+        // Payment method Management
         Route::prefix('payment-methods')
             ->name('payment-methods.')
             ->controller(ManagePaymentMethodsController::class)
             ->group(function () {
                 Route::get('/', 'index')->name('index');
+                Route::put('/{gateway}/update', 'update')->name('update');
             });
 
         // Reports
@@ -184,6 +177,12 @@ Route::prefix('admin')
             ->group(function () {
                 Route::get('/transactions', 'transactions')->name('transactions');
                 Route::get('/transactions/{transaction}/show', 'showTransaction')->name('transaction.show');
+
+                Route::patch('/transactions/{transaction}/approve', 'approveTransaction')->name('transaction.approve');
+                Route::patch('/transactions/{transaction}/cancel', 'cancelTransaction')->name('transaction.cancel');
+                Route::patch('/transactions/{transaction}/review', 'reviewTransaction')->name('transaction.review');
+                Route::post('/transactions/{transaction}/note', 'noteTransaction')->name('transaction.note');
+
                 Route::get('/logins', 'logins')->name('logins');
             });
 

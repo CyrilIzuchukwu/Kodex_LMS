@@ -11,25 +11,21 @@
                         Dashboard
                     </a>
                 </li>
-
                 <li>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </li>
-
                 <li>
                     <a href="{{ route('admin.students.index') }}" class="hover:text-[#E68815] transition-colors duration-200 flex items-center">
                         Students
                     </a>
                 </li>
-
                 <li>
                     <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
                     </svg>
                 </li>
-
                 <li>
                     <span class="text-[#E68815] font-semibold">{{ $student->name }}</span>
                 </li>
@@ -50,7 +46,6 @@
                 <div class="flex-grow text-center sm:text-left">
                     <h3 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{{ $student->name }}</h3>
                     <p class="text-gray-600 mb-3 text-sm sm:text-base">{{ $student->email }}</p>
-
                     <div class="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
                         @if ($student->hasSocialAccount('google'))
                             <div class="inline-flex items-center h-10 px-3 py-1.5 text-xs font-medium text-white bg-green-600 rounded-full hover:bg-green-700 transition-colors duration-150 space-x-2">
@@ -83,6 +78,7 @@
                 <a href="{{ route('admin.students.index') }}" class="inline-flex items-center px-3 sm:px-4 py-2 border border-gray-300 rounded-2xl text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
                     <i class="uil uil-arrow-left mr-1 sm:mr-2"></i>Go Back
                 </a>
+
                 <a href="{{ route('admin.students.edit', $student->id) }}" class="inline-flex items-center px-3 sm:px-4 py-2 bg-[#EB8C22] text-white rounded-2xl text-xs sm:text-sm font-medium hover:bg-[#D47A1E] transition-colors">
                     <i class="uil uil-pen mr-1 sm:mr-2"></i>Edit Profile
                 </a>
@@ -97,20 +93,24 @@
                     <div class="p-4 border-b border-gray-200 flex justify-between items-center">
                         <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Student Information</h5>
                     </div>
+
                     <div class="p-4">
                         <div class="space-y-3 sm:space-y-4">
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">Full Name:</span>
                                 <span class="text-gray-600">{{ $student->name }}</span>
                             </div>
+
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">Mobile:</span>
                                 <span class="text-gray-600">{{ $student->profile->phone_number ?? 'N/A' }}</span>
                             </div>
+
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">E-mail:</span>
                                 <span class="text-gray-600">{{ $student->email }}</span>
                             </div>
+
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">Registered:</span>
                                 <span class="text-gray-600">{{ getTime($student->created_at) }}</span>
@@ -124,6 +124,7 @@
                     <div class="p-4 border-b border-gray-200">
                         <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Actions</h5>
                     </div>
+
                     <div class="p-4">
                         <div class="grid grid-cols-1 gap-2">
                             <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('notificationModal')">
@@ -166,9 +167,10 @@
                                 <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Courses Enrolled</h5>
                                 <i class="uil uil-arrow-circle-up text-[#EB8C22] text-lg sm:text-xl"></i>
                             </div>
+
                             <div class="flex items-center mt-auto">
                                 <i class="uil uil-book-open text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">15</h3>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $enrolled_courses }}</h3>
                             </div>
                         </div>
 
@@ -177,9 +179,10 @@
                                 <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Courses Completed</h5>
                                 <i class="uil uil-check-circle text-lg sm:text-xl text-gray-400"></i>
                             </div>
+
                             <div class="flex items-center mt-auto">
                                 <i class="uil uil-check-circle text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">8</h3>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $completed_courses }}</h3>
                             </div>
                         </div>
 
@@ -188,9 +191,10 @@
                                 <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Certificates Earned</h5>
                                 <i class="uil uil-award text-[#EB8C22] text-lg sm:text-xl"></i>
                             </div>
+
                             <div class="flex items-center mt-auto">
                                 <i class="uil uil-award text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">5</h3>
+                                <h3 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $certificates_count }}</h3>
                             </div>
                         </div>
                     </div>
@@ -200,10 +204,15 @@
                 <div class="bg-white border border-gray-200 rounded-2xl mb-6">
                     <div class="p-4 border-b border-gray-200">
                         <nav class="flex flex-wrap gap-2" id="tab-navigation">
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors bg-[#EB8C22] text-white" data-tab="courses">Courses</button>
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors text-gray-600 hover:text-gray-900" data-tab="certificates">Certificates</button>
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors text-gray-600 hover:text-gray-900" data-tab="transactions">Transactions</button>
-                            <button class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors text-gray-600 hover:text-gray-900" data-tab="activity">Activity Log</button>
+                            <a href="{{ route('admin.students.show', ['student' => $student->id, 'tab' => 'courses']) }}"
+                               class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors {{ request()->query('tab', 'courses') == 'courses' ? 'bg-[#EB8C22] text-white' : 'text-gray-600 hover:text-gray-900' }}"
+                               data-tab="courses">Courses</a>
+                            <a href="{{ route('admin.students.show', ['student' => $student->id, 'tab' => 'certificates']) }}"
+                               class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors {{ request()->query('tab') == 'certificates' ? 'bg-[#EB8C22] text-white' : 'text-gray-600 hover:text-gray-900' }}"
+                               data-tab="certificates">Certificates</a>
+                            <a href="{{ route('admin.students.show', ['student' => $student->id, 'tab' => 'transactions']) }}"
+                               class="tab-button px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors {{ request()->query('tab') == 'transactions' ? 'bg-[#EB8C22] text-white' : 'text-gray-600 hover:text-gray-900' }}"
+                               data-tab="transactions">Transactions</a>
                         </nav>
                     </div>
                 </div>
@@ -213,18 +222,18 @@
                     <div class="p-4 sm:p-6">
                         <div class="tab-content">
                             <!-- Courses Tab -->
-                            <div class="tab-pane active" id="courses">
+                            <div class="tab-pane {{ request()->query('tab', 'courses') == 'courses' ? 'active' : '' }}" id="courses">
                                 <div class="bg-gray-50 border border-gray-200 rounded-2xl mb-6">
                                     <div class="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
                                         <div class="p-4 sm:p-6">
                                             <div class="flex justify-between items-center mb-2">
-                                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Active Courses</h5>
+                                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">In Progress Courses</h5>
                                                 <i class="bi bi-arrow-up-circle text-[#EB8C22] text-lg sm:text-xl"></i>
                                             </div>
 
                                             <div class="flex items-center">
                                                 <i class="bi bi-book text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">7</h2>
+                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $active_courses }}</h2>
                                             </div>
                                         </div>
 
@@ -233,182 +242,192 @@
                                                 <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">Completed Courses</h5>
                                                 <i class="bi bi-arrow-up-circle text-[#EB8C22] text-lg sm:text-xl"></i>
                                             </div>
+
                                             <div class="flex items-center">
                                                 <i class="bi bi-book text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">8</h2>
-                                            </div>
-                                        </div>
-                                        <div class="p-4 sm:p-6">
-                                            <div class="flex justify-between items-center mb-2">
-                                                <h5 class="text-xs font-medium text-gray-500 uppercase tracking-wide">All Courses</h5>
-                                                <i class="bi bi-arrow-up-circle text-[#EB8C22] text-lg sm:text-xl"></i>
-                                            </div>
-                                            <div class="flex items-center">
-                                                <i class="bi bi-book text-3xl sm:text-4xl text-gray-400 mr-3 sm:mr-4"></i>
-                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">15</h2>
+                                                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">{{ $completed_courses }}</h2>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="bg-white border border-gray-200 rounded-2xl">
+
+                                <div class="bg-white border border-gray-200 rounded-2xl mb-6">
                                     <div class="p-4 border-b border-gray-200">
                                         <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Course History</h5>
                                     </div>
+
                                     <div class="overflow-x-auto">
                                         <table class="w-full min-w-[640px]">
                                             <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Name</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrolled Date</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                            </tr>
+                                                <tr>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Name</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Enrolled Date</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                                </tr>
                                             </thead>
+
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Introduction to Programming</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Dr. Alice Smith</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">12 weeks</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">20 March 2024</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap">
-                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-[#FFF4E5] text-[#EB8C22]">Completed</span>
-                                                </td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E] mr-2 sm:mr-3">View</button>
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E]">Remove</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Data Structures</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Prof. Bob Johnson</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">10 weeks</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">18 March 2024</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap">
-                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">In Progress</span>
-                                                </td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E] mr-2 sm:mr-3">View</button>
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E]">Remove</button>
-                                                </td>
-                                            </tr>
+                                                @forelse($courses as $purchase)
+                                                    <tr>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $purchase->course->title }}</td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $purchase->course->profile?->user->name ?? 'Not Assigned' }}</td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">
+                                                            {{ $purchase->lessons_completed }}/{{ $purchase->modules_count }} lessons
+                                                        </td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $purchase->course->created_at->format('d F Y') }}</td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap">
+                                                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $purchase->status == 'running' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800' }}">
+                                                                {{ ucfirst($purchase->status) }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4" class="px-4 py-3 sm:py-4 text-center text-sm text-gray-600">No courses found.</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                                {{ $courses->appends(['tab' => 'courses'])->links('vendor.pagination.tailwind') }}
                             </div>
 
                             <!-- Certificates Tab -->
-                            <div class="tab-pane" id="certificates">
+                            <div class="tab-pane {{ request()->query('tab') == 'certificates' ? 'active' : '' }}" id="certificates">
                                 <h5 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Certificates Earned</h5>
-                                <div class="bg-white border border-gray-200 rounded-2xl">
+                                <div class="bg-white border border-gray-200 rounded-2xl mb-6">
                                     <div class="p-4 border-b border-gray-200">
                                         <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Certificate History</h5>
                                     </div>
+
                                     <div class="overflow-x-auto">
                                         <table class="w-full min-w-[480px]">
                                             <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Earned</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                            </tr>
+                                                <tr>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Earned</th>
+                                                    <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                                </tr>
                                             </thead>
+
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Introduction to Programming</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">20 March 2024</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E] mr-2 sm:mr-3">Download</button>
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E]">Verify</button>
-                                                </td>
-                                            </tr>
+                                                @forelse($certificates as $certificate)
+                                                    <tr>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $certificate->course->title }}</td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $certificate->certificate_id }}</td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $certificate->course->created_at->format('d F Y') }}</td>
+                                                        <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
+                                                            <a href="{{ asset($certificate->thumbnail_path) }}" target="_blank" class="text-[#EB8C22] hover:text-[#D47A1E] mr-2 sm:mr-3">View</a>
+                                                            <a href="{{ asset($certificate->certificate_path) }}" download class="text-[#EB8C22] hover:text-[#D47A1E] mr-2 sm:mr-3">Download</a>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="4" class="px-4 py-3 sm:py-4 text-center text-sm text-gray-600">No certificates found.</td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+                                {{ $certificates->appends(['tab' => 'certificates'])->links('vendor.pagination.tailwind') }}
                             </div>
 
                             <!-- Transactions Tab -->
-                            <div class="tab-pane" id="transactions">
+                            <div class="tab-pane {{ request()->query('tab') == 'transactions' ? 'active' : '' }}" id="transactions">
                                 <h5 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Transaction History</h5>
-                                <div class="bg-white border border-gray-200 rounded-2xl">
+                                <div class="bg-white border border-gray-200 rounded-2xl mb-6">
                                     <div class="p-4 border-b border-gray-200">
                                         <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Course Purchases</h5>
                                     </div>
+
                                     <div class="overflow-x-auto">
                                         <table class="w-full min-w-[640px]">
-                                            <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Method</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
-                                            </tr>
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Course Details</th>
+                                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Amount</th>
+                                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
+                                                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Payment Method</th>
+                                                    <th class="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
+                                                </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                            <tr>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Data Structures</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">₦50,000</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">18 March 2024</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">Paystack</td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap">
-                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-[#FFF4E5] text-[#EB8C22]">Completed</span>
-                                                </td>
-                                                <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium">
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E] mr-2 sm:mr-3">View Receipt</button>
-                                                    <button class="text-[#EB8C22] hover:text-[#D47A1E]">Refund</button>
-                                                </td>
-                                            </tr>
+                                                @forelse ($payments as $payment)
+                                                    @php
+                                                        $cartItems = json_decode($payment->cart_items, true) ?? [];
+                                                        $firstCourse = !empty($cartItems) ? $courses_purchased->firstWhere('id', $cartItems[0]['course_id'] ?? null) : null;
+                                                        $courseCount = count($cartItems);
+                                                        $courseTitle = $firstCourse ? $firstCourse->title . ($courseCount > 1 ? ' + ' . ($courseCount - 1) . ' more' : '') : 'Unknown Course';
+                                                        $courseCategory = $firstCourse && $firstCourse->category ? $firstCourse->category->name . ($courseCount > 1 ? ' + ' . ($courseCount - 1) . ' more' : '') : 'No Category';
+                                                    @endphp
+                                                    <tr class="hover:bg-gray-50 transition-colors">
+                                                        <td class="px-6 py-4">
+                                                            <div class="flex items-center space-x-4">
+                                                                <div>
+                                                                    <h4 class="text-sm font-semibold text-gray-900">{{ $courseTitle }}</h4>
+                                                                    <p class="text-xs text-gray-500">{{ $courseCategory }}</p>
+                                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?? 'N/A' }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td class="px-6 py-4">
+                                                            <div class="text-sm text-gray-900">{{ date('M d, Y', strtotime($payment->created_at)) }}</div>
+                                                            <div class="text-xs text-gray-500">{{ date('h:i A', strtotime($payment->created_at)) }}</div>
+                                                        </td>
+
+                                                        <td class="px-6 py-4">
+                                                            <div class="text-sm font-semibold text-gray-900">₦{{ number_format($payment->amount, 2) }}</div>
+                                                        </td>
+
+                                                        <td class="px-6 py-4">
+                                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {{ $payment->status == 'completed' ? 'bg-green-100 text-green-800' : ($payment->status == 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+                                                                <span class="w-1.5 h-1.5 {{ $payment->status == 'completed' ? 'bg-green-500' : ($payment->status == 'pending' ? 'bg-yellow-500 animate-pulse' : 'bg-red-500') }} rounded-full mr-2"></span>
+                                                                {{ ucfirst($payment->status) }}
+                                                            </span>
+                                                        </td>
+
+                                                        <td class="px-6 py-4">
+                                                            <div class="flex items-center space-x-2">
+                                                                <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center">
+                                                                    <svg class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                                                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                                                                    </svg>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="text-xs text-gray-900">{{ $payment->payment_method ?? 'N/A' }}</div>
+                                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?? 'N/A' }}</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        <td class="px-6 py-4">
+                                                            <div class="flex items-center justify-center space-x-2">
+                                                                <a href="{{ route('admin.reports.transaction.show', $payment->id) }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200">
+                                                                    Invoice
+                                                                </a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                                                            No transactions found.
+                                                        </td>
+                                                    </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Activity Log Tab -->
-                            <div class="tab-pane" id="activity">
-                                <h5 class="text-base sm:text-lg font-semibold text-gray-900 mb-4">Activity Log</h5>
-                                <div class="bg-white border border-gray-200 rounded-2xl mb-4">
-                                    <div class="p-4 border-b border-gray-200 flex justify-between items-center">
-                                        <h5 class="font-semibold text-gray-900 text-sm sm:text-base">Audit Log</h5>
-                                        <div class="flex gap-2">
-                                            <button class="text-[#EB8C22] hover:text-[#D47A1E] text-xs sm:text-sm">Export CSV</button>
-                                            <button class="text-[#EB8C22] hover:text-[#D47A1E] text-xs sm:text-sm">Export PDF</button>
-                                        </div>
-                                    </div>
-                                    <div class="overflow-x-auto">
-                                        <table class="w-full min-w-[480px]">
-                                            <thead class="bg-gray-50">
-                                            <tr>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">IP Address</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Agent</th>
-                                                <th class="px-4 py-2 sm:py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Login Time</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody class="bg-white divide-y divide-gray-200">
-                                            @forelse($loginHistories as $history)
-                                                <tr>
-                                                    <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $history->ip_address }}</td>
-                                                    <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $history->user_agent }}</td>
-                                                    <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ getTime($history->login_at) }}</td>
-                                                </tr>
-                                            @empty
-                                                <tr>
-                                                    <td colspan="3" class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 text-center">
-                                                        No Login History
-                                                    </td>
-                                                </tr>
-                                            @endforelse
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                                {{ $loginHistories->links('vendor.pagination.tailwind') }}
+                                {{ $payments->appends(['tab' => 'transactions'])->links('vendor.pagination.tailwind') }}
                             </div>
                         </div>
                     </div>
@@ -422,10 +441,8 @@
                                 &times;
                             </button>
                         </div>
-
                         <form id="notification-form" action="{{ route('admin.students.send.notification', $student->id) }}" method="POST">
                             @csrf
-
                             <div class="mb-6">
                                 <div class="flex items-center space-x-2 mb-8">
                                     <div class="w-10 h-10 rounded-full bg-[#E68815] flex items-center justify-center">
@@ -446,7 +463,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="flex flex-col md:flex-row justify-end gap-4 mt-8 w-full">
                                 <button type="button" onclick="closeModal('notificationModal')" class="bg-[#EDEDED] w-full md:w-[200px] text-gray-800 text-sm font-medium px-6 py-3 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
                                     Cancel
@@ -474,10 +490,8 @@
                                 &times;
                             </button>
                         </div>
-
                         <form id="password-form" action="{{ route('admin.students.reset.password', $student->id) }}" method="POST">
                             @csrf
-
                             <div class="mb-6">
                                 <div class="flex items-center space-x-2 mb-8">
                                     <div class="w-10 h-10 rounded-full bg-[#E68815] flex items-center justify-center">
@@ -529,7 +543,6 @@
                         <form id="suspend-form" action="{{ route('admin.students.suspend', $student->id) }}" method="POST">
                             @csrf
                             @method('PATCH')
-
                             <div class="flex justify-center gap-3 w-full">
                                 <button type="button" onclick="closeModal('suspendModal')" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                                     Cancel
@@ -590,7 +603,6 @@
                         <form id="delete-form" action="{{ route('admin.students.destroy', $student->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-
                             <div class="flex justify-center gap-3 w-full">
                                 <button type="button" onclick="closeModal('deleteModal')" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                                     Cancel
@@ -620,7 +632,6 @@
                         </p>
                         <form id="login-form" action="{{ route('admin.students.login', $student->id) }}" method="POST">
                             @csrf
-
                             <div class="flex justify-center gap-3 w-full">
                                 <button type="button" onclick="closeModal('loginAsUserModal')" class="flex-1 px-4 md:px-6 py-2 md:py-3 rounded-full bg-[#EDEDED] text-gray-700 hover:bg-gray-300 transition-colors text-xs md:text-sm">
                                     Cancel
@@ -646,26 +657,6 @@
 
 @push('scripts')
     <script>
-        // Tab functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            const tabButtons = document.querySelectorAll('.tab-button');
-            const tabPanes = document.querySelectorAll('.tab-pane');
-
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetTab = button.getAttribute('data-tab');
-                    tabButtons.forEach(btn => {
-                        btn.classList.remove('bg-[#EB8C22]', 'text-white');
-                        btn.classList.add('text-gray-600', 'hover:text-gray-900');
-                    });
-                    button.classList.add('bg-[#EB8C22]', 'text-white');
-                    button.classList.remove('text-gray-600', 'hover:text-gray-900');
-                    tabPanes.forEach(pane => pane.classList.remove('active'));
-                    document.getElementById(targetTab).classList.add('active');
-                });
-            });
-        });
-
         // Modal functionality
         function showModal(modalId) {
             const modal = document.getElementById(modalId);
@@ -684,6 +675,36 @@
                 modal.classList.remove('flex');
             }, 300);
         }
+
+        // Tab functionality
+        function setActiveTab() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const activeTab = urlParams.get('tab') || 'courses';
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabButtons.forEach(button => {
+                const tabId = button.getAttribute('data-tab');
+                if (tabId === activeTab) {
+                    button.classList.add('bg-[#EB8C22]', 'text-white');
+                    button.classList.remove('text-gray-600', 'hover:text-gray-900');
+                } else {
+                    button.classList.remove('bg-[#EB8C22]', 'text-white');
+                    button.classList.add('text-gray-600', 'hover:text-gray-900');
+                }
+            });
+
+            tabPanes.forEach(pane => {
+                if (pane.id === activeTab) {
+                    pane.classList.add('active');
+                } else {
+                    pane.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize tabs on a page load
+        document.addEventListener('DOMContentLoaded', setActiveTab);
 
         // Form handling
         const formFieldMap = {
