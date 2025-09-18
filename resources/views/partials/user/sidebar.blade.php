@@ -44,8 +44,8 @@
             <li class="mt-5 ps-2">
                 <span class="text-[#262626] text-sm">Evaluation</span>
             </li>
-            <li>
-                <a href="#">
+            <li class="{{ isActive('user.course.certificates') }}">
+                <a href="{{ route('user.course.certificates') }}">
                     <i class="uil uil-award me-1"></i>Certificates
                 </a>
             </li>

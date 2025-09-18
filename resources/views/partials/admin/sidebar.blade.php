@@ -61,7 +61,7 @@
                 </a>
                 <div class="sidebar-submenu">
                     <ul>
-                        <li class="{{ isActive('admin.reports.transactions') }}">
+                        <li class="{{ isActive('admin.reports.transactions.*') }}">
                             <a href="{{ route('admin.reports.transactions') }}">Transaction History</a>
                         </li>
                         <li class="{{ isActive('admin.reports.logins') }}">

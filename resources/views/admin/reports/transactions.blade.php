@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 @section('content')
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <div class="w-full px-6 py-8">
@@ -7,15 +7,6 @@
                     <div>
                         <h1 class="text-3xl font-bold text-gray-800">Transaction History</h1>
                         <p class="text-gray-500 mt-2">View and manage your course purchase history</p>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <a href="{{ route('user.courses') }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl flex items-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
-                            </svg>
-                            <span>Browse Courses</span>
-                        </a>
                     </div>
                 </div>
             </div>
@@ -27,7 +18,7 @@
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                         <div class="flex items-center justify-between">
                             <div>
-                                <p class="text-sm text-gray-500 font-medium">Total Spent</p>
+                                <p class="text-sm text-gray-500 font-medium">Total Revenue</p>
                                 <p class="text-2xl font-bold text-gray-800 mt-1">
                                     ₦{{ number_format($completed_payments) }}
                                 </p>
@@ -151,19 +142,9 @@
 
                                         <td class="px-6 py-4">
                                             <div class="flex items-center justify-center space-x-2">
-                                                @if ($payment->status == 'completed')
-                                                    <a href="{{ route('user.reports.transactions.show', $payment->id) }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200">
-                                                        View Invoice
-                                                    </a>
-                                                @elseif ($payment->status == 'pending')
-                                                    <a class="bg-gray-100 text-gray-400 px-3 py-2 rounded-lg text-xs font-medium cursor-not-allowed">
-                                                        View Invoice
-                                                    </a>
-                                                @else
-                                                    <a class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-not-allowed">
-                                                        View Invoice
-                                                    </a>
-                                                @endif
+                                                <a href="{{ route('admin.reports.transaction.show', $payment->id) }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200">
+                                                    View Invoice
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

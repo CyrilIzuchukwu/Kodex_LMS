@@ -38,10 +38,30 @@ class ManageUserReportsController extends Controller
         // Fetch Course models for the collected course IDs
         $courses = Course::whereIn('id', $courseIds)->with('category')->get();
 
+        $completed_payments = Transaction::where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->sum('amount');
+
+        $payments_this_month = Transaction::where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->whereBetween('created_at', [now()->startOfMonth(), now()->endOfMonth()])
+            ->sum('amount');
+
+        $purchased_courses_count = Transaction::where('user_id', Auth::id())
+            ->where('status', 'completed')
+            ->get()
+            ->sum(function ($transaction) {
+                $items = json_decode($transaction->cart_items, true) ?? [];
+                return count($items);
+            });
+
         return view('user.reports.transactions', [
             'title' => 'Transactions',
             'payments' => $payments,
             'courses' => $courses,
+            'completed_payments' => $completed_payments,
+            'payments_this_month' => $payments_this_month,
+            'purchased_courses_count' => $purchased_courses_count
         ]);
     }
 
