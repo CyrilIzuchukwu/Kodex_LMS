@@ -1,5 +1,11 @@
 <?php
 
+// storage link
+Route::get('/link-storage', function () {
+    Artisan::call('storage:link');
+    return 'Storage linked successfully';
+});
+
 // Redirect to auth
 Route::get('/', function () {
     Auth::logout();
