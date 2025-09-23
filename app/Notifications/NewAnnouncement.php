@@ -45,6 +45,7 @@ class NewAnnouncement extends Notification
     public function toArray(): array
     {
         return [
+            'type' => 'system_update',
             'announcement_id' => $this->announcement->id,
             'title' => $this->announcement->title,
             'content' => $this->announcement->content,

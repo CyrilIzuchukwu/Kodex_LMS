@@ -1,7 +1,10 @@
 <?php
 
-// Development Routes
-require __DIR__ . '/gab.php';
+// Redirect to auth
+Route::get('/', function () {
+    Auth::logout();
+    return redirect()->route('login');
+});
 
 // Production Routes
 require __DIR__.'/auth.php';

@@ -12,6 +12,7 @@ use App\Http\Controllers\User\LearningProgress\QuestionController;
 use App\Http\Controllers\User\LearningProgress\QuestionReplyController;
 use App\Http\Controllers\User\LearningProgress\QuizController;
 use App\Http\Controllers\User\LearningProgress\ResourceController;
+use App\Http\Controllers\User\ManageUserNotificationsController;
 use App\Http\Controllers\User\ManageUserProfileController;
 use App\Http\Controllers\User\ManageUserReportsController;
 use App\Http\Controllers\User\UserCartController;
@@ -26,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('user')
     ->name('user.')
-    ->middleware(['auth', 'can:access-user-dashboard'])
+    ->middleware(['auth', 'maintenance.mode', 'can:access-user-dashboard'])
     ->group(function () {
 
         // Dashboard
@@ -89,6 +90,8 @@ Route::prefix('user')
                     Route::post('/questions/{course}/store', 'store')->name('questions.store');
                     Route::put('/question/{question}/update', 'update')->name('questions.update');
                     Route::delete('/question/{question}/destroy', 'destroy')->name('questions.destroy');
+
+                    Route::post('/like/toggle', 'toggleLike')->name('like.toggle');
                 });
 
                 // Question Replies Routes
@@ -144,4 +147,16 @@ Route::prefix('user')
             Route::get('/cancelled/{payment}', [PaymentStatusController::class, 'cancelled'])->name('cancelled');
             Route::get('/error/{payment}', [PaymentStatusController::class, 'error'])->name('error');
         });
+
+        // Notifications
+        Route::prefix('notifications')
+            ->name('notifications.')
+            ->controller(ManageUserNotificationsController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/mark-all-read', 'markAllRead')->name('markAllRead');
+                Route::delete('/delete-all', 'deleteAll')->name('deleteAll');
+                Route::post('/{id}/mark-read', 'markAsRead');
+                Route::delete('/{id}/delete', 'destroy');
+            });
     });

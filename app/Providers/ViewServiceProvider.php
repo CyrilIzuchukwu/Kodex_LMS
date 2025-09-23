@@ -73,8 +73,8 @@ class ViewServiceProvider extends ServiceProvider
                 $user = Auth::user();
 
                 // Check if profile and profile_photo_path exist
-                if ($user->profile && $user->profile->profile_photo_path) {
-                    $avatar = $user->profile->profile_photo_path;
+                if ($user->profile && $user->profile?->profile_photo_path) {
+                    $avatar = $user->profile?->profile_photo_path;
                 }
             }
 

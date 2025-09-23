@@ -43,9 +43,9 @@
             <div class="relative bg-gradient-to-r from-[#E68815] to-[#F5CE9F] h-24 sm:h-32 rounded-t-[20px] -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 md:-mx-8 md:-mt-8"></div>
             <div class="text-center -mt-12 sm:-mt-16">
                 <div class="relative inline-block">
-                    <img id="profile-image-preview" src="{{ $student->profile && $student->profile->profile_photo_path ? $student->profile->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($student->name, 0, 1) }}" alt="Student Avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white object-cover">
+                    <img id="profile-image-preview" src="{{ $student->profile && $student->profile?->profile_photo_path ? $student->profile?->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($student->name, 0, 1) }}" alt="Student Avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white object-cover">
                     <div class="absolute bottom-0 right-0">
-                        @if ($student->profile && $student->profile->profile_photo_path)
+                        @if ($student->profile && $student->profile?->profile_photo_path)
                             <form id="remove-profile-picture-form" action="{{ route('admin.students.picture.remove', $student->id) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="button" id="delete-profile-picture" class="bg-red-500 text-white rounded-full p-1 sm:p-2 hover:bg-red-600 transition">
@@ -168,7 +168,7 @@
 
                                 <div class="mb-5">
                                     <label for="phone_number" class="block text-xs sm:text-sm font-medium text-[#6B7280] mb-1">Phone Number</label>
-                                    <input id="phone_number" type="tel" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="phone_number" value="{{ old('phone_number', $student->profile->phone_number) }}" placeholder="Enter your phone number" autocomplete="tel">
+                                    <input id="phone_number" type="tel" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="phone_number" value="{{ old('phone_number', $student->profile?->phone_number) }}" placeholder="Enter your phone number" autocomplete="tel">
                                     @error('phone_number')
                                     <span class="text-red-500 text-xs sm:text-sm mt-1">{{ $message }}</span>
                                     @enderror
@@ -176,7 +176,7 @@
 
                                 <div class="mb-5">
                                     <label for="address" class="block text-xs sm:text-sm font-medium text-[#6B7280] mb-1">Address</label>
-                                    <input id="address" type="text" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="address" value="{{ old('address', $student->profile->address) }}" placeholder="Enter your address" autocomplete="street-address">
+                                    <input id="address" type="text" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="address" value="{{ old('address', $student->profile?->address) }}" placeholder="Enter your address" autocomplete="street-address">
                                     @error('address')
                                     <span class="text-red-500 text-xs sm:text-sm mt-1">{{ $message }}</span>
                                     @enderror
@@ -184,7 +184,7 @@
 
                                 <div class="mb-5 col-span-1 sm:col-span-2">
                                     <label for="biography" class="block text-xs sm:text-sm font-medium text-[#6B7280] mb-1">Biography</label>
-                                    <textarea id="biography" rows="4" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="biography" placeholder="Write a brief biography" autocomplete="biography">{{ old('biography', $student->profile->biography) }}</textarea>
+                                    <textarea id="biography" rows="4" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="biography" placeholder="Write a brief biography" autocomplete="biography">{{ old('biography', $student->profile?->biography) }}</textarea>
                                     @error('biography')
                                     <span class="text-red-500 text-xs sm:text-sm mt-1">{{ $message }}</span>
                                     @enderror

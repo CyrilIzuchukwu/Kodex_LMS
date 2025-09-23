@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
@@ -32,7 +33,8 @@ class ManageSettingsController extends Controller
      */
     public function updateSite(Request $request)
     {
-        $validated = $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'site_name' => ['required', 'string', 'max:255'],
             'site_email' => ['nullable', 'email', 'max:255'],
             'site_phone' => ['nullable', 'string', 'max:255'],
@@ -42,6 +44,13 @@ class ManageSettingsController extends Controller
             'site_linkedin' => ['nullable', 'url', 'max:255'],
             'site_youtube' => ['nullable', 'url', 'max:255'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -81,7 +90,8 @@ class ManageSettingsController extends Controller
      */
     public function updateSeo(Request $request)
     {
-        $validated = $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'meta_title' => 'required|string|max:60',
             'meta_description' => 'required|string|max:160',
             'meta_keywords' => 'nullable|string|max:255',
@@ -92,6 +102,13 @@ class ManageSettingsController extends Controller
             'twitter_card' => 'nullable|string|in:summary,summary_large_image',
             'remove_seo_image' => 'nullable|in:1,true',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -121,7 +138,7 @@ class ManageSettingsController extends Controller
                 Storage::disk('public')->put($path, $img->encode());
 
                 // Store relative path
-                $validated['seo_image'] = asset('storage/' . $path);;
+                $validated['seo_image'] = asset('storage/' . $path);
             } else {
                 // Prevent overwriting seo_image with null if no new image is uploaded
                 unset($validated['seo_image']);
@@ -151,11 +168,19 @@ class ManageSettingsController extends Controller
 
     public function updateMaintenance(Request $request)
     {
-        $validated = $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'maintenance_mode' => 'boolean',
             'maintenance_message' => 'nullable|string|max:500',
             'maintenance_end' => 'nullable|date',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         $validated['maintenance_mode'] = $request->maintenance_mode  ?? 0;
 
@@ -174,7 +199,8 @@ class ManageSettingsController extends Controller
 
     public function updateExtensions(Request $request)
     {
-        $data = $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'google_tag'        => 'nullable|string|max:255',
             'smartsupp_key'     => 'nullable|string|max:255',
             'zoho_salesiq'      => 'nullable|string',
@@ -182,6 +208,13 @@ class ManageSettingsController extends Controller
             'telegram_username' => 'nullable|string|max:50',
             'intercom_app_id'   => 'nullable|string|max:255',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $data = $validator->validated();
 
         $settings = ExtensionsSetting::first();
         if ($settings) {

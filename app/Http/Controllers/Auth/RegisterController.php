@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Validator;
 use Random\RandomException;
 use Carbon\Carbon;
 
@@ -46,9 +47,14 @@ class RegisterController extends Controller
             return redirect()->back()->with('error', 'Registration disabled. Please contact the administrator.');
         }
 
-        $request->validate([
+        // validate request
+        $validator = Validator::make($request->all(), [
             'email' => 'required|string|email|max:255|unique:users,email',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Throttle settings
         $throttleDelay = 60; // 60 seconds

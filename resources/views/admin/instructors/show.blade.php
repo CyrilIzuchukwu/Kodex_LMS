@@ -39,7 +39,7 @@
             <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
                 <!-- Avatar -->
                 <div class="flex-shrink-0">
-                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg avatar bg-gray-800 flex items-center justify-center text-white font-bold text-xl sm:text-2xl" style="background-image: url({{ $instructor->profile && $instructor->profile->profile_photo_path ? $instructor->profile->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($instructor->name, 0, 1) }});"></div>
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg avatar bg-gray-800 flex items-center justify-center text-white font-bold text-xl sm:text-2xl" style="background-image: url({{ $instructor->profile && $instructor->profile?->profile_photo_path ? $instructor->profile?->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($instructor->name, 0, 1) }});"></div>
                 </div>
                 <!-- Instructor Info -->
                 <div class="flex-grow text-center sm:text-left">
@@ -100,7 +100,7 @@
 
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">Mobile:</span>
-                                <span class="text-gray-600">{{ $instructor->profile->phone_number ?? 'N/A' }}</span>
+                                <span class="text-gray-600">{{ $instructor->profile?->phone_number ?? 'N/A' }}</span>
                             </div>
 
                             <div class="flex justify-between text-xs sm:text-sm">
@@ -111,8 +111,8 @@
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">Assigned Course:</span>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs sm:text-sm font-medium bg-gray-200 text-gray-800">
-                                    <a href="{{ route('admin.categories.show', $instructor->profile->course?->category->slug ?? '#') }}">
-                                        @truncate($instructor->profile->course?->title ?? 'Not Assigned', 15)
+                                    <a href="{{ route('admin.categories.show', $instructor->profile?->course?->category->slug ?? '#') }}">
+                                        @truncate($instructor->profile?->course?->title ?? 'Not Assigned', 15)
                                     </a>
                                 </span>
                             </div>
@@ -132,33 +132,33 @@
                     </div>
                     <div class="p-4">
                         <div class="grid grid-cols-1 gap-2">
-                            <button class="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('manageCoursesModal')">
+                            <button class="w-full inline-flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('manageCoursesModal')">
                                 <i class="uil uil-book-open mr-2"></i>Manage Courses
                             </button>
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('notificationModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('notificationModal')">
                                 <i class="uil uil-bell mr-1 sm:mr-2"></i>Send Notification
                             </button>
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('passwordModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('passwordModal')">
                                 <i class="uil uil-lock-open-alt mr-1 sm:mr-2"></i>Reset Password
                             </button>
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('loginAsUserModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('loginAsUserModal')">
                                 <i class="uil uil-sign-in-alt mr-1 sm:mr-2"></i>Login As Instructor
                             </button>
 
                             @if($instructor->status == 'active')
-                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('suspendModal')">
+                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('suspendModal')">
                                     <i class="uil uil-ban mr-1 sm:mr-2"></i>Suspend Account
                                 </button>
                             @else
-                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('unsuspendModal')">
+                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('unsuspendModal')">
                                     <i class="uil uil-ban mr-1 sm:mr-2"></i>Unsuspend Account
                                 </button>
                             @endif
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors" onclick="showModal('deleteModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors" onclick="openModal('deleteModal')">
                                 <i class="uil uil-trash-alt mr-1 sm:mr-2"></i>Delete Account
                             </button>
                         </div>
@@ -224,14 +224,14 @@
                                                 </td>
                                                 <td class="px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-600">{{ $student->created_at ? getTime($student->created_at) : 'N/A' }}</td>
                                                 <td class="px-4 py-3 sm:py-4 whitespace-nowrap">
-                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $student->status == 'active' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
+                                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full {{ $student->status == 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                                                         {{ ucfirst($student->status) }}
                                                     </span>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="4" class="px-4 py-3 sm:py-4 text-center text-sm text-gray-600">No students found.</td>
+                                                <td colspan="5" class="px-4 py-3 sm:py-4 text-center text-sm text-gray-600">No students found.</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -519,7 +519,7 @@
 @push('scripts')
     <script>
         // Modal functionality
-        function showModal(modalId) {
+        function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -536,9 +536,6 @@
                 modal.classList.remove('flex');
             }, 300);
         }
-
-        // Initialize tabs on a page load
-        document.addEventListener('DOMContentLoaded', setActiveTab);
 
         // Form handling
         const formFieldMap = {
@@ -559,6 +556,9 @@
             ]
         };
 
+        // Get CSRF token from meta tag (ensure you have <meta name="csrf-token" content="{{ csrf_token() }}"> in your layout)
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
         Object.entries(formFieldMap).forEach(([formId, fields]) => {
             const form = document.getElementById(formId);
             if (!form) return;
@@ -574,7 +574,7 @@
                     input.addEventListener('input', () => {
                         input.classList.remove('is-invalid', 'is-valid');
                         const errorElement = input.nextElementSibling;
-                        if (errorElement) {
+                        if (errorElement && errorElement.classList.contains('error-message')) {
                             errorElement.classList.add('hidden');
                         }
                     });
@@ -600,7 +600,7 @@
                     if (!field.validate(value, form)) {
                         input.classList.add('is-invalid');
                         input.classList.remove('is-valid');
-                        if (errorElement) {
+                        if (errorElement && errorElement.classList.contains('error-message')) {
                             errorElement.textContent = field.error;
                             errorElement.classList.remove('hidden');
                         }
@@ -608,7 +608,7 @@
                     } else {
                         input.classList.add('is-valid');
                         input.classList.remove('is-invalid');
-                        if (errorElement) {
+                        if (errorElement && errorElement.classList.contains('error-message')) {
                             errorElement.classList.add('hidden');
                         }
                     }
@@ -623,22 +623,46 @@
 
                 try {
                     const formData = new FormData(form);
+                    // Add _method for PATCH/DELETE requests if present
+                    const methodInput = form.querySelector('input[name="_method"]');
+                    const method = methodInput ? methodInput.value.toUpperCase() : form.method.toUpperCase();
+
                     const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: formData
+                        method: method,
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json', // Ensure server returns JSON
+                        },
+                        body: method === 'GET' ? undefined : formData,
                     });
-                    const data = await response.json();
+
+                    // Handle non-JSON responses (e.g., redirects)
+                    const contentType = response.headers.get('content-type');
+                    let data;
+
+                    if (contentType && contentType.includes('application/json')) {
+                        data = await response.json();
+                    } else {
+                        // Handle redirect or non-JSON response
+                        data = { success: response.ok, redirect: response.redirected ? response.url : null };
+                    }
 
                     submitBtn.disabled = false;
                     submitText.classList.remove('hidden');
                     preloader.classList.add('hidden');
 
-                    if (data.success) {
+                    if (response.ok && data.success) {
                         if (data.redirect) {
+                            // Handle redirect (e.g., for login-as-user or other actions)
                             window.open(data.redirect, '_blank');
                         } else {
                             showSuccess(data.message || 'Action completed successfully!');
-                            setTimeout(() => location.reload(), 2000);
+                            setTimeout(() => {
+                                closeModal(formId.replace('-form', 'Modal'));
+                                if (formId !== 'login-form') {
+                                    location.reload();
+                                }
+                            }, 1500);
                         }
                     } else {
                         showError(data.message || 'An error occurred. Please try again.');

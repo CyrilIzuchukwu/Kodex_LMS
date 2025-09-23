@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Response;
 
 class SessionController extends Controller
@@ -76,10 +77,14 @@ class SessionController extends Controller
             return redirect()->back()->with('error', __('auth.unsupported_provider', ['provider' => $provider]));
         }
 
-        // Validate the student input
-        $request->validate([
+        // validate request
+        $validator = Validator::make($request->all(), [
             'student' => 'required|exists:users,id'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Find the user by ID
         $user = User::findOrFail($request->student);

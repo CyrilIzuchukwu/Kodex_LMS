@@ -26,15 +26,15 @@ class LearningController extends Controller
         // Base query for recently enrolled courses
         $query = CourseEnrollment::with([
             'course' => fn($query) => $query->with(['profile.user', 'category', 'media'])->withCount('modules'),
-        ])
-            ->where('user_id', $user_id)
-            ->whereNull('last_accessed');
+        ])->where('user_id', $user_id);
 
         // Apply filters
         $this->applyCourseFilters($query, $request);
 
         // Paginate results
-        $courses = $query->orderBy('title')->latest()->paginate(6)->withQueryString();
+        $courses = $query->orderBy('title')->latest()
+            ->paginate(6)
+            ->withQueryString();
 
         // Fetch categories
         $categories = CourseCategory::select(['id', 'name'])
@@ -44,14 +44,14 @@ class LearningController extends Controller
 
         // My learning courses (accessed within the last 48 hours)
         $myLearning = CourseEnrollment::with([
-            'course' => fn($query) => $query->with(['profile.user', 'category', 'media'])->withCount('modules'),
-        ])
-            ->where('user_id', $user_id)
+            'course' => fn($query) => $query->with(['profile.user', 'category', 'media'])
+                ->withCount('modules'),
+        ])->where('user_id', $user_id)
             ->whereNotNull('last_accessed')
             ->where('last_accessed', '>=', now()->subHours(48))
             ->where('status', 'running')
             ->orderByDesc('last_accessed')
-            ->paginate(3);
+            ->paginate(8);
 
         // Calculate metrics
         $metrics = [
@@ -89,7 +89,10 @@ class LearningController extends Controller
         $this->applyCourseFilters($query, $request);
 
         // Paginate results
-        $courses = $query->orderByDesc('last_accessed')->paginate(6)->withQueryString();
+        $courses = $query->orderByDesc('last_accessed')
+            ->orderByRaw("CASE WHEN status = 'running' THEN 1 WHEN status = 'completed' THEN 2 ELSE 3 END")
+            ->paginate(8)
+            ->withQueryString();
 
         // Fetch categories
         $categories = CourseCategory::select(['id', 'name'])
@@ -159,7 +162,13 @@ class LearningController extends Controller
 
         // Load questions with filtering and sorting
         $query = Question::where('course_id', $course->id)
-            ->with(['user', 'module', 'replies.user']);
+            ->with(['user', 'module', 'replies.user', 'likes'])
+            ->withCount(['likes as likes_count' => function($query) {
+                $query->where('is_like', true);
+            }])
+            ->withCount(['likes as dislikes_count' => function($query) {
+                $query->where('is_like', false);
+            }]);
 
         if ($module_id = $request->query('module_id')) {
             $query->where('module_id', $module_id);
@@ -170,9 +179,11 @@ class LearningController extends Controller
                 ->orWhere('content', 'like', "%$search%"));
         }
 
-        $sort = $request->query('sort', 'recent');
+        $sort = $request->sort;
         if ($sort == 'helpful') {
-            $query->withCount('replies')->orderByDesc('replies_count');
+            $query->withCount('replies')
+                ->orderByDesc('likes_count')
+                ->orderByDesc('replies_count');
         } elseif ($sort == 'unanswered') {
             $query->doesntHave('replies');
         } else {
@@ -190,7 +201,22 @@ class LearningController extends Controller
 
         // Handle AJAX request for a specific question
         if ($request->ajax() && $request->query('question_id')) {
-            $question = Question::with(['user.profile', 'module', 'replies.user'])
+            $question = Question::with([
+                'user.profile',
+                'module',
+                'replies' => function($query) {
+                    $query->with('user')
+                        ->withCount([
+                            'likes as likes_count' => function($q) { $q->where('is_like', true); },
+                            'likes as dislikes_count' => function($q) { $q->where('is_like', false); }
+                        ]);
+                },
+                'likes'
+            ])
+                ->withCount([
+                    'likes as likes_count' => function($query) { $query->where('is_like', true); },
+                    'likes as dislikes_count' => function($query) { $query->where('is_like', false); }
+                ])
                 ->findOrFail($request->query('question_id'));
 
             return response()->json([
@@ -201,7 +227,7 @@ class LearningController extends Controller
                     'user' => [
                         'id' => $question->user->id,
                         'name' => $question->user->name,
-                        'profile_photo_path' => $question->user->profile && $question->user->profile_photo_path ? asset($question->user->profile->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1),
+                        'profile_photo_path' => $question->user->profile && $question->user->profile_photo_path ? asset($question->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1),
                     ],
                     'created_at_diff' => $question->created_at->diffForHumans(),
                     'module' => [
@@ -210,16 +236,26 @@ class LearningController extends Controller
                     'replies_count' => $question->replies->count(),
                 ],
                 'replies' => $question->replies->map(function ($reply) {
+                    // Add user like status calculation
+                    $userLike = $reply->likes->where('user_id', auth()->id())->first();
+                    $userLikeStatus = null;
+                    if ($userLike) {
+                        $userLikeStatus = $userLike->is_like ? 'liked' : 'disliked';
+                    }
+
                     return [
                         'id' => $reply->id,
                         'content' => $reply->content,
                         'user' => [
                             'id' => $reply->user->id,
                             'name' => $reply->user->name,
-                            'profile_photo_path' => $reply->user->profile && $reply->user->profile_photo_path ? asset($reply->user->profile->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($reply->user->name ?? 'N', 0, 1),
+                            'profile_photo_path' => $reply->user->profile && $reply->user->profile_photo_path ? asset($reply->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($reply->user->name ?? 'N', 0, 1),
                         ],
                         'created_at_diff' => $reply->created_at->diffForHumans(),
                         'is_instructor' => $reply->is_instructor ?? false,
+                        'likes_count' => $reply->likes()->where('is_like', true)->count(),
+                        'dislikes_count' => $reply->likes()->where('is_like', false)->count(),
+                        'user_like_status' => $userLikeStatus,
                     ];
                 })->toArray(),
             ]);
@@ -236,8 +272,24 @@ class LearningController extends Controller
 
         // Load Original Question for non-AJAX requests
         $question = $request->query('question_id')
-            ? Question::with(['replies', 'user.profile'])->findOrFail($request->query('question_id'))
+            ? Question::with([
+                'replies' => function($query) {
+                    $query->with('user.profile')
+                        ->withCount([
+                            'likes as likes_count' => function($q) { $q->where('is_like', true); },
+                            'likes as dislikes_count' => function($q) { $q->where('is_like', false); }
+                        ]);
+                },
+                'user.profile'
+            ])->findOrFail($request->query('question_id'))
             : null;
+
+        if ($question) {
+            $question->replies->each(function($reply) {
+                $userLike = $reply->likes()->where('user_id', auth()->id())->first();
+                $reply->user_like_status = $userLike ? ($userLike->is_like ? 'liked' : 'disliked') : null;
+            });
+        }
 
         return view('user.courses.course-watch', [
             'title' => $course->title,

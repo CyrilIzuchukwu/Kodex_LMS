@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static where(string $string, mixed $moduleId)
  * @property mixed $resource_url
  * @property mixed $id
+ * @property mixed $module
  */
 class ModuleResource extends Model
 {

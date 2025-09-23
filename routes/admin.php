@@ -180,8 +180,8 @@ Route::prefix('admin')
 
                 Route::patch('/transactions/{transaction}/approve', 'approveTransaction')->name('transaction.approve');
                 Route::patch('/transactions/{transaction}/cancel', 'cancelTransaction')->name('transaction.cancel');
-                Route::patch('/transactions/{transaction}/review', 'reviewTransaction')->name('transaction.review');
-                Route::post('/transactions/{transaction}/note', 'noteTransaction')->name('transaction.note');
+                Route::patch('/transactions/{transaction}/reactivate', 'reactivateTransaction')->name('transaction.reactivate');
+                Route::patch('/transactions/{transaction}/revoke', 'revokeTransaction')->name('transaction.revoke');
 
                 Route::get('/logins', 'logins')->name('logins');
             });
@@ -194,6 +194,18 @@ Route::prefix('admin')
                 Route::get('/', 'index')->name('index');
                 Route::get('/create', 'create')->name('create');
                 Route::post('/store', 'store')->name('store');
+            });
+
+        // Notifications
+        Route::prefix('notifications')
+            ->name('notifications.')
+            ->controller(ManageAnnouncementsController::class)
+            ->group(function () {
+                Route::get('/notifications', 'notifications')->name('index');
+                Route::post('/mark-all-read', 'markAllRead')->name('markAllRead');
+                Route::delete('/delete-all', 'deleteAll')->name('deleteAll');
+                Route::post('/{id}/mark-read', 'markAsRead');
+                Route::delete('/{id}/delete', 'destroy');
             });
 
         // Email Management

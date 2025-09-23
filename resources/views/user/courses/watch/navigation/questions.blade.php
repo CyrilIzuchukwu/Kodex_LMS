@@ -1,7 +1,7 @@
 @forelse($questions as $question)
     <div id="question-{{ $question->id }}" class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border hover:shadow-md transition-all duration-300">
         <div class="flex items-start gap-3 sm:gap-4">
-            <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover" src="{{ $question->user->profile && $question->user->profile->profile_photo_path ? asset($question->user->profile->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1) }}" alt="{{ $question->user->name }}">
+            <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover" src="{{ $question->user->profile && $question->user->profile?->profile_photo_path ? asset($question->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1) }}" alt="{{ $question->user->name }}">
             <div class="flex-1">
                 <h3 class="font-semibold text-gray-800 text-base sm:text-lg mb-2">{{ $question->title }}</h3>
                 <p class="text-gray-600 text-sm sm:text-base mb-3">{{ Str::limit($question->content, 200) }}</p>
@@ -14,6 +14,20 @@
                     <span class="text-gray-500">{{ $question->created_at->diffForHumans() }}</span>
                     <span class="text-gray-400">•</span>
                     <span class="text-gray-500">{{ $question->module->title }}</span>
+                    <span class="text-gray-400">•</span>
+
+                    <!-- Like/Dislike buttons -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleLike('question', {{ $question->id }}, 'like')" class="like-btn flex items-center gap-1 text-gray-400 hover:text-green-600 transition-colors {{ $question->user_like_status === 'liked' ? 'text-green-600' : '' }}" data-type="question" data-id="{{ $question->id }}">
+                            <i class="mdi mdi-thumb-up"></i>
+                            <span class="likes-count">{{ $question->likes_count }}</span>
+                        </button>
+
+                        <button onclick="toggleLike('question', {{ $question->id }}, 'dislike')" class="dislike-btn flex items-center gap-1 text-gray-400 hover:text-red-600 transition-colors {{ $question->user_like_status === 'disliked' ? 'text-red-600' : '' }}" data-type="question" data-id="{{ $question->id }}">
+                            <i class="mdi mdi-thumb-down"></i>
+                            <span class="dislikes-count">{{ $question->dislikes_count }}</span>
+                        </button>
+                    </div>
                 </div>
 
                 @if($question->user_id === Auth::id())

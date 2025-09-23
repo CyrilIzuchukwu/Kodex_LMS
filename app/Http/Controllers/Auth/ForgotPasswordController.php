@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PasswordResetLink;
@@ -34,11 +35,15 @@ class ForgotPasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => ['required', 'email', 'exists:users'],
         ], [
             'email.exists' => __('We can\'t find a user with that email address.'),
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Throttle settings
         $throttleDelay = 60; // 60 seconds
@@ -109,11 +114,16 @@ class ForgotPasswordController extends Controller
      */
     public function update(Request $request): RedirectResponse
     {
-        $request->validate([
+        // validate request
+        $validator = Validator::make($request->all(), [
             'token' => 'required',
             'email' => 'required|email',
             'password' => ['required', 'confirmed', 'min:8'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Find the reset record
         $resetRecord = PasswordResetToken::where('email', $request->email)->first();

@@ -7,7 +7,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "barryvdh/laravel-dompdf": "^3.1",
         "intervention/image-laravel": "^1.5",
         "jenssegers/agent": "^2.6",
         "laravel/framework": "^12.0",
@@ -18,7 +17,8 @@
         "spatie/image": "^3.8",
         "spatie/laravel-pdf": "^1.8",
         "spatie/pdf-to-image": "^1.2",
-        "stripe/stripe-php": "^17.2"
+        "stripe/stripe-php": "^17.2",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

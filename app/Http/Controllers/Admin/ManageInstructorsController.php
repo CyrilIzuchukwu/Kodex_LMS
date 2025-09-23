@@ -8,7 +8,6 @@ use App\Mail\PasswordResetConfirmation;
 use App\Mail\UserEmailConfirmation;
 use App\Mail\WelcomeEmail;
 use App\Models\CourseEnrollment;
-use App\Models\LoginHistory;
 use App\Models\User;
 use App\Models\UserProfile;
 use Exception;
@@ -22,6 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use Jenssegers\Agent\Agent;
@@ -77,7 +77,7 @@ class ManageInstructorsController extends Controller
     public function store(Request $request)
     {
         // Validate the request
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'full_name_instructor' => 'required|string|max:255',
             'phone_number' => 'required|string',
             'address_instructor' => 'required|string|max:255',
@@ -87,6 +87,13 @@ class ManageInstructorsController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,gif|max:5120',
             'biography_instructor' => 'nullable|string|max:1000',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -166,7 +173,7 @@ class ManageInstructorsController extends Controller
     public function show(User $instructor)
     {
         $students = CourseEnrollment::with(['user.profile', 'course'])
-            ->where('course_id', $instructor->profile->course_id)
+            ->where('course_id', $instructor->profile?->course_id)
             ->latest()
             ->paginate(6)
             ->withQueryString();
@@ -175,7 +182,8 @@ class ManageInstructorsController extends Controller
             'title' => 'Instructors Profile',
             'instructor' => $instructor,
             'students' => $students,
-            'enrolled_students' => $students->count(),
+            'enrolled_students' => CourseEnrollment::where('course_id', $instructor->profile?->course_id)
+                ->count(),
         ]);
     }
 
@@ -192,14 +200,21 @@ class ManageInstructorsController extends Controller
      */
     public function update(Request $request, User $instructor)
     {
-        // Validate the request data
-        $validated = $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'course' => 'required|exists:courses,id',
             'biography' => 'nullable|string|max:255'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -247,7 +262,7 @@ class ManageInstructorsController extends Controller
      */
     public function updatePicture(Request $request, User $instructor): JsonResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'profile_image' => [
                 'required',
                 'image',
@@ -261,13 +276,20 @@ class ManageInstructorsController extends Controller
             'profile_image.max' => 'The image must not exceed 2MB in size.',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
+        }
+
         try {
 
             $storagePath = 'instructors/';
 
             // Delete old image if exists
-            if ($instructor->profile->profile_photo_path) {
-                $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $instructor->profile->profile_photo_path);
+            if ($instructor->profile?->profile_photo_path) {
+                $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $instructor->profile?->profile_photo_path);
                 Storage::disk('public')->delete($oldImagePath);
             }
 
@@ -312,8 +334,8 @@ class ManageInstructorsController extends Controller
     public function removePicture(User $instructor): RedirectResponse
     {
         // Delete the profile picture if it exists
-        if ($instructor->profile->profile_photo_path) {
-            $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $instructor->profile->profile_photo_path);
+        if ($instructor->profile?->profile_photo_path) {
+            $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $instructor->profile?->profile_photo_path);
 
             try {
                 Storage::disk('public')->delete($oldImagePath);
@@ -344,10 +366,15 @@ class ManageInstructorsController extends Controller
      */
     public function sendNotification(Request $request, User $instructor)
     {
-        $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
 
@@ -373,9 +400,14 @@ class ManageInstructorsController extends Controller
      */
     public function resetPassword(Request $request, User $instructor)
     {
-        $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:8|confirmed',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
 
@@ -481,9 +513,17 @@ class ManageInstructorsController extends Controller
      */
     public function assignCourse(Request $request, User $instructor)
     {
-        $validated = $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'course' => 'required|integer|exists:courses,id',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         DB::beginTransaction();
 

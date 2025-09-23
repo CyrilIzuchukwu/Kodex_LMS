@@ -43,7 +43,7 @@
             </h3>
 
             <div class="flex items-center mb-3">
-                <img class="w-6 h-6 rounded-full mr-2" src="{{ $purchase->course->profile && $purchase->course->profile->profile_photo_path ? asset($purchase->course->profile->profile_photo_path) : asset('dashboard_assets/images/client/default.png') }}" alt="Instructor image">
+                <img class="w-6 h-6 rounded-full mr-2" src="{{ $purchase->course->profile && $purchase->course->profile?->profile_photo_path ? asset($purchase->course->profile?->profile_photo_path) : asset('dashboard_assets/images/client/default.png') }}" alt="Instructor image">
                 <a class="text-[#5D5D5D] font-medium text-sm hover:underline">
                     {{ $purchase->course->profile?->user->name ?? 'Not Assigned' }}
                 </a>
@@ -61,7 +61,7 @@
 
             <div class="flex items-center justify-between mb-4">
                 <span class="text-sm text-gray-600">Last Accessed: {{ $purchase->last_accessed ? $purchase->last_accessed->diffForHumans() : 'Not started' }}</span>
-                <a href="{{ route('user.course.details', $purchase->course->id) }}" class="text-[#E68815] font-medium text-sm hover:underline">
+                <a href="{{ route('user.course.details', $purchase->course->slug) }}" class="text-[#E68815] font-medium text-sm hover:underline">
                     View Details
                 </a>
             </div>

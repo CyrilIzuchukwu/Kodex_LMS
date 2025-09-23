@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static where(string $string, $id)
+ * @method static create(array $array)
+ * @property mixed $module
+ * @property mixed $questions
+ * @property mixed $id
+ * @property mixed $course
+ * @property mixed $title
  */
 class Quiz extends Model
 {

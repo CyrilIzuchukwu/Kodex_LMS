@@ -26,6 +26,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed $summary
  * @property mixed $enrollments
  * @property mixed $modules
+ * @property mixed $modules_count
+ * @property mixed $resources_count
+ * @property mixed $students_count
+ * @property mixed $profile
  */
 class Course extends Model
 {

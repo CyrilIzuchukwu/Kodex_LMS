@@ -40,7 +40,6 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         {{-- huge icon   --}}
-        <link rel="stylesheet" href="{{ asset('dashboard_assets/css/huge-icon.css') }}">
         <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css">
 
         <link href="{{ asset('dashboard_assets/css/glightbox.min.css') }}" rel="stylesheet">
@@ -54,9 +53,6 @@
     </head>
 
     <body class="font-nunito text-base text-slate-900 dark:text-white">
-        <!-- Loader -->
-        @include('partials.user.loader')
-
         <div class="page-wrapper toggled">
             <!-- Sidebar -->
             @include('partials.user.sidebar')

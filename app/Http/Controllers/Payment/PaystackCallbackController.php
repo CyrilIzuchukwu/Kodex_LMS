@@ -30,14 +30,11 @@ class PaystackCallbackController extends BasePaymentController
             // Extract transaction details
             $transactionDetails = $this->extractPaystackTransactionDetails($responseData);
 
-            // Update transaction
-            $this->updateTransactionRecord($transactionDetails);
-
             // Get updated transaction details
             $payment = $this->getPaymentOrFail($transactionDetails['payment_id']);
 
             // Redirect to success page with payment_id
-            return $this->successfulPaymentResponse($payment);
+            return $this->successfulPaymentResponse($payment, $transactionDetails);
 
         } catch (Exception $e) {
             Log::error('Paystack Callback Error: ' . $e->getMessage());

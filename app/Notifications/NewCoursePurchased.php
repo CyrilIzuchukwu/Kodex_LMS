@@ -63,9 +63,15 @@ class NewCoursePurchased extends Notification
     public function toArray(): array
     {
         return [
+            'type' => 'course_purchase',
             'payment_id' => $this->payment->id,
             'title' => 'New Course Purchase',
-            'content' => 'User ' . $this->user->name . ' (ID: ' . $this->user->id . ') purchased ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '.',
+            'content' => 'User ' . $this->user->name . ' (ID: ' . $this->user->id . ') purchased ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '. Transaction ID: ' . $this->payment->transaction_reference . '.',
+            'transaction_reference' => $this->payment->transaction_reference,
+            'course_count' => $this->courses->count(),
+            'purchase_date' => $this->payment->created_at->format('F j, Y'),
+            'action_url' => route('admin.reports.transaction.show', $this->payment->id),
+            'action_text' => 'View Transaction',
         ];
     }
 }

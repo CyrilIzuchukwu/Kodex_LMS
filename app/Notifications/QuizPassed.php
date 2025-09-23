@@ -38,9 +38,10 @@ class QuizPassed extends Notification
     public function toArray(): array
     {
         return [
+            'type' => 'quiz_submission',
             'attempt_id' => $this->attempt->id,
             'title' => 'You have successfully passed the quiz!',
-            'content' => 'Score: ' . $this->attempt->score . '/' . $this->attempt->total_questions . '/' . ' percentage: ' . $this->attempt->percentage . '%',
+            'content' => 'Score: ' . $this->attempt->score . '/' . $this->attempt->total_questions . ' (Percentage: ' . $this->attempt->percentage . '%)',
         ];
     }
 }

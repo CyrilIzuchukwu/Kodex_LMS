@@ -83,10 +83,15 @@
                         <div id="dropdown{{ $module->id }}" class="hidden absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
                             <div class="p-2 space-y-1">
                                 @foreach($module->resources as $rIndex => $resource)
+                                    @php
+                                        $parsedUrl = parse_url($resource->resource_url, PHP_URL_PATH);
+                                        $relativePath = preg_replace('#^/storage/#', '', $parsedUrl);
+                                        $extension = pathinfo($relativePath, PATHINFO_EXTENSION);
+                                    @endphp
                                     <a href="{{ route('user.course.resource.download', $resource->id) }}"
                                        class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded">
                                         <i class="mdi mdi-file-pdf-box text-red-500"></i>
-                                        <span>Resource {{ $rIndex + 1 }}.pdf</span>
+                                        <span>Resource {{ $rIndex + 1 }}.{{ $extension }}</span>
                                     </a>
                                 @endforeach
                             </div>

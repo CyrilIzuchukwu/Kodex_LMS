@@ -19,6 +19,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $cart_items
  * @property mixed $transaction_reference
  * @property mixed $created_at
+ * @property mixed $user_id
+ * @property mixed $status
+ * @property mixed $courses
  */
 class Transaction extends Model
 {

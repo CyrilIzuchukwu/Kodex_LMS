@@ -84,7 +84,7 @@ class TransactionSeeder extends Seeder
             'updated_at' => $date,
         ]);
 
-        // Create enrollments if transaction is completed
+        // Create enrollments if the transaction is completed
         if ($transaction->status === 'completed') {
             foreach ($cartItems as $item) {
                 $firstModule = Module::where('course_id', $item['course_id'])
@@ -92,14 +92,32 @@ class TransactionSeeder extends Seeder
                     ->first();
 
                 if ($firstModule) {
+                    // Get total modules for the course
+                    $totalModules = Module::where('course_id', $item['course_id'])->count();
+                    $totalModules = $totalModules > 0 ? $totalModules : 1; // Ensure at least 1 to avoid division by zero
+
+                    // Randomly determine enrollment status (30% chance of completed)
+                    $enrollmentStatus = fake()->boolean(30) ? 'completed' : 'running';
+
+                    // Calculate progress and lessons completed
+                    $progress = $enrollmentStatus === 'completed' ? 100 : rand(0, 99);
+                    $lessonsCompleted = $enrollmentStatus === 'completed'
+                        ? $totalModules
+                        : rand(0, $totalModules);
+
+                    // Set last_accessed to a recent date if progress > 0
+                    $lastAccessed = $progress > 0
+                        ? $date->copy()->addDays(rand(0, 30))->setTime(rand(0, 23), rand(0, 59))
+                        : null;
+
                     CourseEnrollment::create([
                         'user_id' => $userId,
                         'course_id' => $item['course_id'],
                         'module_id' => $firstModule->id,
-                        'progress' => 0,
-                        'lessons_completed' => 0,
-                        'status' => 'running',
-                        'last_accessed' => null,
+                        'progress' => $progress,
+                        'lessons_completed' => $lessonsCompleted,
+                        'status' => $enrollmentStatus,
+                        'last_accessed' => $lastAccessed,
                         'created_at' => $date,
                         'updated_at' => $date,
                     ]);

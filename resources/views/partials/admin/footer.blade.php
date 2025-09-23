@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="grid grid-cols-1">
             <div class="sm:text-start text-center mx-md-2">
-                <p class="mb-0 text-slate-400">© {{ date('Y') }} <a href="" target="_blank" class="text-reset">Kodex Africa</a>.</p>
+                <p class="mb-0 text-slate-400">© {{ date('Y') }} <a href="" target="_blank" class="text-reset">{{ site_settings()?->site_name ?? config('app.name') }}</a>.</p>
             </div>
         </div>
     </div>

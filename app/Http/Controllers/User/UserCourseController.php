@@ -62,7 +62,7 @@ class UserCourseController extends Controller
                     ->where('user_id', $user_id);
             })
             ->latest()
-            ->paginate(9)
+            ->paginate(8)
             ->withQueryString();
 
         // Fetch categories

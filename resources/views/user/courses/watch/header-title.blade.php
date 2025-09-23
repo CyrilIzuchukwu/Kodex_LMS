@@ -10,7 +10,7 @@
         </div>
 
         <!-- Enhanced Progress Circle -->
-        <div class="flex items-center gap-4 bg-white rounded-full px-6 py-3 shadow-lg">
+        <div class="flex items-center gap-4 bg-white rounded-full px-6 py-3 shadow-sm">
             <div class="relative w-12 h-12">
                 <svg class="w-12 h-12 progress-ring">
                     <circle cx="24" cy="24" r="20" stroke="#e5e7eb" stroke-width="3" fill="transparent" />

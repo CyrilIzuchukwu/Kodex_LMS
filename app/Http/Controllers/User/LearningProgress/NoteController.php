@@ -7,16 +7,25 @@ use App\Models\Course;
 use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class NoteController extends Controller
 {
     public function store(Request $request, Course $course)
     {
-        $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'module_id' => 'required|exists:modules,id,course_id,' . $course->id,
             'title' => 'nullable|string|max:255',
             'note' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
+        }
 
         $note = Note::create([
             'course_id' => $course->id,
@@ -45,10 +54,18 @@ class NoteController extends Controller
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
-        $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'title' => 'nullable|string|max:255',
             'note' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
+        }
 
         $note->update([
             'title' => $request->title,

@@ -96,10 +96,14 @@ class ManageEmailController extends Controller
 
     public function send(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'recipient_email' => 'required|email|max:255',
             'test_message' => 'nullable|string|max:255',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
             // Send test email

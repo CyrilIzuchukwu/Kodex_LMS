@@ -48,6 +48,7 @@ class CoursePurchasedNotification extends Notification
     public function toArray(): array
     {
         return [
+            'type' => 'course_purchase',
             'payment_id' => $this->payment->id,
             'title' => 'Your Course Purchase Confirmation',
             'content' => 'Thank you, ' . $this->user->name . ', for purchasing ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '. Transaction ID: ' . $this->payment->transaction_reference . '.',

@@ -10,8 +10,8 @@
 
         <td class="px-2 md:px-6 py-4 text-xs md:text-sm text-gray-700 text-center">
             <div class="flex items-center">
-                <a href="{{ route('admin.instructors.show', $course->profile->user->id ?? '#') }}" class="flex items-center">
-                    <img class="w-8 h-8 md:w-10 md:h-10 rounded-full mr-3" src="{{ $course->profile && $course->profile->profile_photo_path ? asset($course->profile->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($course->profile?->user->name ?? 'N', 0, 1) }}" alt="Instructor image">
+                <a href="{{ route('admin.instructors.show', $course->profile?->user->id ?? '#') }}" class="flex items-center">
+                    <img class="w-8 h-8 md:w-10 md:h-10 rounded-full mr-3" src="{{ $course->profile && $course->profile?->profile_photo_path ? asset($course->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($course->profile?->user->name ?? 'N', 0, 1) }}" alt="Instructor image">
                     <span class="font-medium">{{ $course->profile?->user->name ?? 'Not Assigned' }}</span>
                 </a>
             </div>
@@ -57,7 +57,7 @@
     </tr>
 @empty
     <tr class="hover:bg-gray-100">
-        <td colspan="7" class="px-6 py-4 text-sm text-gray-500 text-center">
+        <td colspan="8" class="px-6 py-4 text-sm text-gray-500 text-center">
             No Courses Registered
         </td>
     </tr>

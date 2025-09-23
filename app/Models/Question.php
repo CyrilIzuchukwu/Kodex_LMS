@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Likeable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,9 +18,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed $created_at
  * @property mixed $module
  * @property mixed $replies
+ * @property mixed $course
  */
 class Question extends Model
 {
+    use Likeable;
+
     protected $fillable = ['course_id', 'module_id', 'user_id', 'title', 'content'];
 
     public function course(): BelongsTo
@@ -39,6 +43,6 @@ class Question extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(QuestionReply::class);
+        return $this->hasMany(QuestionReply::class, 'question_id', 'id');
     }
 }

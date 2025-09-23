@@ -38,34 +38,22 @@ abstract class BasePaymentController extends Controller
     }
 
     /**
-     * @param array $transactionDetails
-     * @return void
-     */
-    protected function updateTransactionRecord(array $transactionDetails): void
-    {
-        Transaction::where('id', $transactionDetails['payment_id'])->update([
-            'channel' => $transactionDetails['channel'],
-            'transaction_reference' => $transactionDetails['reference'],
-            'status' => 'completed',
-        ]);
-    }
-
-    /**
      * Handle response for a successful payment.
      *
      * @param Transaction $payment
+     * @param array $transactionDetails
      * @return RedirectResponse
      * @throws Throwable
      */
-    protected function successfulPaymentResponse(Transaction $payment): RedirectResponse
+    protected function successfulPaymentResponse(Transaction $payment, array $transactionDetails): RedirectResponse
     {
         // Show confetti
         session()->flash('show_confetti');
 
-        // Remove items from cart
         DB::beginTransaction();
 
         try {
+
             // Get Authenticated User
             $user = Auth::user();
 
@@ -84,6 +72,13 @@ abstract class BasePaymentController extends Controller
                     Log::warning('Invalid course_id in CartItem', ['cart_item_id' => $item->id]);
                 }
             }
+
+            // Update transaction record
+            Transaction::where('id', $transactionDetails['payment_id'])->update([
+                'channel' => $transactionDetails['channel'],
+                'transaction_reference' => $transactionDetails['reference'],
+                'status' => 'completed',
+            ]);
 
             // Delete all cart items for the user
             CartItem::where('user_id', $user->id)->delete();

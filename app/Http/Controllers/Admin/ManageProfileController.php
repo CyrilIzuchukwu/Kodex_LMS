@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use Jenssegers\Agent\Agent;
@@ -33,7 +34,7 @@ class ManageProfileController extends Controller
     public function updateProfile(Request $request)
     {
         // Validate the request
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'profile_image' => 'nullable|image|mimes:jpeg,png,gif|max:5120',
         ], [
@@ -41,6 +42,13 @@ class ManageProfileController extends Controller
             'profile_image.mimes' => 'Only JPEG, PNG, or GIF files are allowed.',
             'profile_image.max' => 'The image size must not exceed 5MB.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
             $user = Auth::user();
@@ -86,8 +94,8 @@ class ManageProfileController extends Controller
      */
     public function resetPassword(Request $request): RedirectResponse
     {
-        // Validate the request data
-        $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'current_password' => 'required|string',
             'password' => 'required|min:8|confirmed',
             'password_confirmation' => 'required|string|min:8',
@@ -97,6 +105,10 @@ class ManageProfileController extends Controller
             'password.min' => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Password confirmation does not match.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $user = Auth::user();
 

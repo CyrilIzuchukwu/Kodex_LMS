@@ -22,11 +22,9 @@
                 @csrf
 
                 <!-- Check for provider-specific errors -->
-                @if ($errors->any())
+                @if ($errors->has('provider'))
                     <div class="mt-1 text-sm text-red-500">
-                        @foreach ($errors->all() as $error)
-                            <p>{{ $error }}</p>
-                        @endforeach
+                        <p>{{ $errors->first('provider') }}</p>
                     </div>
                 @endif
 

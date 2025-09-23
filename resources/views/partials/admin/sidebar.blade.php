@@ -81,6 +81,12 @@
                 </a>
             </li>
 
+            <li class="{{ isActive('admin.notifications.*') }}">
+                <a href="{{ route('admin.notifications.index') }}">
+                    <i class="uil uil-bell me-1"></i>Notifications
+                </a>
+            </li>
+
             <li class="sidebar-dropdown {{ isActive('admin.email.*') }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-envelope me-1"></i>Email Settings
