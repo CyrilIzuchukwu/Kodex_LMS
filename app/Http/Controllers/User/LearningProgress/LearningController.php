@@ -32,7 +32,7 @@ class LearningController extends Controller
         $this->applyCourseFilters($query, $request);
 
         // Paginate results
-        $courses = $query->orderBy('title')->latest()
+        $courses = $query->latest()
             ->paginate(6)
             ->withQueryString();
 
