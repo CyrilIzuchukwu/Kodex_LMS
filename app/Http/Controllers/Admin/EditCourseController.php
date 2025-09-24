@@ -268,7 +268,7 @@ class EditCourseController extends Controller
 
         // Load modules from DB into session if not already present
         if (!$request->session()->has('course.edit.content.modules')) {
-            $modulesFromDb = $course->modules()->orderBy('order')->get()->map(function ($module) {
+            $modulesFromDb = $course->modules()->get()->map(function ($module) {
                 return [
                     'id' => $module->id,
                     'title' => $module->title,
