@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('content')
-    <div class="space-y-12 px-1 md:px-6 lg:px-12">
+    <div class="space-y-12 px-3 md:px-6 lg:px-12">
         <!-- Hero Section -->
         <div class="custom-bg2 p-8 sm:p-12 md:p-16 rounded-[30px]">
             <h1 class="text-white text-3xl sm:text-4xl lg:text-5xl font-semibold max-w-3xl leading-tight sm:leading-snug">

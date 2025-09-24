@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('content')
-    <div class="mb-6">
+    <div class="mb-6 p-3 md:p-0">
         <nav class="bg-white rounded-[20px] md:rounded-[30px] shadow-sm px-4 md:px-6 py-3 flex items-center justify-start w-full">
             <ol class="flex items-center space-x-2 md:space-x-3 text-sm md:text-base font-medium text-[#141B34]">
                 <li>
