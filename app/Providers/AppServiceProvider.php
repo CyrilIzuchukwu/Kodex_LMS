@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Mail\Transports\PhpMailerTransport;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +30,8 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('truncate', function ($expression) {
             return "<?php echo \Illuminate\Support\Str::limit($expression); ?>";
         });
+
+        Schema::defaultStringLength(191);
+
     }
 }
