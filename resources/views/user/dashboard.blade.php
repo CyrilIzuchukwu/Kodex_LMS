@@ -5,7 +5,7 @@
         $user_name = $name[0];
     @endphp
 
-    <div class="">
+    <div class="p-3 md:p-0">
         <div class="w-full custom-bg items-center rounded-2xl flex justify-between px-6 py-6 md:py-10 relative overflow-hidden">
             <!-- Overlay -->
             <div class="absolute inset-0 bg-black/20 z-0"></div>
