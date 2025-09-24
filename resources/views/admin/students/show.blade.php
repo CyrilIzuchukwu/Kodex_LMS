@@ -39,7 +39,7 @@
             <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center">
                 <!-- Avatar -->
                 <div class="flex-shrink-0">
-                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg avatar bg-gray-800 flex items-center justify-center text-white font-bold text-xl sm:text-2xl" style="background-image: url({{ $student->profile && $student->profile->profile_photo_path ? $student->profile->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($student->name, 0, 1) }});"></div>
+                    <div class="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white shadow-lg avatar bg-gray-800 flex items-center justify-center text-white font-bold text-xl sm:text-2xl" style="background-image: url({{ $student->profile && $student->profile?->profile_photo_path ? $student->profile?->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($student->name, 0, 1) }});"></div>
                 </div>
 
                 <!-- Student Info -->
@@ -103,7 +103,7 @@
 
                             <div class="flex justify-between text-xs sm:text-sm">
                                 <span class="font-medium text-gray-700">Mobile:</span>
-                                <span class="text-gray-600">{{ $student->profile->phone_number ?? 'N/A' }}</span>
+                                <span class="text-gray-600">{{ $student->profile?->phone_number ?? 'N/A' }}</span>
                             </div>
 
                             <div class="flex justify-between text-xs sm:text-sm">
@@ -127,29 +127,29 @@
 
                     <div class="p-4">
                         <div class="grid grid-cols-1 gap-2">
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('notificationModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('notificationModal')">
                                 <i class="uil uil-bell mr-1 sm:mr-2"></i>Send Notification
                             </button>
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('passwordModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('passwordModal')">
                                 <i class="uil uil-lock-open-alt mr-1 sm:mr-2"></i>Reset Password
                             </button>
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('loginAsUserModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('loginAsUserModal')">
                                 <i class="uil uil-sign-in-alt mr-1 sm:mr-2"></i>Login As Student
                             </button>
 
                             @if($student->status == 'active')
-                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('suspendModal')">
+                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('suspendModal')">
                                     <i class="uil uil-ban mr-1 sm:mr-2"></i>Suspend Account
                                 </button>
                             @else
-                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="showModal('unsuspendModal')">
+                                <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-blue-700 transition-colors" onclick="openModal('unsuspendModal')">
                                     <i class="uil uil-ban mr-1 sm:mr-2"></i>Unsuspend Account
                                 </button>
                             @endif
 
-                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors" onclick="showModal('deleteModal')">
+                            <button class="w-full inline-flex items-center justify-center px-3 sm:px-4 py-2 bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-red-700 transition-colors" onclick="openModal('deleteModal')">
                                 <i class="uil uil-trash-alt mr-1 sm:mr-2"></i>Delete Account
                             </button>
                         </div>
@@ -372,7 +372,7 @@
                                                                 <div>
                                                                     <h4 class="text-sm font-semibold text-gray-900">{{ $courseTitle }}</h4>
                                                                     <p class="text-xs text-gray-500">{{ $courseCategory }}</p>
-                                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?? 'N/A' }}</p>
+                                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?: 'N/A' }}</p>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -402,7 +402,7 @@
                                                                 </div>
                                                                 <div>
                                                                     <div class="text-xs text-gray-900">{{ $payment->payment_method ?? 'N/A' }}</div>
-                                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?? 'N/A' }}</div>
+                                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?: 'N/A' }}</div>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -658,7 +658,7 @@
 @push('scripts')
     <script>
         // Modal functionality
-        function showModal(modalId) {
+        function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -791,10 +791,16 @@
 
                     if (data.success) {
                         if (data.redirect) {
+                            // Handle redirect (e.g., for login-as-user or other actions)
                             window.open(data.redirect, '_blank');
                         } else {
                             showSuccess(data.message || 'Action completed successfully!');
-                            setTimeout(() => location.reload(), 2000);
+                            setTimeout(() => {
+                                closeModal(formId.replace('-form', 'Modal'));
+                                if (formId !== 'login-form') {
+                                    location.reload();
+                                }
+                            }, 1500);
                         }
                     } else {
                         showError(data.message || 'An error occurred. Please try again.');

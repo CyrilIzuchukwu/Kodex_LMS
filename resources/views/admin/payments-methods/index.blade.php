@@ -147,14 +147,14 @@
                 <div class="space-y-4 sm:space-y-6">
                     <!-- Gateway Name -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Gateway Name *</label>
-                        <input name="name" type="text" id="edit-gateway-name" class="w-full px-3 sm:px-4 py-2 sm:py-3 text-gray-700 border border-gray-300 rounded-xl text-sm sm:text-base" placeholder="e.g. Stripe, PayPal, Razorpay">
+                        <label class="block text-sm font-semibold text-gray-700" for="edit-gateway-name">Gateway Name *</label>
+                        <input name="name" type="text" id="edit-gateway-name" class="w-full px-3 sm:px-4 py-2 sm:py-3 text-gray-700 border border-gray-300 rounded-xl text-sm sm:text-base" placeholder="e.g. Stripe, PayPal, Razorpay" autocomplete="off">
                         <span class="text-red-500 text-xs sm:text-sm hidden error-message"></span>
                     </div>
 
                     <!-- Gateway Image -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Gateway Logo</label>
+                        <label class="block text-sm font-semibold text-gray-700" for="edit-image-input">Gateway Logo</label>
                         <div class="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
                             <div class="w-16 sm:w-20 h-16 sm:h-20 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50 overflow-hidden" id="edit-image-preview">
                                 <svg class="w-6 sm:w-8 h-6 sm:h-8 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -172,7 +172,7 @@
 
                     <!-- Status -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Status *</label>
+                        <label class="block text-sm font-semibold text-gray-700" for="edit-gateway-status">Status *</label>
                         <select name="status" id="edit-gateway-status" class="w-full text-gray-700 px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-xl text-sm sm:text-base">
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
@@ -215,7 +215,7 @@
             const editImagePreview = document.getElementById('edit-image-preview');
 
             // Helper Functions
-            function showModal(modal) {
+            function openModal(modal) {
                 modal.classList.remove('hidden', 'opacity-0');
                 modal.querySelector('.modal-content').classList.remove('scale-95');
             }
@@ -300,7 +300,7 @@
                             </svg>
                         `;
 
-                    showModal(editModal);
+                    openModal(editModal);
                 });
             });
 

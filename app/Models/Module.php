@@ -12,6 +12,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static findOrFail(mixed $id)
  * @method static count()
  * @method static where(string $string, string $module)
+ * @property mixed $title
+ * @property mixed $course
+ * @property mixed $quiz_count
+ * @property mixed $quizzes
+ * @property mixed $attempts_count
+ * @property mixed $id
  */
 class Module extends Model
 {

@@ -10,7 +10,6 @@ use App\Mail\WelcomeEmail;
 use App\Models\Certificate;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
-use App\Models\LoginHistory;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserProfile;
@@ -25,6 +24,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Laravel\Facades\Image;
 use Jenssegers\Agent\Agent;
@@ -79,8 +79,8 @@ class ManageStudentsController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
-        $validated = $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'full_name' => 'required|string|max:255',
             'phone' => 'required|string',
             'address' => 'required|string|max:255',
@@ -89,6 +89,13 @@ class ManageStudentsController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,gif|max:5120',
             'biography' => 'nullable|string|max:1000',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -250,13 +257,20 @@ class ManageStudentsController extends Controller
      */
     public function update(Request $request, User $student)
     {
-        // Validate the request data
-        $validated = $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'phone_number' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'biography' => 'nullable|string|max:255'
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -294,7 +308,8 @@ class ManageStudentsController extends Controller
      */
     public function updatePicture(Request $request, User $student): JsonResponse
     {
-        $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'profile_image' => [
                 'required',
                 'image',
@@ -308,13 +323,20 @@ class ManageStudentsController extends Controller
             'profile_image.max' => 'The image must not exceed 2MB in size.',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
+        }
+
         try {
 
             $storagePath = 'students/';
 
             // Delete old image if exists
-            if ($student->profile->profile_photo_path) {
-                $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $student->profile->profile_photo_path);
+            if ($student->profile?->profile_photo_path) {
+                $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $student->profile?->profile_photo_path);
                 Storage::disk('public')->delete($oldImagePath);
             }
 
@@ -359,8 +381,8 @@ class ManageStudentsController extends Controller
     public function removePicture(User $student): RedirectResponse
     {
         // Delete the profile picture if it exists
-        if ($student->profile->profile_photo_path) {
-            $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $student->profile->profile_photo_path);
+        if ($student->profile?->profile_photo_path) {
+            $oldImagePath = str_replace(Storage::disk('public')->url(''), '', $student->profile?->profile_photo_path);
 
             try {
                 Storage::disk('public')->delete($oldImagePath);
@@ -391,10 +413,15 @@ class ManageStudentsController extends Controller
      */
     public function sendNotification(Request $request, User $student)
     {
-        $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'subject' => 'required|string|max:255',
             'message' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
 
@@ -420,9 +447,14 @@ class ManageStudentsController extends Controller
      */
     public function resetPassword(Request $request, User $student)
     {
-        $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:8|confirmed',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
 

@@ -7,12 +7,13 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class FlutterwaveCallbackController extends BasePaymentController
 {
     /**
      * Handle Flutterwave payment callback
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function flutterwave(Request $request): RedirectResponse
     {
@@ -37,14 +38,11 @@ class FlutterwaveCallbackController extends BasePaymentController
             // Extract transaction details
             $transactionDetails = $this->extractFlutterwaveTransactionDetails($responseData);
 
-            // Update transaction
-            $this->updateTransactionRecord($transactionDetails);
-
             // Get updated transaction details
             $payment = $this->getPaymentOrFail($transactionDetails['payment_id']);
 
             // Redirect to success page with payment_id
-            return $this->successfulPaymentResponse($payment);
+            return $this->successfulPaymentResponse($payment, $transactionDetails);
 
         } catch (Exception $e) {
             Log::error('Flutterwave Callback Error: ' . $e->getMessage());

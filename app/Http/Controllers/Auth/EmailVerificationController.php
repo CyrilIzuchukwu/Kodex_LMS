@@ -12,6 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class EmailVerificationController extends Controller
 {
@@ -53,9 +54,14 @@ class EmailVerificationController extends Controller
 
         $sessionDetails = $request->session()->get('user.details', []);
 
-        $request->validate([
+        // validate request
+        $validator = Validator::make($request->all(), [
             'otp' => ['required', 'string', 'size:4', 'regex:/^[0-9]+$/'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Type-safe OTP comparison
         if ($request->otp !== (string)$sessionDetails['token']) {

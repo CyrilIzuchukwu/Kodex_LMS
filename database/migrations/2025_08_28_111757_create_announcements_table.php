@@ -21,14 +21,6 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
-
-        Schema::create('announcement_course', function (Blueprint $table) {
-            $table->unsignedBigInteger('announcement_id');
-            $table->unsignedBigInteger('course_id');
-            $table->foreign('announcement_id')->references('id')->on('announcements')->onDelete('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
-            $table->primary(['announcement_id', 'course_id']);
-        });
     }
 
     /**

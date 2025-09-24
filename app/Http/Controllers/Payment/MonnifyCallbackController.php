@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class MonnifyCallbackController extends BasePaymentController
 {
@@ -14,7 +15,7 @@ class MonnifyCallbackController extends BasePaymentController
      * @param Request $request
      * @return RedirectResponse
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function monnify(Request $request): RedirectResponse
     {
@@ -31,14 +32,11 @@ class MonnifyCallbackController extends BasePaymentController
                 // Extract transaction details
                 $transactionDetails = $this->extractMonnifyTransactionDetails($responseData);
 
-                // Update transaction
-                $this->updateTransactionRecord($transactionDetails);
-
                 // Get updated transaction details
                 $payment = $this->getPaymentOrFail($transactionDetails['payment_id']);
 
                 // Redirect to success page with payment_id
-                return $this->successfulPaymentResponse($payment);
+                return $this->successfulPaymentResponse($payment, $transactionDetails);
             }
 
             $payment_id = $request->session()->get('payment.details', []);

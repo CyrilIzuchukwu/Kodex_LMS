@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Throwable;
@@ -46,13 +47,20 @@ class EditCourseController extends Controller
      */
     public function updateDetails(Request $request, Course $course)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:255',
             'subtitle' => 'required|string|max:255',
             'category_id' => 'required|exists:course_categories,id',
             'price' => 'required|numeric|min:1',
             'summary' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         // Store the validated data in session
         $request->session()->put('course.edit.details', [
@@ -106,7 +114,7 @@ class EditCourseController extends Controller
                 ->with('error', 'Please edit course details first');
         }
 
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'learning_objectives' => [
                 'required',
                 'string',
@@ -138,6 +146,13 @@ class EditCourseController extends Controller
                 }
             ],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         // Convert comma-separated string to array
         $objectivesArray = array_filter(array_map('trim', explode(',', $validated['learning_objectives'])));
@@ -192,11 +207,18 @@ class EditCourseController extends Controller
                 ->with('error', 'Please complete previous steps first');
         }
 
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'course_photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'remove_photo' => 'nullable|string',
             'video_url' => 'nullable|url',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         // Get existing media from session
         $existingMedia = session('course.edit.media', ['course_photo' => []]);
@@ -271,7 +293,7 @@ class EditCourseController extends Controller
     public function updateCourseContent(Request $request, Course $course)
     {
         // Validate input
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'modules' => 'required|array|min:1',
             'modules.*.id' => 'nullable|exists:modules,id',
             'modules.*.title' => 'required|string|max:255',
@@ -286,6 +308,10 @@ class EditCourseController extends Controller
             'modules.*.resources.*.mimes' => 'Resources must be JPEG, PNG, PDF, DOC, or DOCX files.',
             'modules.*.resources.*.max' => 'Resources must not exceed 5MB.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
             // Start a database transaction

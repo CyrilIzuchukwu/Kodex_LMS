@@ -13,6 +13,7 @@ use App\Notifications\QuizPassed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
@@ -101,11 +102,19 @@ class QuizController extends Controller
 
     public function submitQuiz(Request $request, Course $course, $module)
     {
-        $request->validate([
+        // Validate request
+        $validator = Validator::make($request->all(), [
             'answers' => 'required|array',
             'answers.*' => 'integer|min:0',
             'time_taken' => 'required|integer|min:0',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
+        }
 
         $currentModule = Module::where('id', $module)
             ->where('course_id', $course->id)
@@ -180,13 +189,11 @@ class QuizController extends Controller
                 'lessons_completed' => $completedModules,
                 'progress' => $progress,
                 'status' => $status,
-                'module_id' => $nextModule?->id,
+                'module_id' => $nextModule?->id ?? $currentModule?->id,
             ]);
 
             // Notify user
-            if (email_settings()->status ?? config('settings.email_notification')) {
-                Notification::send(User::where('id', Auth::id())->get(), new QuizPassed($attempt));
-            }
+            Notification::send(User::where('id', Auth::id())->get(), new QuizPassed($attempt));
         }
 
         return response()->json([

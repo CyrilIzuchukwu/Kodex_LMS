@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CourseCategory;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Log;
@@ -43,8 +44,8 @@ class ManageCourseCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation rules
-        $validated = $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'name' => [
                 'required',
                 'string',
@@ -53,6 +54,13 @@ class ManageCourseCategoryController extends Controller
                 'unique:course_categories,name'
             ]
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 
@@ -113,7 +121,8 @@ class ManageCourseCategoryController extends Controller
      */
     public function update(Request $request, CourseCategory $category)
     {
-        $validated = $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'name' => [
                 'required',
                 'string',
@@ -127,6 +136,13 @@ class ManageCourseCategoryController extends Controller
                 Rule::in(['active', 'inactive']),
             ]
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
 
         try {
 

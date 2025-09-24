@@ -38,7 +38,7 @@
             </h3>
 
             <div class="flex items-center mb-3">
-                <img class="w-6 h-6 rounded-full mr-2" src="{{ $course->profile && $course->profile->profile_photo_path ? asset($course->profile->profile_photo_path) : asset('dashboard_assets/images/client/default.png') }}" alt="Instructor image">
+                <img class="w-6 h-6 rounded-full mr-2" src="{{ $course->profile && $course->profile?->profile_photo_path ? asset($course->profile?->profile_photo_path) : asset('dashboard_assets/images/client/default.png') }}" alt="Instructor image">
                 <a class="text-[#5D5D5D] font-medium text-sm hover:underline">
                     {{ $course->profile?->user->name ?? 'Not Assigned' }}
                 </a>

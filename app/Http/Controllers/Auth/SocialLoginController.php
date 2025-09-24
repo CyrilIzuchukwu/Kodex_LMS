@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeEmail;
 use App\Models\User;
 use Exception;
 use Illuminate\Http\RedirectResponse;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use Laravel\Socialite\Facades\Socialite;
 use Throwable;
 
@@ -52,6 +55,7 @@ class SocialLoginController extends Controller
         }
 
         try {
+
             $socialUser = Socialite::driver($provider)->stateless()->user();
             if (!$socialUser->getEmail()) {
                 return redirect()->route('login')->withErrors([
@@ -60,6 +64,14 @@ class SocialLoginController extends Controller
             }
 
             $user = $this->findOrCreateUser($provider, $socialUser);
+
+            // Check if a user exists and is inactive
+            if ($user->status === 'inactive') {
+                throw ValidationException::withMessages([
+                    $this->username() => [__('Your account has been suspended. Please contact support for assistance.')],
+                ])->status(403);
+            }
+
             Auth::login($user, true);
 
             return $this->sendLoginResponse();
@@ -95,6 +107,13 @@ class SocialLoginController extends Controller
                 ) {
                     throw new Exception(__('auth.provider_conflict', ['provider' => $user->social_login_provider]));
                 }
+            }
+
+            // Send welcome email if enabled
+            if (email_settings()->status ?? config('settings.email_notification')) {
+                Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
+                    ->to($user->email)
+                    ->queue(new WelcomeEmail($user));
             }
 
             return $user
@@ -163,5 +182,13 @@ class SocialLoginController extends Controller
 
         return redirect()->intended($redirectUrl)
             ->with('success', __('auth.login_success'));
+    }
+
+    /**
+     * Get the field used for authentication.
+     */
+    public function username(): string
+    {
+        return 'email';
     }
 }

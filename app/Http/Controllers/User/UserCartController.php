@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Throwable;
 
 class UserCartController extends Controller
@@ -112,9 +113,17 @@ class UserCartController extends Controller
      */
     public function applyCoupon(Request $request)
     {
-        $request->validate([
+        // Validate the request
+        $validator = Validator::make($request->all(), [
             'coupon' => 'required|string|exists:coupons,code',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
+        }
 
         // Fetch the coupon
         $coupon = Coupon::where('code', $request->coupon)
@@ -183,7 +192,7 @@ class UserCartController extends Controller
             });
 
             // Validate input
-            $validated = $request->validate([
+            $validator = Validator::make($request->all(), [
                 'amount' => 'required|numeric|min:1',
                 'coupon' => [
                     'nullable',
@@ -205,6 +214,13 @@ class UserCartController extends Controller
                 'payment_method.required' => 'Please select your preferred payment method.',
                 'terms.required' => 'Please agree to the terms and conditions.',
             ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            // Proceed with validated data
+            $validated = $validator->validated();
 
             // Get cart items
             $cartItems = Auth::user()->cartItems;

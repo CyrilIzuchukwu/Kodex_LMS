@@ -132,14 +132,14 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                                 <div>
                                     <label for="username" class="block text-sm font-medium text-[#6B7280] mb-1">SMTP Username</label>
-                                    <input id="username" type="text" name="username" class="w-full px-4 py-3 border border-[#E1E1E1] rounded-lg focus:ring-1 focus:ring-[#EB8C22] text-gray-900 placeholder:text-gray-600" value="{{ old('username', email_settings()->username ?? '') }}" placeholder="user@domain.com">
+                                    <input id="username" type="text" name="username" class="w-full px-4 py-3 border border-[#E1E1E1] rounded-lg focus:ring-1 focus:ring-[#EB8C22] text-gray-900 placeholder:text-gray-600" value="{{ old('username', email_settings()->username ?? '') }}" placeholder="user@domain.com" autocomplete="off">
                                     @error('username')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div>
-                                    <label for="password" class="block text-sm font-medium text-[#6B7280] mb-1">SMTP Password</label>
-                                    <input id="password" type="password" name="password" class="w-full px-4 py-3 border border-[#E1E1E1] rounded-lg focus:ring-1 focus:ring-[#EB8C22] text-gray-900 placeholder:text-gray-600" value="{{ old('password', email_settings()->password ?? '') }}" placeholder="••••••••••">
+                                    <label for="smtp_password" class="block text-sm font-medium text-[#6B7280] mb-1">SMTP Password</label>
+                                    <input id="smtp_password" type="password" name="password" class="w-full px-4 py-3 border border-[#E1E1E1] rounded-lg focus:ring-1 focus:ring-[#EB8C22] text-gray-900 placeholder:text-gray-600" value="{{ old('password', email_settings()->password ?? '') }}" placeholder="••••••••••">
                                     @error('password')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror

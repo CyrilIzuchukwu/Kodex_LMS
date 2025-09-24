@@ -113,15 +113,25 @@
                     {{ $categories->links('vendor.pagination.tailwind') }}
                 </div>
             @else
-                <div id="no-categories" class="flex  flex-col items-center justify-center text-center">
-                    <div class="w-16 h-16 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#8C530D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12h.01M12 16h.01" />
-                        </svg>
+                <!-- Empty State -->
+                <div id="no-categories" class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                    <div class="relative mb-6 sm:mb-8">
+                        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12h.01M12 16h.01" />
+                            </svg>
+                        </div>
+                        <div class="absolute -top-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                        </div>
                     </div>
-                    <h2 class="font-[400] text-[#444444] text-[20px] mb-4">No Categories Found</h2>
-                    <p class="text-[14px] text-[#1B1B1B] max-w-lg mb-6">It looks like there are no categories available at the moment. Try adding a new category or adjusting your search to find what you're looking for.</p>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Categories Found</h2>
+                    <p class="text-gray-500 text-base sm:text-lg text-center max-w-xs sm:max-w-md mb-6 sm:mb-8 px-4">
+                        It looks like there are no categories available at the moment. Try adding a new category or adjusting your search to find what you're looking for.
+                    </p>
                     <button id="open-add-modal" class="rounded-full inline-block px-6 py-3 bg-[#E68815] text-white text-[14px] font-medium hover:bg-[#d67a12] transition-colors">Add New Category</button>
                 </div>
             @endif
@@ -149,12 +159,13 @@
                     </div>
                     <div class="grid grid-cols-1 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2">Category Name *</label>
-                            <input name="name" type="text" class="w-full border h-12 border-gray-300 rounded-lg p-2 pl-3 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]" placeholder="Development, Design, Security">
+                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2" for="name">Category Name *</label>
+                            <input name="name" id="name" type="text" class="w-full border h-12 border-gray-300 rounded-lg p-2 pl-3 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]" placeholder="Development, Design, Security" autocomplete="off">
                             <span class="text-red-500 text-xs mt-1 hidden error-message"></span>
                         </div>
+
                         <div>
-                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2">Status *</label>
+                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2" for="add-category-status">Status *</label>
                             <select name="status" id="add-category-status" class="w-full border h-12 border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]">
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>
@@ -204,12 +215,12 @@
                     </div>
                     <div class="grid grid-cols-1 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2">Category Name *</label>
-                            <input name="name" type="text" id="edit-category-name" class="w-full border h-12 border-gray-300 rounded-lg p-2 pl-3 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]" placeholder="Development, Design, Security">
+                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2" for="edit-category-name">Category Name *</label>
+                            <input name="name" type="text" id="edit-category-name" class="w-full border h-12 border-gray-300 rounded-lg p-2 pl-3 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]" placeholder="Development, Design, Security" autocomplete="off">
                             <span class="text-red-500 text-xs mt-1 hidden error-message"></span>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2">Status *</label>
+                            <label class="block text-sm font-medium text-[#1B1B1B] mb-2" for="edit-category-status">Status *</label>
                             <select name="status" id="edit-category-status" class="w-full border h-12 border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-sm focus:ring-1 focus:ring-[#E68815]">
                                 <option value="active">Active</option>
                                 <option value="inactive">Inactive</option>

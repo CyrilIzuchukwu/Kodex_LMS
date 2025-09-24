@@ -6,15 +6,19 @@
     @endphp
 
     <div class="px-2 md:px-6">
-        <div class="w-full custom-bg items-center rounded-2xl flex justify-between px-6 py-10 md:py-16 relative overflow-hidden">
+        <div class="w-full custom-bg items-center rounded-2xl flex justify-between px-6 py-6 md:py-10 relative overflow-hidden">
             <!-- Overlay -->
             <div class="absolute inset-0 bg-black/20 z-0"></div>
             <div class="relative z-50">
-                <h1 class="text-white text-xl font-semibold">Welcome back {{ ucfirst($user_name) }} 👋🏻</h1>
-                <p class="text-white font-[16px]">Every lesson brings you closer to your goal 🚀</p>
+                <h1 class="text-white text-2xl md:text-3xl font-bold font-Inter tracking-tight">
+                    Hi, <span>{{ ucfirst($user_name) }}.</span>
+                </h1>
+                <p class="text-white/90 text-base md:text-lg font-medium font-Inter mt-1">
+                    Lead with confidence and achieve your goals. <i class="uil uil-rocket text-xl md:text-2xl text-white/80 ml-1"></i>
+                </p>
             </div>
             <div class="absolute right-2 z-10">
-                <img class="opacity-40 md:opacity-100" src="{{ asset('dashboard_assets/images/img/undraw.png') }}" alt="undraw">
+                <img class="opacity-40 md:opacity-100 w-50 md:w-50" src="{{ asset('dashboard_assets/images/img/undraw.png') }}" alt="undraw">
             </div>
         </div>
 
@@ -115,18 +119,26 @@
                         @include('user.courses.course-items', ['courses' => $courses])
                     </section>
                 @else
-                    <section class="flex items-center justify-center min-h-[35vh]">
-                        <div class="p-8 max-w-md text-center">
-                            <div class="w-16 h-16 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-6 mx-auto">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#8C530D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <!-- Empty State -->
+                    <div class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                        <div class="relative mb-6 sm:mb-8">
+                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12h.01M12 16h.01" />
                                 </svg>
                             </div>
-                            <h2 class="font-[400] text-[#444444] text-[20px] mb-4">No Courses Uploaded</h2>
-                            <p class="text-[14px] text-[#1B1B1B] mb-6">No courses have been uploaded yet. Please check back later for new course offerings.</p>
+                            <div class="absolute -top-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                </svg>
+                            </div>
                         </div>
-                    </section>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Courses Uploaded</h2>
+                        <p class="text-gray-500 text-base sm:text-lg text-center max-w-xs sm:max-w-md mb-6 sm:mb-8 px-4">
+                            No courses have been uploaded yet. Please check back later for new course offerings.
+                        </p>
+                    </div>
                 @endif
             </div>
         </div>

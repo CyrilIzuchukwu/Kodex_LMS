@@ -95,16 +95,26 @@
                 </div>
             @else
                 <div class="col-span-full">
-                    <section class="flex items-center justify-center min-h-[50vh] px-4">
-                        <div class="p-6 md:p-8 max-w-md text-center">
-                            <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-4 md:mb-6 mx-auto">
-                                <svg class="w-10 h-10 md:w-12 md:h-12 text-[#8C530D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
-                                </svg>
+                    <section class="flex items-center justify-center min-h-[50vh] bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                        <!-- Empty State -->
+                        <div class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                            <div class="relative mb-6 sm:mb-8">
+                                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
+                                    <svg class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                                    </svg>
+                                </div>
+                                <div class="absolute -top-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                    </svg>
+                                </div>
                             </div>
-                            <h2 class="text-xl md:text-2xl font-semibold text-[#444444] mb-3 md:mb-4">No Certificates Earned Yet</h2>
-                            <p class="text-sm md:text-base text-[#1B1B1B] mb-4 md:mb-6 leading-relaxed">You haven't earned any certificates yet. Complete courses to earn your certificates!</p>
-                            <a href="{{ route('user.courses') }}" class="inline-block bg-[#E68815] hover:bg-[#ffad48] text-white py-2 md:py-3 px-6 md:px-8 rounded-full font-semibold text-sm md:text-base transition-colors shadow-sm hover:shadow-md">Explore Courses</a>
+                            <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Certificates Earned Yet</h2>
+                            <p class="text-gray-500 text-base sm:text-lg text-center max-w-xs sm:max-w-md mb-6 sm:mb-8 px-4">
+                                You haven't earned any certificates yet. Complete courses to earn your certificates!
+                            </p>
+                            <a href="{{ route('user.course.my.learning') }}" class="inline-block bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-8 rounded-[100px] font-semibold text-base transition-colors shadow-sm hover:shadow-md">Learning Journey</a>
                         </div>
                     </section>
                 </div>

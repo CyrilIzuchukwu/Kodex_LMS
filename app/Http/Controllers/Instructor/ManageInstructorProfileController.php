@@ -1,0 +1,231 @@
+<?php
+
+namespace App\Http\Controllers\Instructor;
+
+use App\Http\Controllers\Controller;
+use App\Mail\AccountDeletedConfirmation;
+use App\Mail\PasswordResetConfirmation;
+use App\Models\UserProfile;
+use Exception;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Intervention\Image\Laravel\Facades\Image;
+use Jenssegers\Agent\Agent;
+use Throwable;
+
+class ManageInstructorProfileController extends Controller
+{
+    public function index()
+    {
+        return view('instructor.profile.index', [
+            'title' => 'Edit Profile',
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function updateProfile(Request $request)
+    {
+        // validate request
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'biography' => 'required|string|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,gif|max:5120',
+        ], [
+            'profile_image.image' => 'The file must be an image.',
+            'profile_image.mimes' => 'Only JPEG, PNG, or GIF files are allowed.',
+            'profile_image.max' => 'The image size must not exceed 5MB.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // Proceed with validated data
+        $validated = $validator->validated();
+
+        try {
+
+            $user = Auth::user();
+
+            // Handle profile photo upload
+            $profilePhotoPath = null;
+            if ($request->hasFile('profile_image')) {
+                $profilePhotoPath = $this->handleImageUpload($request->file('profile_image'), $user);
+                if (!$profilePhotoPath) {
+                    return redirect()->back()->withErrors(['profile_image' => 'Failed to upload profile photo. Please try again.']);
+                }
+            }
+
+            // Update the user
+            $user->update([
+                'name' => $validated['name'],
+            ]);
+
+            // Store data for user profile
+            $profileData = [
+                'phone_number' => $validated['phone_number'],
+                'address' => $validated['address'],
+                'biography' => $validated['biography'],
+            ];
+
+            if ($profilePhotoPath) {
+                $profileData['profile_photo_path'] = $profilePhotoPath;
+            }
+
+            // Create or update user profile
+            UserProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                $profileData
+            );
+
+            return redirect()->back()->with('success', __('Your personal details have been updated successfully.'));
+        } catch (Exception $exception) {
+            Log::error('Failed to update profile: ' . $exception->getMessage());
+            return redirect()->back()->with('error', __('Failed to update profile'));
+        }
+    }
+
+    /**
+     * Update the user's password.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function resetPassword(Request $request): RedirectResponse
+    {
+        // validate request
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required|string',
+            'password' => 'required|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8',
+        ], [
+            'current_password.required' => 'Current password is required.',
+            'password.required' => 'New password is required.',
+            'password.min' => 'Password must be at least 8 characters.',
+            'password.confirmed' => 'Password confirmation does not match.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = Auth::user();
+
+        // Verify the current password
+        if (!Hash::check($request->input('current_password'), $user->password)) {
+            return redirect()->back()->with('error', __('The current password is incorrect.'))->withInput();
+        }
+
+        // Update the user's password
+        $user->update([
+            'password' => Hash::make($request->input('password')),
+        ]);
+
+        // Send email
+        if (email_settings()->status ?? config('settings.email_notification')) {
+            Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
+                ->to($user->email)
+                ->send(new PasswordResetConfirmation(
+                    $user,
+                    $request->ip(),
+                    $this->getDevice($request->userAgent())
+                ));
+        }
+
+        // Return appropriate response
+        return redirect()->back()
+            ->with('success', __('Your password has been updated successfully.'));
+    }
+
+    /**
+     * Delete account.
+     * @throws Throwable
+     */
+    public function destroy()
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $user = Auth::user();
+
+            // Send email
+            if (email_settings()->status ?? config('settings.email_notification')) {
+                Mail::mailer(email_settings()->provider ?? config('settings.email_provider'))
+                    ->to($user->email)
+                    ->send(new AccountDeletedConfirmation($user));
+            }
+
+            $user->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', __('Your account has been deleted.'));
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('Account deletion failed', ['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', __('Account deletion failed'));
+        }
+    }
+
+    /**
+     * Handle image upload and return the path
+     */
+    private function handleImageUpload($file, $user)
+    {
+        try {
+            // Verify the file is a valid image
+            if (!getimagesize($file)) {
+                throw new Exception('Invalid image file.');
+            }
+
+            // Delete old image if exists
+            if ($user->profile && $user->profile->profile_photo_path) {
+                Storage::disk('public')->delete($user->profile->profile_photo_path);
+            }
+
+            $storagePath = 'instructors/';
+            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $fullPath = $storagePath . $filename;
+
+            // Resize and save
+            $resizedImage = Image::read($file)->resize(124, 124);
+            Storage::disk('public')->put($fullPath, $resizedImage->encode());
+
+            // Return a full absolute path
+            return asset('storage/' . $fullPath);
+        } catch (Exception $e) {
+            Log::error('Image upload failed: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * @param $userAgent
+     * @return string
+     */
+    protected function getDevice($userAgent)
+    {
+        $parser = new Agent();
+        $parser->setUserAgent($userAgent);
+
+        $device = $parser->device();
+        $platform = $parser->platform();
+        $browser = $parser->browser();
+
+        return $device . ' (' . $platform . ') - ' . $browser;
+    }
+}

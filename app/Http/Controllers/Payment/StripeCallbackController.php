@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
+use Throwable;
 
 class StripeCallbackController extends BasePaymentController
 {
     /**
      * @param Request $request
      * @return RedirectResponse
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function stripe(Request $request): RedirectResponse
     {
@@ -32,14 +33,11 @@ class StripeCallbackController extends BasePaymentController
                 // Extract transaction details
                 $transactionDetails = $this->extractStripeTransactionDetails($responseData);
 
-                // Update transaction
-                $this->updateTransactionRecord($transactionDetails);
-
                 // Get updated transaction details
                 $payment = $this->getPaymentOrFail($transactionDetails['payment_id']);
 
                 // Redirect to success page with payment_id
-                return $this->successfulPaymentResponse($payment);
+                return $this->successfulPaymentResponse($payment, $transactionDetails);
             }
 
             $payment_id = $request->session()->get('payment.details', []);

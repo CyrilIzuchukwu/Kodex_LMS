@@ -1,0 +1,22 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect HTTP to HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Remove 'public' from URL & internally rewrite
+    RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+    RewriteRule ^ %1 [L,NE,R=301]
+
+    # Serve files from /public if they exist
+    RewriteCond %{REQUEST_URI} !^/public/
+    RewriteCond %{DOCUMENT_ROOT}/public/$0 -f [OR]
+    RewriteCond %{DOCUMENT_ROOT}/public/$0 -d
+    RewriteRule ^(.*)$ /public/$1 [L]
+
+    # Fallback to Laravel's index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>

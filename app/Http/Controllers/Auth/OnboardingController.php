@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Throwable;
@@ -74,11 +75,16 @@ class OnboardingController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        // validate request
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => ['required', Password::defaults()]
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         try {
             DB::beginTransaction();

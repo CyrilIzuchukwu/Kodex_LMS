@@ -63,14 +63,4 @@ $(document).ready(function() {
         e.preventDefault();
         loadContent(this.href);
     });
-
-    // Handle browser back/forward navigation
-    window.addEventListener('popstate', function(event) {
-        if (event.state && event.state.content && event.state.pagination) {
-            contentContainer.innerHTML = event.state.content;
-            paginationContainer.innerHTML = event.state.pagination;
-        } else {
-            loadContent(window.location.href);
-        }
-    });
 });

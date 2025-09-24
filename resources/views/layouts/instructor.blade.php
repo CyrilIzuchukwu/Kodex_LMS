@@ -12,9 +12,7 @@
         <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
         <!-- SEO Meta Tags -->
-        <title>
-            {{-- {{ $title . ' | ' . (site_settings()->site_name ?? config('app.name')) ?? (seo_settings()?->meta_title ?? 'Default Site Title') }} --}}
-        </title>
+        <title>{{ $title . ' | ' . (site_settings()->site_name ?? config('app.name')) ?? (seo_settings()?->meta_title ?? 'Default Site Title') }}</title>
         <meta name="description"
             content="{{ seo_settings()?->meta_description ?? 'Master web development with our online courses.' }}">
         <meta name="keywords"
@@ -22,8 +20,8 @@
         <meta name="robots" content="{{ seo_settings()?->robots ?? 'index,follow' }}">
 
         <!-- Open Graph Meta Tags -->
-        {{-- <meta property="og:title"
-            content="{{ seo_settings()?->og_title ?? (seo_settings()?->meta_title ?? $title . ' | ' . (site_settings()->site_name ?? config('app.name'))) }}"> --}}
+        <meta property="og:title"
+            content="{{ seo_settings()?->og_title ?? (seo_settings()?->meta_title ?? $title . ' | ' . (site_settings()->site_name ?? config('app.name'))) }}">
         <meta property="og:description"
             content="{{ seo_settings()?->og_description ?? (seo_settings()?->meta_description ?? 'Join our online learning platform to master web development.') }}">
         <meta property="og:image"
@@ -33,8 +31,8 @@
 
         <!-- Twitter Card Meta Tags -->
         <meta name="twitter:card" content="{{ seo_settings()?->twitter_card ?? 'summary_large_image' }}">
-        {{-- <meta name="twitter:title"
-            content="{{ seo_settings()?->og_title ?? (seo_settings()?->meta_title ?? $title . ' | ' . (site_settings()->site_name ?? config('app.name'))) }}"> --}}
+        <meta name="twitter:title"
+            content="{{ seo_settings()?->og_title ?? (seo_settings()?->meta_title ?? $title . ' | ' . (site_settings()->site_name ?? config('app.name'))) }}">
         <meta name="twitter:description"
             content="{{ seo_settings()?->og_description ?? (seo_settings()?->meta_description ?? 'Join our online learning platform to master web development.') }}">
         <meta name="twitter:image"
@@ -51,7 +49,6 @@
         <link rel="stylesheet" href="{{ asset('dashboard_assets/css/quill.snow.css') }}">
 
         {{-- huge icon   --}}
-        <link rel="stylesheet" href="{{ asset('dashboard_assets/css/huge-icon.css') }}">
         <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css">
 
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -64,31 +61,21 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
 
-    <body class="font-nunito text-base text-slate-900 dark:text-white">
-        <!-- Loader -->
-        @include('partials.instructor.loader')
+    <body class="font-nunito text-base text-slate-900 dark:text-white bg-[#F9F8F7]">
+        <!-- Start Page Content -->
+        <main class="min-h-screen flex flex-col">
+            <!-- Top Header -->
+            @include('partials.instructor.topbar')
 
-        <div class="page-wrapper toggled">
-            <!-- Sidebar -->
-            @include('partials.instructor.sidebar')
-
-            <!-- Start Page Content -->
-            <main class="page-content bg-[#F9F8F7] dark:bg-slate-800">
-                <!-- Top Header -->
-                @include('partials.instructor.topbar')
-
-                <div class="container-fluid relative px-3 bg-[#F9F8F7] ">
-                    <div class="layout-specing">
-                        @yield('content')
-                    </div>
+            <div class="flex-1 container mx-auto max-w-9xl px-4 sm:px-6 lg:px-8 py-6">
+                <div class="layout-specing">
+                    @yield('content')
                 </div>
+            </div>
 
-                <!-- Footer -->
-                @include('partials.instructor.footer')
-            </main>
-        </div>
-
-
+            <!-- Footer -->
+            @include('partials.instructor.footer')
+        </main>
 
         <!-- Scripts -->
         @include('partials.instructor.scripts')

@@ -105,7 +105,7 @@
                                                 <div>
                                                     <h4 class="text-sm font-semibold text-gray-900">{{ $courseTitle }}</h4>
                                                     <p class="text-xs text-gray-500">{{ $courseCategory }}</p>
-                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?? 'N/A' }}</p>
+                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?: 'N/A' }}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -135,7 +135,7 @@
                                                 </div>
                                                 <div>
                                                     <div class="text-xs text-gray-900">{{ $payment->payment_method ?? 'N/A' }}</div>
-                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?? 'N/A' }}</div>
+                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?: 'N/A' }}</div>
                                                 </div>
                                             </div>
                                         </td>

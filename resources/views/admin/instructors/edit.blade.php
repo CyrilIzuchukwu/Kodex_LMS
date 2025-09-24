@@ -37,15 +37,15 @@
         </nav>
     </div>
 
-    <div class="container mx-auto mt-4 mb-5 px-4 sm:px-6 lg:px-8" id="main-content">
+    <div class="container mx-auto mt-4 mb-5 px-4 sm:px-6 lg:px-3" id="main-content">
         <!-- Cover -->
         <div class="bg-white rounded-[20px] md:rounded-[30px] shadow-sm overflow-hidden mb-6 px-4 sm:px-6 md:px-8 py-4 sm:py-6 md:py-8 relative">
             <div class="relative bg-gradient-to-r from-[#E68815] to-[#F5CE9F] h-24 sm:h-32 rounded-t-[20px] -mx-4 -mt-4 sm:-mx-6 sm:-mt-6 md:-mx-8 md:-mt-8"></div>
             <div class="text-center -mt-12 sm:-mt-16">
                 <div class="relative inline-block">
-                    <img id="profile-image-preview" src="{{ $instructor->profile && $instructor->profile->profile_photo_path ? $instructor->profile->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($instructor->name, 0, 1) }}" alt="instructor Avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white object-cover">
+                    <img id="profile-image-preview" src="{{ $instructor->profile && $instructor->profile?->profile_photo_path ? $instructor->profile?->profile_photo_path : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($instructor->name, 0, 1) }}" alt="instructor Avatar" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-white object-cover">
                     <div class="absolute bottom-0 right-0">
-                        @if ($instructor->profile && $instructor->profile->profile_photo_path)
+                        @if ($instructor->profile && $instructor->profile?->profile_photo_path)
                             <form id="remove-profile-picture-form" action="{{ route('admin.instructors.picture.remove', $instructor->id) }}" method="POST" class="inline">
                                 @csrf
                                 <button type="button" id="delete-profile-picture" class="bg-red-500 text-white rounded-full p-1 sm:p-2 hover:bg-red-600 transition">
@@ -168,7 +168,7 @@
 
                                 <div class="mb-5">
                                     <label for="phone_number" class="block text-xs sm:text-sm font-medium text-[#6B7280] mb-1">Phone Number</label>
-                                    <input id="phone_number" type="tel" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="phone_number" value="{{ old('phone_number', $instructor->profile->phone_number) }}" placeholder="Enter your phone number" autocomplete="tel">
+                                    <input id="phone_number" type="tel" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="phone_number" value="{{ old('phone_number', $instructor->profile?->phone_number) }}" placeholder="Enter your phone number" autocomplete="tel">
                                     @error('phone_number')
                                     <span class="text-red-500 text-xs sm:text-sm mt-1">{{ $message }}</span>
                                     @enderror
@@ -176,7 +176,7 @@
 
                                 <div class="mb-5">
                                     <label for="address" class="block text-xs sm:text-sm font-medium text-[#6B7280] mb-1">Address</label>
-                                    <input id="address" type="text" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="address" value="{{ old('address', $instructor->profile->address) }}" placeholder="Enter your address" autocomplete="street-address">
+                                    <input id="address" type="text" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="address" value="{{ old('address', $instructor->profile?->address) }}" placeholder="Enter your address" autocomplete="street-address">
                                     @error('address')
                                     <span class="text-red-500 text-xs sm:text-sm mt-1">{{ $message }}</span>
                                     @enderror
@@ -187,7 +187,7 @@
                                     <select name="course" id="course" class="w-full px-4 py-3 text-sm text-gray-900 bg-white border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors duration-200 appearance-none cursor-pointer placeholder:text-gray-500 invalid:text-gray-500">
                                         <option value="" disabled selected>Select a course</option>
                                         @foreach($instructorAssignedCourses as $course)
-                                            <option value="{{ $course->id }}"{{ old('course', $instructor->profile->course_id) == $course->id ? 'selected' : '' }}>
+                                            <option value="{{ $course->id }}"{{ old('course', $instructor->profile?->course_id) == $course->id ? 'selected' : '' }}>
                                                 {{ $course->title }}
                                             </option>
                                         @endforeach
@@ -199,7 +199,7 @@
 
                                 <div class="mb-5 col-span-1 sm:col-span-2">
                                     <label for="biography" class="block text-xs sm:text-sm font-medium text-[#6B7280] mb-1">Biography</label>
-                                    <textarea id="biography" rows="4" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="biography" placeholder="Write a brief biography" autocomplete="biography">{{ old('biography', $instructor->profile->biography) }}</textarea>
+                                    <textarea id="biography" rows="4" class="w-full px-3 py-2 sm:px-4 sm:py-3 border border-[#E1E1E1] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#EB8C22] focus:border-0 text-[#1B1B1B] placeholder:text-[#6B7280]" name="biography" placeholder="Write a brief biography" autocomplete="biography">{{ old('biography', $instructor->profile?->biography) }}</textarea>
                                     @error('biography')
                                     <span class="text-red-500 text-xs sm:text-sm mt-1">{{ $message }}</span>
                                     @enderror

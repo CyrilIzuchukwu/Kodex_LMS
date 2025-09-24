@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CourseCategory;
 use App\Models\User;
+use App\Models\UserProfile;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -27,12 +28,21 @@ class CoursesSeeder extends Seeder
             throw new Exception('No categories found. Please seed CourseCategoriesSeeder first.');
         }
 
-        // Fetch all user IDs from the users table
+        // Fetch all existing user IDs
         $userIds = User::pluck('id')->toArray();
 
         if (empty($userIds)) {
-            throw new Exception('No users found. Please seed UsersSeeder first.');
+            throw new Exception('No users found. Please seed DatabaseSeeder first.');
         }
+
+        // Fetch all existing users and their profiles for course assignment
+        $users = User::all();
+        if ($users->isEmpty()) {
+            throw new Exception('No users found. Please seed DatabaseSeeder first.');
+        }
+
+        // Fetch all existing course IDs (will be populated as courses are created)
+        $courseIds = [];
 
         $courseTitles = [
             'Introduction to {category}', 'Advanced {category} Techniques', 'Mastering {category}',
@@ -75,7 +85,7 @@ class CoursesSeeder extends Seeder
                 'price' => $faker->randomFloat(2, 0, 99999.99),
                 'summary' => $faker->paragraph(10),
                 'video_url' => $faker->boolean() ? $faker->url : null,
-                'user_id' => $faker->randomElement($userIds),
+                'user_id' => $faker->randomElement($userIds), // Use existing user ID
                 'status' => $faker->randomElement(['draft', 'published']),
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -85,6 +95,7 @@ class CoursesSeeder extends Seeder
 
             // Insert the course to get its ID
             $courseId = DB::table('courses')->insertGetId($course);
+            $courseIds[] = $courseId; // Track course ID
 
             // Generate 2–4 course outcomes
             $numOutcomes = $faker->numberBetween(2, 4);
@@ -146,6 +157,32 @@ class CoursesSeeder extends Seeder
         }
         foreach (array_chunk($moduleResources, 25) as $chunk) {
             DB::table('module_resources')->insert($chunk);
+        }
+
+        // Shuffle course IDs for random assignment
+        shuffle($courseIds);
+
+        // Assign courses to user profiles
+        foreach ($users as $user) {
+            // Skip admin users (assuming role 'admin' should not get a course)
+            if ($user->role === 'admin') {
+                continue;
+            }
+
+            // Assign a unique course if available
+            $courseId = !empty($courseIds) ? array_shift($courseIds) : null;
+
+            // Update or create user profile with course_id
+            UserProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'profile_photo_path' => null,
+                    'phone_number' => $faker->phoneNumber,
+                    'address' => $faker->address,
+                    'biography' => $user->role === 'instructor' ? 'Instructor user biography.' : ($faker->optional()->paragraph),
+                    'course_id' => $courseId,
+                ]
+            );
         }
     }
 }

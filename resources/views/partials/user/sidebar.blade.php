@@ -54,9 +54,9 @@
             <li class="mt-5 ps-2">
                 <span class="text-[#262626] text-sm">Communications</span>
             </li>
-            <li class="{{ isActive('panel/notifications') }}">
-                <a href="/panel/notifications">
-                    <i class="uil uil-bell me-1"></i>Announcements
+            <li class="{{ isActive('user.notifications.index') }}">
+                <a href="{{ route('user.notifications.index') }}">
+                    <i class="uil uil-bell me-1"></i>Notifications
                 </a>
             </li>
 

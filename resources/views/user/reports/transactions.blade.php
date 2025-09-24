@@ -114,7 +114,7 @@
                                                 <div>
                                                     <h4 class="text-sm font-semibold text-gray-900">{{ $courseTitle }}</h4>
                                                     <p class="text-xs text-gray-500">{{ $courseCategory }}</p>
-                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?? 'N/A' }}</p>
+                                                    <p class="text-xs text-gray-400 mt-1">{{ $payment->transaction_reference ?: 'N/A' }}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -144,7 +144,7 @@
                                                 </div>
                                                 <div>
                                                     <div class="text-xs text-gray-900">{{ $payment->payment_method ?? 'N/A' }}</div>
-                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?? 'N/A' }}</div>
+                                                    <div class="text-xs text-gray-500">{{ $payment->channel ?: 'N/A' }}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -155,12 +155,8 @@
                                                     <a href="{{ route('user.reports.transactions.show', $payment->id) }}" class="bg-[#E68815] hover:bg-[#d47a12] text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200">
                                                         View Invoice
                                                     </a>
-                                                @elseif ($payment->status == 'pending')
-                                                    <a class="bg-gray-100 text-gray-400 px-3 py-2 rounded-lg text-xs font-medium cursor-not-allowed">
-                                                        View Invoice
-                                                    </a>
                                                 @else
-                                                    <a class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 cursor-not-allowed">
+                                                    <a class="bg-gray-100 text-gray-400 px-3 py-2 rounded-lg text-xs font-medium cursor-not-allowed">
                                                         View Invoice
                                                     </a>
                                                 @endif

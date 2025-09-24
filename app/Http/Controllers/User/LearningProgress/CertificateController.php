@@ -47,7 +47,7 @@ class CertificateController extends Controller
             }
 
             // Generate certificate ID
-            $certificateId = 'KDX-' . $enrollment->id . '-' . $course->id . '-' . Auth::id() . '-' . now()->format('Y');
+            $certificateId = 'KDX-' . now()->format('Y') . '-' . $enrollment->id . '-' . $course->id . '-' . Auth::id() . '-' . strtoupper(substr(Auth::user()->name ?? '', 0, 2));
 
             // Generate unique filenames
             $fileName = "certificate-$course->slug-" . Auth::id() . ".pdf";

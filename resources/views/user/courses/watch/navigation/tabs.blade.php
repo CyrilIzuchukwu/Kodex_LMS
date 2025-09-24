@@ -1,12 +1,4 @@
 <div class="glass-effect rounded-2xl p-4 sm:p-6 shadow-lg">
-    <!-- Success Message -->
-    <div id="success-message" class="hidden success-message bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg mb-4">
-        <div class="flex items-center">
-            <i class="mdi mdi-check-circle mr-2"></i>
-            <span id="success-text"></span>
-        </div>
-    </div>
-
     <!-- Tab Navigation -->
     <div class="flex flex-wrap gap-2 sm:gap-3 mb-6">
         <a href="{{ route('user.course.watch', ['course' => $course->id, 'module' => $current_module_id, 'tab' => 'qa']) }}"
@@ -129,7 +121,7 @@
                     <!-- Original Question -->
                     <div id="question-detail" class="bg-orange-50 rounded-xl p-4 sm:p-6 mb-6 sm:mb-8 border border-orange-200">
                         <div class="flex items-start gap-3 sm:gap-4">
-                            <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover" src="{{ $question->user->profile && $question->user->profile->profile_photo_path ? asset($question->user->profile->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1) }}" alt="{{ $question->user->name }}">
+                            <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover" src="{{ $question->user->profile && $question->user->profile?->profile_photo_path ? asset($question->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1) }}" alt="{{ $question->user->name }}">
                             <div class="flex-1">
                                 <h3 id="question-title" class="font-semibold text-gray-800 text-base sm:text-lg mb-2">{{ $question->title }}</h3>
                                 <p id="question-content" class="text-gray-600 text-sm sm:text-base mb-3">{{ $question->content }}</p>
@@ -151,7 +143,7 @@
                         @forelse($question->replies as $reply)
                             <div id="reply-{{ $reply->id }}" class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border {{ $reply->is_instructor ? 'border-blue-200' : 'ml-4 sm:ml-8' }}">
                                 <div class="flex items-start gap-3 sm:gap-4">
-                                    <img class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" src="{{ $reply->user->profile && $reply->user->profile->profile_photo_path ? asset($reply->user->profile->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($reply->user->name ?? 'N', 0, 1) }}" alt="{{ $reply->user->name }}">
+                                    <img class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" src="{{ $reply->user->profile && $reply->user->profile?->profile_photo_path ? asset($reply->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($reply->user->name ?? 'N', 0, 1) }}" alt="{{ $reply->user->name }}">
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-2 mb-1">
                                             <span class="text-orange-600 font-medium text-sm sm:text-base">{{ $reply->user->name }}</span>
@@ -317,11 +309,6 @@
         color: #9ca3af !important;
     }
 
-    /* Success message animation */
-    .success-message {
-        animation: slideIn 0.3s ease-out;
-    }
-
     @keyframes slideIn {
         from {
             opacity: 0;
@@ -472,19 +459,6 @@
         });
     }
 
-    // Show success message
-    function showSuccessMessage(message) {
-        const successDiv = document.getElementById('success-message');
-        const successText = document.getElementById('success-text');
-
-        successText.textContent = message;
-        successDiv.classList.remove('hidden');
-
-        setTimeout(() => {
-            successDiv.classList.add('hidden');
-        }, 5000);
-    }
-
     // Show loading state
     function showLoading(loadingId, buttonId) {
         const button = document.getElementById(buttonId);
@@ -514,6 +488,86 @@
         const loadingOverlay = document.getElementById(loadingId);
         if (loadingOverlay) {
             loadingOverlay.classList.add('hidden');
+        }
+    }
+
+    // Toggle like/dislike function
+    async function toggleLike(type, id, action) {
+        if (!{{ auth()->check() ? 'true' : 'false' }}) {
+            iziToast.warning({
+                title: 'Authentication Required',
+                message: 'Please log in to like or dislike posts.',
+                position: 'topRight',
+                transitionIn: 'flipInX',
+                transitionOut: 'flipOutX',
+            });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('_token', csrfToken);
+        formData.append('type', type);
+        formData.append('id', id);
+        formData.append('action', action);
+
+        try {
+            const response = await fetch('{{ route("user.course.like.toggle") }}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json',
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                updateLikeUI(type, id, data);
+            } else {
+                iziToast.error({
+                    title: 'Error',
+                    message: data.message || 'Failed to update like status',
+                    position: 'topRight',
+                });
+            }
+        } catch (error) {
+            console.error('Error toggling like:', error);
+            iziToast.error({
+                title: 'Error',
+                message: 'Error updating like status. Please try again.',
+                position: 'topRight',
+            });
+        }
+    }
+
+    // Update UI after like/dislike action
+    function updateLikeUI(type, id, data) {
+        const container = document.querySelector(`#${type}-${id}`);
+        if (!container) return;
+
+        const likeBtn = container.querySelector('.like-btn');
+        const dislikeBtn = container.querySelector('.dislike-btn');
+        const likesCount = container.querySelector('.likes-count');
+        const dislikesCount = container.querySelector('.dislikes-count');
+
+        // Update counts
+        if (likesCount) likesCount.textContent = data.likes_count;
+        if (dislikesCount) dislikesCount.textContent = data.dislikes_count;
+
+        // Reset button states
+        likeBtn.classList.remove('text-green-600');
+        likeBtn.classList.add('text-gray-400');
+        dislikeBtn.classList.remove('text-red-600');
+        dislikeBtn.classList.add('text-gray-400');
+
+        // Set active state based on user status
+        if (data.user_status === 'liked') {
+            likeBtn.classList.remove('text-gray-400');
+            likeBtn.classList.add('text-green-600');
+        } else if (data.user_status === 'disliked') {
+            dislikeBtn.classList.remove('text-gray-400');
+            dislikeBtn.classList.add('text-red-600');
         }
     }
 
@@ -580,8 +634,6 @@
                 // Clear and hide form
                 clearQuestionForm();
                 toggleQuestionForm();
-
-                showSuccessMessage('Your question has been posted successfully!');
             } else {
                 document.getElementById('question-content-error').textContent = data.message || 'Failed to post question';
                 document.getElementById('question-content-error').classList.remove('hidden');
@@ -646,8 +698,6 @@
 
                 // Clear form
                 clearReplyForm();
-
-                showSuccessMessage('Your reply has been posted successfully!');
 
                 // Scroll to new reply
                 container.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -747,8 +797,6 @@
                 // Clear and hide form
                 clearNoteForm();
                 toggleNoteForm();
-
-                showSuccessMessage('Your note has been saved successfully!');
             } else {
                 document.getElementById('note-content-error').textContent = data.message || 'Failed to save note';
                 document.getElementById('note-content-error').classList.remove('hidden');
@@ -801,27 +849,51 @@
     function createReplyElement(reply) {
         const isOwner = reply.user && reply.user.id === currentUserId;
         return `
-        <div id="reply-${reply.id}" class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border ${reply.is_instructor ? 'border-blue-200' : 'ml-4 sm:ml-8'}">
-            <div class="flex items-start gap-3 sm:gap-4">
-                <img class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" src="${getProfileImage(reply.user)}" alt="${reply.user.name}">
-                <div class="flex-1">
-                    <div class="flex flex-wrap items-center gap-2 mb-1">
-                        <span class="text-orange-600 font-medium text-sm sm:text-base">${reply.user.name}</span>
-                        ${reply.is_instructor ? '<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Instructor</span>' : ''}
+                <div id="reply-${reply.id}" class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border ${reply.is_instructor ? 'border-blue-200' : 'ml-4 sm:ml-8'}">
+                    <div class="flex items-start gap-3 sm:gap-4">
+                        <img class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" src="${getProfileImage(reply.user)}" alt="${reply.user.name}">
+                        <div class="flex-1">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <span class="text-orange-600 font-medium text-sm sm:text-base">${reply.user.name}</span>
+                                ${reply.is_instructor ? '<span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Instructor</span>' : ''}
+                            </div>
+                            <p class="text-gray-500 text-xs sm:text-sm mb-2 sm:mb-3">${reply.created_at_diff}</p>
+                            <p class="text-gray-700 text-sm sm:text-base leading-relaxed">${reply.content}</p>
+
+                            <!-- Like/Dislike buttons for reply -->
+                            <div class="flex items-center gap-4 mt-3">
+                                <div class="flex items-center gap-2">
+                                    <button
+                                        onclick="toggleLike('reply', ${reply.id}, 'like')"
+                                        class="like-btn flex items-center gap-1 text-gray-400 hover:text-green-600 transition-colors ${reply.user_like_status === 'liked' ? 'text-green-600' : ''}"
+                                        data-type="reply"
+                                        data-id="${reply.id}">
+                                        <i class="mdi mdi-thumb-up text-sm"></i>
+                                        <span class="likes-count text-xs">${reply.likes_count || 0}</span>
+                                    </button>
+
+                                    <button
+                                        onclick="toggleLike('reply', ${reply.id}, 'dislike')"
+                                        class="dislike-btn flex items-center gap-1 text-gray-400 hover:text-red-600 transition-colors ${reply.user_like_status === 'disliked' ? 'text-red-600' : ''}"
+                                        data-type="reply"
+                                        data-id="${reply.id}">
+                                        <i class="mdi mdi-thumb-down text-sm"></i>
+                                        <span class="dislikes-count text-xs">${reply.dislikes_count || 0}</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="hidden full-content">${reply.content}</div>
+                            ${isOwner ? `
+                            <div class="mt-3 flex gap-3">
+                                <button onclick="editReply(${reply.id})" class="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1"><i class="mdi mdi-pencil"></i> Edit</button>
+                                <button onclick="deleteReply(${reply.id})" class="text-red-600 hover:text-red-700 text-sm flex items-center gap-1"><i class="mdi mdi-delete"></i> Delete</button>
+                            </div>
+                            ` : ''}
+                        </div>
                     </div>
-                    <p class="text-gray-500 text-xs sm:text-sm mb-2 sm:mb-3">${reply.created_at_diff}</p>
-                    <p class="text-gray-700 text-sm sm:text-base leading-relaxed">${reply.content}</p>
-                    <div class="hidden full-content">${reply.content}</div>
-                    ${isOwner ? `
-                    <div class="mt-3 flex gap-3">
-                        <button onclick="editReply(${reply.id})" class="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1"><i class="mdi mdi-pencil"></i> Edit</button>
-                        <button onclick="deleteReply(${reply.id})" class="text-red-600 hover:text-red-700 text-sm flex items-center gap-1"><i class="mdi mdi-delete"></i> Delete</button>
-                    </div>
-                    ` : ''}
                 </div>
-            </div>
-        </div>
-    `;
+            `;
     }
 
     // Create note element HTML
@@ -1137,7 +1209,6 @@
             const data = await response.json();
 
             if (response.ok) {
-                showSuccessMessage('Question updated successfully!');
                 const elem = document.getElementById(elemId);
                 if (isSingle) {
                     // Update single question view
@@ -1212,7 +1283,6 @@
                         const data = await response.json();
 
                         if (response.ok) {
-                            showSuccessMessage(`${type.charAt(0).toUpperCase() + type.slice(1)} deleted successfully!`);
                             if (singleViewRedirect) {
                                 location.href = singleViewRedirect;
                             } else {
@@ -1353,7 +1423,6 @@
             const data = await response.json();
 
             if (response.ok) {
-                showSuccessMessage('Reply updated successfully!');
                 const elem = document.getElementById(elemId);
                 elem.outerHTML = createReplyElement(data.reply);
                 originals.delete(`reply-${id}`);
@@ -1477,7 +1546,6 @@
             const data = await response.json();
 
             if (response.ok) {
-                showSuccessMessage('Note updated successfully!');
                 const elem = document.getElementById(elemId);
                 elem.outerHTML = createNoteElement(data.note);
                 originals.delete(`note-${id}`);
@@ -1556,14 +1624,6 @@
                 const url = new URL(link.href);
                 loadQuestions(url.searchParams.get('page'));
             });
-        });
-
-        // Click outside a success message
-        document.addEventListener('click', (e) => {
-            const successMessage = document.getElementById('success-message');
-            if (!successMessage.contains(e.target) && !successMessage.classList.contains('hidden')) {
-                successMessage.classList.add('hidden');
-            }
         });
 
         // Load specific question if present

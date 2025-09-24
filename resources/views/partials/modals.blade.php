@@ -32,27 +32,27 @@
                 <div class="w-full">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="full_name">Fullname *</label>
-                        <input name="full_name" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter full name">
+                        <input name="full_name" id="full_name" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter full name" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="grid straddles grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="phoneNumber">Phone</label>
-                        <input name="phone" type="tel" id="phoneNumber" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter phone number">
+                        <input name="phone" type="tel" id="phoneNumber" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter phone number" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="address">Address</label>
-                        <input name="address" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter house address">
+                        <input name="address" id="address" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter house address" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="mt-3 mb-4">
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Biography</label>
+                    <label class="block text-xs font-medium text-gray-700 mb-1" for="biography">Biography</label>
                     <div class="border border-gray-300 rounded-lg bg-white">
 
-                        <textarea name="biography" id="biography" placeholder="Write something..." rows="3" class="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent text-gray-900 placeholder:text-gray-500 resize-none focus:outline-none focus:border-none focus:ring-[#E68815] rounded-t-lg text-xs"></textarea>
+                        <textarea name="biography" id="biography" placeholder="Write something..." rows="3" class="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent text-gray-900 placeholder:text-gray-500 resize-none focus:outline-none focus:border-none focus:ring-[#E68815] rounded-t-lg text-xs" autocomplete="off"></textarea>
 
                         <div class="flex items-center gap-1 px-2 md:px-3 py-1 border-t border-gray-300 bg-gray-50 rounded-b-lg">
                             <!-- Formatting buttons -->
@@ -125,11 +125,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="email">Email</label>
-                        <input name="email" type="email" id="email" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter e-mail address">
+                        <input name="email" type="email" id="email" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter e-mail address" autocomplete="off">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="password">Password</label>
-                        <input name="password" type="password" id="password" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Create password">
+                        <input name="password" type="password" id="password" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Create password" autocomplete="off">
                         <p class="text-brand text-xs mt-1">At least 8 characters with numbers or symbols.</p>
                     </div>
                 </div>
@@ -182,19 +182,19 @@
                 <div class="w-full">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="full_name_instructor">Fullname *</label>
-                        <input name="full_name_instructor" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter full name">
+                        <input name="full_name_instructor" id="full_name_instructor" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter full name" autocomplete="off">
                     </div>
                 </div>
 
                 <div class="grid straddles grid-cols-1 md:grid-cols-2 gap-3 mt-3">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="phone_number">Phone</label>
-                        <input name="phone_number" type="tel" id="phone_number" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter phone number">
+                        <input name="phone_number" type="tel" id="phone_number" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter phone number" autocomplete="off">
                     </div>
 
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="address_instructor">Address</label>
-                        <input name="address_instructor" id="address_instructor" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter house address">
+                        <input name="address_instructor" id="address_instructor" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter house address" autocomplete="off">
                     </div>
                 </div>
 
@@ -212,7 +212,7 @@
                 <div class="mt-3 mb-4">
                     <label class="block text-xs font-medium text-gray-700 mb-1" for="biography_instructor">Biography</label>
                     <div class="border border-gray-300 rounded-lg bg-white">
-                        <textarea name="biography_instructor" id="biography_instructor" placeholder="Write something..." rows="3" class="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent text-gray-900 placeholder:text-gray-500 resize-none focus:outline-none focus:border-none focus:ring-[#E68815] rounded-t-lg text-xs"></textarea>
+                        <textarea name="biography_instructor" id="biography_instructor" placeholder="Write something..." rows="3" class="w-full px-2 md:px-3 py-1 md:py-2 bg-transparent text-gray-900 placeholder:text-gray-500 resize-none focus:outline-none focus:border-none focus:ring-[#E68815] rounded-t-lg text-xs" autocomplete="off"></textarea>
                         <div class="flex items-center gap-1 px-2 md:px-3 py-1 border-t border-gray-300 bg-gray-50 rounded-b-lg">
                             <button type="button" class="p-1 hover:bg-gray-200 rounded">
                                 <svg class="w-3 h-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,11 +275,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="email_instructor">Email</label>
-                        <input name="email_instructor" type="email" id="email_instructor" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter e-mail address">
+                        <input name="email_instructor" type="email" id="email_instructor" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Enter e-mail address" autocomplete="off">
                     </div>
                     <div>
                         <label class="block text-xs font-medium text-gray-700 mb-1" for="password_instructor">Password</label>
-                        <input name="password_instructor" type="password" id="password_instructor" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Create password">
+                        <input name="password_instructor" type="password" id="password_instructor" class="w-full border border-gray-300 rounded-lg p-2 focus:border-[#E68815] text-black text-xs focus:ring-1 focus:ring-[#E68815]" placeholder="Create password" autocomplete="off">
                         <p class="text-brand text-xs mt-1">At least 8 characters with numbers or symbols.</p>
                     </div>
                 </div>

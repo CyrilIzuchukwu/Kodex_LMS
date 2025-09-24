@@ -159,15 +159,25 @@
                     </div>
                 @else
                     @if(!$myLearning->count())
-                        <section class="flex items-center justify-center min-h-[50vh]">
-                            <div class="p-8 max-w-md text-center">
-                                <div class="w-20 h-20 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-6 mx-auto">
-                                    <svg class="w-12 h-12 text-[#8C530D]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                    </svg>
+                        <section class="flex items-center justify-center min-h-[50vh] bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                            <!-- Empty State -->
+                            <div class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                                <div class="relative mb-6 sm:mb-8">
+                                    <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
+                                        <svg class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="absolute -top-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center">
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                        </svg>
+                                    </div>
                                 </div>
-                                <h2 class="text-2xl font-semibold text-[#444444] mb-4">No Purchased Courses Found</h2>
-                                <p class="text-base text-[#1B1B1B] mb-6">You haven't purchased any courses yet. Explore our catalog to find courses that interest you!</p>
+                                <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Purchased Courses Found</h2>
+                                <p class="text-gray-500 text-base sm:text-lg text-center max-w-xs sm:max-w-md mb-6 sm:mb-8 px-4">
+                                    You haven't purchased any courses yet. Explore our catalog to find courses that interest you!
+                                </p>
                                 <a href="{{ route('user.courses') }}" class="inline-block bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-8 rounded-[100px] font-semibold text-base transition-colors shadow-sm hover:shadow-md">Explore Courses</a>
                             </div>
                         </section>
@@ -359,7 +369,7 @@
                                 }
                             } else {
                                 coursesContainer.innerHTML = `
-                                    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-5" id="courses-grid">
+                                    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-5" id="courses-grid">
                                         ${data.html}
                                     </section>
                                     <div id="pagination-container">${data.pagination || ''}</div>
@@ -367,16 +377,26 @@
                             }
                         } else {
                             coursesContainer.innerHTML = `
-                                <section class="flex items-center justify-center min-h-[35vh]" id="no-courses-section">
-                                    <div class="p-8 max-w-md text-center">
-                                        <div class="w-16 h-16 rounded-full bg-[#F5CE9F] flex items-center justify-center mb-6 mx-auto">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-[#8C530D]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12h.01M12 16h.01" />
-                                            </svg>
+                                <section class="flex items-center justify-center min-h-[50vh] bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                                    <!-- Empty State -->
+                                    <div class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                                        <div class="relative mb-6 sm:mb-8">
+                                            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12h.01M12 16h.01" />
+                                                </svg>
+                                            </div>
+                                            <div class="absolute -top-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center">
+                                                <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                </svg>
+                                            </div>
                                         </div>
-                                        <h2 class="font-[400] text-[#444444] text-[20px] mb-4">No Courses Found</h2>
-                                        <p class="text-[14px] text-[#1B1B1B] mb-6">No courses match your current search or filter criteria. Try adjusting your filters or search terms.</p>
+                                        <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Courses Found</h2>
+                                        <p class="text-gray-500 text-base sm:text-lg text-center max-w-xs sm:max-w-md mb-6 sm:mb-8 px-4">
+                                            No courses match your current search or filter criteria. Try adjusting your filters or search terms.
+                                        </p>
                                     </div>
                                 </section>
                             `;

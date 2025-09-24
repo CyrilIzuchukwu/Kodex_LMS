@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CourseEnrollment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserDashboardController extends Controller
@@ -20,8 +19,9 @@ class UserDashboardController extends Controller
                     ->where('user_id', $user_id);
             })
             ->orderBy('title', 'ASC')
+            ->inRandomOrder()
             ->latest()
-            ->limit(3)
+            ->limit(4)
             ->get();
 
         // My learning Courses (accessed within the last 48 hours)
@@ -34,8 +34,8 @@ class UserDashboardController extends Controller
         ])->where('user_id', $user_id)
             ->whereNotNull('last_accessed')
             ->where('last_accessed', '>=', now()->subHours(48))
-            ->where('status', 'running')
-            ->orderBy('last_accessed', 'desc')
+            ->orderByDesc('last_accessed')
+            ->orderByRaw("CASE WHEN status = 'running' THEN 1 WHEN status = 'completed' THEN 2 ELSE 3 END")
             ->latest()
             ->paginate(3);
 

@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -33,11 +34,15 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        // Validate login request
-        $request->validate([
+        // validate request
+        $validator = Validator::make($request->all(), [
             'email'    => ['required', 'email'],
             'password' => ['required', Password::defaults()],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         // Check if a user has too many failed login attempts
         if ($this->hasTooManyLoginAttempts($request)) {

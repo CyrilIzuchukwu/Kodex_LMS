@@ -35,11 +35,12 @@
                                 </div>
 
                                 <div class="p-6">
-                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <!-- Approve Transaction -->
                                         <form action="{{ route('admin.reports.transaction.approve', $payment->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
+
                                             <button type="submit" class="w-full bg-green-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center">
                                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
@@ -52,38 +53,13 @@
                                         <form action="{{ route('admin.reports.transaction.cancel', $payment->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('PATCH')
-                                            <button type="submit" class="w-full bg-red-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors flex items-center justify-center" onclick="return confirm('Are you sure you want to cancel this transaction?')">
+
+                                            <button type="submit" class="w-full bg-red-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors flex items-center justify-center">
                                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                                 </svg>
                                                 Cancel Payment
                                             </button>
-                                        </form>
-
-                                        <!-- Mark as Under Review -->
-                                        <form action="{{ route('admin.reports.transaction.review', $payment->id) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit" class="w-full bg-yellow-600 text-white px-4 py-3 rounded-lg font-medium hover:bg-yellow-700 transition-colors flex items-center justify-center">
-                                                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                                </svg>
-                                                Mark Under Review
-                                            </button>
-                                        </form>
-                                    </div>
-
-                                    <!-- Admin Notes Section -->
-                                    <div class="mt-6 border-t pt-6">
-                                        <form action="{{ route('admin.reports.transaction.note', $payment->id) }}" method="POST">
-                                            @csrf
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">Add Admin Note</label>
-                                            <div class="flex gap-3">
-                                                <textarea name="admin_note" rows="2" class="flex-1 border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Add internal note about this transaction..."></textarea>
-                                                <button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 transition-colors">
-                                                    Add Note
-                                                </button>
-                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -93,7 +69,7 @@
                         <!-- Transaction Invoice -->
                         <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
                             <!-- Status Header -->
-                            @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
+                            @if($payment->status === 'completed')
                                 <div class="bg-gray-500 p-6 sm:p-8 relative">
                                     <!-- Success Status Icon -->
                                     <div class="absolute top-0 right-0 opacity-10">
@@ -143,33 +119,6 @@
                                             <div class="text-right">
                                                 <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">
                                                     Awaiting Review
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @elseif($payment->status === 'under_review')
-                                <div class="bg-gray-500 p-6 sm:p-8 relative">
-                                    <!-- Review Status Icon -->
-                                    <div class="absolute top-0 right-0 opacity-10">
-                                        <svg class="w-32 sm:w-48 lg:w-64 h-32 sm:h-48 lg:h-64" viewBox="0 0 200 200" fill="white">
-                                            <circle cx="100" cy="100" r="80" stroke="white" stroke-width="8" fill="none"/>
-                                            <path d="M100 60v40l20 20" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </div>
-
-                                    <div class="relative z-10">
-                                        <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
-                                            <div>
-                                                <img class="h-10 sm:h-12" src="{{ asset('dashboard_assets/images/img/Kodex.png') }}" alt="Kodex Logo">
-                                                <div class="mt-4">
-                                                    <h2 class="text-xl sm:text-2xl font-bold text-white">Under Review</h2>
-                                                    <p class="text-blue-100 mt-1">Transaction is currently being reviewed by admin.</p>
-                                                </div>
-                                            </div>
-                                            <div class="text-right">
-                                                <span class="bg-white bg-opacity-20 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                                    In Review
                                                 </span>
                                             </div>
                                         </div>
@@ -247,13 +196,13 @@
                                         <div>
                                             <p class="text-xs text-gray-500">Phone Number</p>
                                             <p class="text-base font-semibold text-gray-800 break-all">
-                                                {{ $payment->user->profile->phone_number ?? 'N/A'  }}
+                                                {{ $payment->user->profile?->phone_number ?? 'N/A'  }}
                                             </p>
                                         </div>
 
                                         <div>
                                             <p class="text-xs text-gray-500">Transaction ID</p>
-                                            <p class="text-base font-semibold text-gray-800">{{ $payment->transaction_reference ?? 'N/A' }}</p>
+                                            <p class="text-base font-semibold text-gray-800">{{ $payment->transaction_reference ?: 'N/A' }}</p>
                                         </div>
 
                                         <div>
@@ -264,12 +213,10 @@
                                         <div>
                                             <p class="text-xs text-gray-500">Status</p>
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
+                                                @if($payment->status === 'completed')
                                                     bg-green-100 text-green-800
                                                 @elseif($payment->status === 'pending')
                                                     bg-yellow-100 text-yellow-800
-                                                @elseif($payment->status === 'under_review')
-                                                    bg-blue-100 text-blue-800
                                                 @else
                                                     bg-red-100 text-red-800
                                                 @endif
@@ -301,14 +248,14 @@
                                                     <td class="px-6 py-4">
                                                         <div class="flex items-center">
                                                             <div class="w-1 h-12 rounded-full mr-3
-                                                                    @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
-                                                                        bg-green-500
-                                                                    @elseif($payment->status === 'pending' || $payment->status === 'under_review')
-                                                                        bg-yellow-500
-                                                                    @else
-                                                                        bg-red-500
-                                                                    @endif
-                                                                "></div>
+                                                                        @if($payment->status === 'completed')
+                                                                            bg-green-500
+                                                                        @elseif($payment->status === 'pending')
+                                                                            bg-yellow-500
+                                                                        @else
+                                                                            bg-red-500
+                                                                        @endif
+                                                                    "></div>
                                                             <div>
                                                                 <p class="text-sm font-medium text-gray-900">{{ $course->title }}</p>
                                                                 <p class="text-xs text-gray-500">@truncate($course->subtitle, 45)</p>
@@ -336,32 +283,32 @@
                                                     </td>
 
                                                     <td class="px-6 py-4 text-center">
-                                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                                                            @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
-                                                                bg-green-100 text-green-800
-                                                            @elseif($payment->status === 'pending' || $payment->status === 'under_review')
-                                                                bg-yellow-100 text-yellow-800
-                                                            @else
-                                                                bg-red-100 text-red-800
-                                                            @endif
-                                                        ">
-                                                            @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
-                                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v2h1V6a3 3 0 116 0v2h1V6a4 4 0 00-4-4zm-5 8a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6z" clip-rule="evenodd"/>
-                                                                </svg>
-                                                                Purchased
-                                                            @elseif($payment->status === 'pending' || $payment->status === 'under_review')
-                                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                                                </svg>
-                                                                Pending
-                                                            @else
-                                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                                                </svg>
-                                                                Cancelled
-                                                            @endif
-                                                        </span>
+                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                                                                @if($payment->status === 'completed')
+                                                                    bg-green-100 text-green-800
+                                                                @elseif($payment->status === 'pending')
+                                                                    bg-yellow-100 text-yellow-800
+                                                                @else
+                                                                    bg-red-100 text-red-800
+                                                                @endif
+                                                            ">
+                                                                @if($payment->status === 'completed')
+                                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v2h1V6a3 3 0 116 0v2h1V6a4 4 0 00-4-4zm-5 8a2 2 0 012-2h6a2 2 0 012 2v6a2 2 0 01-2 2H7a2 2 0 01-2-2v-6z" clip-rule="evenodd"/>
+                                                                    </svg>
+                                                                    Purchased
+                                                                @elseif($payment->status === 'pending')
+                                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+                                                                    </svg>
+                                                                    Pending
+                                                                @else
+                                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                                    </svg>
+                                                                    Cancelled
+                                                                @endif
+                                                            </span>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -375,16 +322,14 @@
 
                                             <tfoot>
                                             <tr class="
-                                                    @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
-                                                        bg-green-600 text-white
-                                                    @elseif($payment->status === 'pending')
-                                                        bg-yellow-500 text-white
-                                                    @elseif($payment->status === 'under_review')
-                                                        bg-blue-500 text-white
-                                                    @else
-                                                        bg-red-500 text-white
-                                                    @endif
-                                                ">
+                                                        @if($payment->status === 'completed')
+                                                            bg-green-600 text-white
+                                                        @elseif($payment->status === 'pending')
+                                                            bg-yellow-500 text-white
+                                                        @else
+                                                            bg-red-500 text-white
+                                                        @endif
+                                                    ">
                                                 <td colspan="3" class="px-6 py-4 text-right font-semibold text-lg">
                                                     Total Amount
                                                 </td>
@@ -395,24 +340,6 @@
                                         </table>
                                     </div>
                                 </div>
-
-                                <!-- Admin Notes Section -->
-                                @if($payment->admin_notes && count($payment->admin_notes) > 0)
-                                    <div class="bg-blue-50 rounded-lg p-6 mb-8 border border-blue-200">
-                                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Admin Notes</h3>
-                                        <div class="space-y-3">
-                                            @foreach($payment->admin_notes as $note)
-                                                <div class="bg-white rounded-lg p-3 border border-blue-200">
-                                                    <p class="text-sm text-gray-700">{{ $note->note }}</p>
-                                                    <div class="flex justify-between items-center mt-2 text-xs text-gray-500">
-                                                        <span>By: {{ $note->admin->name ?? 'System' }}</span>
-                                                        <span>{{ $note->created_at->format('d M Y, h:i A') }}</span>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
 
                                 <!-- Payment Timeline -->
                                 <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
@@ -433,21 +360,15 @@
                                         @if($payment->status !== 'pending')
                                             <div class="flex items-start">
                                                 <div class="flex-shrink-0 w-8 h-8
-                                                    @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
+                                                    @if($payment->status === 'completed')
                                                         bg-green-100
-                                                    @elseif($payment->status === 'under_review')
-                                                        bg-yellow-100
                                                     @else
                                                         bg-red-100
                                                     @endif
                                                     rounded-full flex items-center justify-center">
-                                                    @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
+                                                    @if($payment->status === 'completed')
                                                         <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                                                             <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                        </svg>
-                                                    @elseif($payment->status === 'under_review')
-                                                        <svg class="w-4 h-4 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
                                                         </svg>
                                                     @else
                                                         <svg class="w-4 h-4 text-red-600" fill="currentColor" viewBox="0 0 20 20">
@@ -471,8 +392,8 @@
                                     <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
                                         <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Additional Actions</h3>
                                         <div class="flex flex-wrap gap-3">
-                                            @if($payment->status === 'cancelled' || $payment->status === 'failed')
-                                                <form action="#" method="POST" class="inline">
+                                            @if($payment->status === 'cancelled')
+                                                <form action="{{ route('admin.reports.transaction.reactivate', $payment->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('PATCH')
                                                     <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
@@ -481,22 +402,15 @@
                                                 </form>
                                             @endif
 
-                                            @if($payment->status === 'approved' || $payment->status === 'completed')
-                                                <form action="#" method="POST" class="inline">
+                                            @if($payment->status === 'completed')
+                                                <form action="{{ route('admin.reports.transaction.revoke', $payment->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors" onclick="return confirm('Are you sure you want to revoke access for this transaction?')">
+                                                    <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors">
                                                         Revoke Access
                                                     </button>
                                                 </form>
                                             @endif
-
-                                            <form action="#" method="POST" class="inline">
-                                                @csrf
-                                                <button type="submit" class="bg-gray-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors">
-                                                    Resend Receipt
-                                                </button>
-                                            </form>
 
                                             <a href="{{ route('admin.students.show', $payment->user->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
                                                 View Student Profile
@@ -517,7 +431,7 @@
                                             </div>
                                             <div>
                                                 <p class="text-sm font-medium text-gray-900">{{ strtoupper($payment->payment_method) }}</p>
-                                                <p class="text-xs text-gray-500">{{ strtoupper($payment->channel ?? 'N/A') }}</p>
+                                                <p class="text-xs text-gray-500">{{ strtoupper($payment->channel ?: 'N/A') }}</p>
                                                 @if($payment->gateway_response)
                                                     <p class="text-xs text-gray-400">Response: {{ $payment->gateway_response }}</p>
                                                 @endif
@@ -538,18 +452,16 @@
                                     <div class="text-center text-sm text-gray-500">
                                         <p class="font-medium">Admin Dashboard - Transaction Management</p>
                                         <p class="mt-2">
-                                            @if($payment->status === 'completed' || $payment->status === 'success' || $payment->status === 'approved')
+                                            @if($payment->status === 'completed')
                                                 Student has been granted access to purchased courses.
                                             @elseif($payment->status === 'pending')
                                                 Transaction requires admin approval before course access is granted.
-                                            @elseif($payment->status === 'under_review')
-                                                Transaction is currently under admin review.
                                             @else
                                                 Student access has been {{ $payment->status === 'cancelled' ? 'cancelled' : 'denied' }} for this transaction.
                                             @endif
                                         </p>
                                         <p class="mt-2 text-xs">
-                                            For technical support, contact the development team at {{ site_settings()->support_email ?? site_settings()->site_email }}
+                                            For technical support, contact the development team at {{ site_settings()?->support_email ?? site_settings()?->site_email }}
                                         </p>
                                     </div>
                                 </div>
@@ -560,4 +472,49 @@
             </div>
         </div>
     </div>
+
+    <!-- JavaScript for adding spinner to all form submit buttons -->
+    <script>
+        // Function to handle form submission with spinner
+        function handleFormSubmit(button, form, originalText) {
+            // Prevent default form submission
+            event.preventDefault();
+
+            // Show preloader
+            button.innerHTML = `
+                <span class="flex items-center justify-center gap-2 z-10 relative">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                    </svg>
+                    <span>Processing...</span>
+                </span>
+            `;
+            button.disabled = true;
+
+            // Check form validity
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                button.innerHTML = originalText;
+                button.disabled = false;
+                return;
+            }
+
+            // Delay for animation effect
+            setTimeout(() => form.submit(), 500);
+        }
+
+        // Select all submit buttons within forms
+        document.querySelectorAll('form button[type="submit"]').forEach(button => {
+            // Store the original button text
+            const originalText = button.innerHTML;
+            button.addEventListener('click', () => {
+                // Find the closest form element
+                const form = button.closest('form');
+                if (form) {
+                    handleFormSubmit(button, form, originalText);
+                }
+            });
+        });
+    </script>
 @endsection

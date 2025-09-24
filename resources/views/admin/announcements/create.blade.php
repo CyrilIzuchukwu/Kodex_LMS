@@ -32,8 +32,7 @@
                         <ul class="space-y-4">
                             <!-- Create Announcement -->
                             <li>
-                                <a class="flex items-center space-x-3 p-2 rounded-lg bg-[#F5CE9F] text-[#1B1B1B] hover:bg-[#EFCF9F] transition"
-                                   href="{{ route('admin.announcements.create') }}">
+                                <a class="flex items-center space-x-3 p-2 rounded-lg bg-[#F5CE9F] text-[#1B1B1B] hover:bg-[#EFCF9F] transition" href="{{ route('admin.announcements.create') }}">
                                     <div class="w-12 h-12 rounded-full bg-[#E68815] flex items-center justify-center text-white">
                                         <i class="uil uil-voicemail text-xl"></i>
                                     </div>
@@ -46,8 +45,7 @@
 
                             <!-- Announcements -->
                             <li>
-                                <a class="flex items-center space-x-3 p-2 rounded-lg text-[#1B1B1B] hover:bg-[#F5CE9F] transition"
-                                   href="{{ route('admin.announcements.index') }}">
+                                <a class="flex items-center space-x-3 p-2 rounded-lg text-[#1B1B1B] hover:bg-[#F5CE9F] transition" href="{{ route('admin.announcements.index') }}">
                                     <div class="w-12 h-12 rounded-full bg-[#E68815] flex items-center justify-center text-white">
                                         <i class="uil uil-megaphone text-xl"></i>
                                     </div>
@@ -87,7 +85,7 @@
 
                         <!-- Content -->
                         <div class="mb-5">
-                            <label for="content" class="block text-sm font-medium text-[#6B7280] mb-1">Announcement Content</label>
+                            <label for="details" class="block text-sm font-medium text-[#6B7280] mb-1">Announcement Content</label>
                             <div class="border border-gray-300 rounded-lg bg-white">
                                 <div id="editor" class="min-h-[120px] sm:min-h-[150px]"></div>
                                 <input type="hidden" name="content" id="details" value="{{ old('content') }}">
@@ -104,22 +102,8 @@
                                 <option value="all" {{ old('target') == 'all' ? 'selected' : '' }}>All Users</option>
                                 <option value="students" {{ old('target') == 'students' ? 'selected' : '' }}>Students Only</option>
                                 <option value="instructors" {{ old('target') == 'instructors' ? 'selected' : '' }}>Instructors Only</option>
-                                <option value="specific_courses" {{ old('target') == 'specific_courses' ? 'selected' : '' }}>Specific Courses</option>
                             </select>
                             @error('target')
-                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <!-- Courses Selection -->
-                        <div id="courses-fields" class="mb-5 hidden">
-                            <label class="block text-sm font-medium text-[#6B7280] mb-1" for="courses">Select Courses</label>
-                            <select id="courses" name="courses[]" multiple class="w-full select2-courses">
-                                @foreach($courses ?? [] as $course)
-                                    <option value="{{ $course->id }}" {{ in_array($course->id, old('courses', [])) ? 'selected' : '' }}>{{ $course->title }}</option>
-                                @endforeach
-                            </select>
-                            @error('courses')
                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                             @enderror
                         </div>
@@ -156,7 +140,6 @@
 @endsection
 
 @push('styles')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
         /* Override Quill editor text color */
         .ql-editor {
@@ -167,97 +150,11 @@
         .ql-editor.ql-blank::before {
             color: #6B7280 !important; /* Gray color for placeholder */
         }
-
-        .select2-container--default .select2-selection--multiple {
-            padding-bottom: 14px !important;
-            padding-top: 7px !important;
-            border-radius: 8px !important;
-        }
-
-        .select2-dropdown {
-            background-color: #999 !important;
-        }
-
-        /* Tailwind-styled Select2 */
-        .select2-container--default .select2-selection--multiple {
-            @apply w-full px-4 py-3 border border-[#E1E1E1] rounded-lg bg-white text-gray-900 focus:outline-none focus:ring-1 focus:ring-[#EB8C22];
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__rendered {
-            @apply flex flex-wrap gap-1 p-1;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            @apply bg-[#F5CE9F] text-[#1B1B1B] border border-[#E1E1E1] rounded-md px-2 py-1 text-sm flex items-center;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            @apply text-[#E68815] hover:text-red-500 mr-1 cursor-pointer;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__clear {
-            @apply text-[#E68815] hover:text-red-500 cursor-pointer mr-2;
-        }
-
-        .select2-container--default .select2-search--inline .select2-search__field {
-            @apply text-gray-900 placeholder-[#1B1B1B];
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__placeholder {
-            @apply text-[#1B1B1B];
-        }
-
-        .select2-dropdown {
-            @apply border border-[#E1E1E1] rounded-lg bg-white shadow-sm;
-        }
-
-        .select2-container--default .select2-results__option {
-            @apply px-4 py-2 text-gray-900 hover:bg-[#F5CE9F] hover:text-[#1B1B1B];
-        }
-
-        .select2-container--default .select2-results__option--highlighted {
-            @apply bg-[#E68815] text-white;
-        }
     </style>
 @endpush
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-        // Initialize Select2 for courses
-        $(document).ready(function() {
-            $('.select2-courses').select2({
-                placeholder: 'Select courses',
-                allowClear: true,
-                width: '100%',
-                closeOnSelect: false,
-                templateResult: function(data) {
-                    if (!data.element) {
-                        return data.text;
-                    }
-                    return $('<span>' + data.text + '</span>');
-                },
-                templateSelection: function(data) {
-                    return data.text || data.id;
-                }
-            });
-        });
-
-        // Toggle courses fields
-        const targetSelect = document.getElementById('target');
-        const coursesFields = document.getElementById('courses-fields');
-
-        function toggleFields() {
-            if (targetSelect.value === 'specific_courses') {
-                coursesFields.classList.remove('hidden');
-            } else {
-                coursesFields.classList.add('hidden');
-            }
-        }
-
-        targetSelect.addEventListener('change', toggleFields);
-        toggleFields();
-
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('announcement-form');
             const submitBtn = document.getElementById('submit-btn');

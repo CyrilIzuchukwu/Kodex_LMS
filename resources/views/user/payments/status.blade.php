@@ -121,7 +121,7 @@
                                         <div>
                                             <p class="text-xs sm:text-sm text-gray-500">Phone Number</p>
                                             <p class="text-base sm:text-lg font-semibold text-gray-800 break-all">
-                                                {{ $payment->user->profile->phone_number ?? 'N/A'  }}
+                                                {{ $payment->user->profile?->phone_number ?? 'N/A'  }}
                                             </p>
                                         </div>
                                         <div>
@@ -245,7 +245,7 @@
                                 <div class="mt-1 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200">
                                     <div class="text-center text-xs sm:text-sm text-gray-500">
                                         <p>Need help? We're here to assist you.</p>
-                                        <p class="mt-2">For support, contact us at {{ site_settings()->site_email }}</p>
+                                        <p class="mt-2">For support, contact us at {{ site_settings()?->site_email }}</p>
                                     </div>
                                 </div>
                             </div>
