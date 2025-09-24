@@ -30,8 +30,8 @@
             </div>
         </div>
 
-        <div class="p-4 md:p-5">
-            <h3 class="text-[#1B1B1B] font-semibold text-lg mb-2 leading-tight line-clamp-2">
+        <div class="p-4">
+            <h3 class="text-[#1B1B1B] font-semibold text-base mb-2 leading-tight line-clamp-2">
                 <a href="{{ route('user.course.details', $course->slug) }}">
                     {{ $course->title }}
                 </a>
@@ -45,13 +45,13 @@
             </div>
 
             <div class="flex items-center justify-between mb-4">
-                <span class="text-[#1B1B1B] font-bold text-lg">₦ {{ number_format($course->price, 2) }}</span>
+                <span class="text-[#1B1B1B] font-bold text-base">₦ {{ number_format($course->price, 2) }}</span>
                 <a href="{{ route('user.course.details', $course->slug) }}" class="text-[#E68815] font-medium text-sm hover:underline">
                     View Details
                 </a>
             </div>
 
-            <button id="add-to-cart" class="w-full bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-4 rounded-[100px] font-medium transition-colors flex items-center justify-center gap-1.5" data-course="{{ $course->id }}">
+            <button id="add-to-cart" class="w-full bg-[#E68815] hover:bg-[#ffad48] text-white py-3 px-3 rounded-[100px] font-medium transition-colors flex items-center justify-center gap-1.5" data-course="{{ $course->id }}">
                 <svg class="uil-shopping-cart w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                 </svg>

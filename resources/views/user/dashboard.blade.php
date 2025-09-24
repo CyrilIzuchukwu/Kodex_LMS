@@ -5,7 +5,7 @@
         $user_name = $name[0];
     @endphp
 
-    <div class="px-2 md:px-6">
+    <div class="">
         <div class="w-full custom-bg items-center rounded-2xl flex justify-between px-6 py-6 md:py-10 relative overflow-hidden">
             <!-- Overlay -->
             <div class="absolute inset-0 bg-black/20 z-0"></div>
@@ -115,7 +115,7 @@
                         </a>
                     </div>
 
-                    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                         @include('user.courses.course-items', ['courses' => $courses])
                     </section>
                 @else
