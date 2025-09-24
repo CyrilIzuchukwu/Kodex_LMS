@@ -121,7 +121,7 @@
                             </label>
 
                             <div class="relative">
-                                <input type="url" name="video_url" id="video-url-input" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E68815] focus:border-[#E68815] outline-none transition duration-200 text-gray-900" placeholder="www.youtube.com/..." value="{{ old('video_url', session('course.add.media.video_url', $course->video_url)) }}"/>
+                                <input type="url" name="video_url" id="video-url-input" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#E68815] focus:border-[#E68815] outline-none transition duration-200 text-gray-900" placeholder="www.youtube.com/..." value="{{ old('video_url', session('course.edit.media.video_url', $course->video_url)) }}"/>
                             </div>
 
                             <p class="text-xs text-gray-500 mt-1">
@@ -136,7 +136,7 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 mt-8 w-full">
-                        <a href="{{ route('admin.courses.add.outcomes') }}"
+                        <a href="{{ route('admin.courses.edit.outcomes', $course->id) }}"
                            class="bg-[#EDEDED] w-full text-gray-800 text-sm font-medium px-6 py-3 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 text-center inline-block">
                             Prev
                         </a>

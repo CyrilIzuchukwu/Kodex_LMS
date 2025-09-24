@@ -220,7 +220,7 @@ class EditCourseController extends Controller
         // Proceed with validated data
         $validated = $validator->validated();
 
-        // Get existing media from session
+        // Get existing media from the session
         $existingMedia = session('course.edit.media', ['course_photo' => []]);
 
         // Handle file uploads
