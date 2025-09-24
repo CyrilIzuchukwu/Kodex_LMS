@@ -207,7 +207,7 @@ class ManageStudentsController extends Controller
         ])->where('user_id', $student->id);
 
         // Paginate results
-        $courses = $query->orderBy('title')->latest()->paginate(6)->withQueryString();
+        $courses = $query->latest()->paginate(6)->withQueryString();
 
         // Certificates
         $certificates_count = Certificate::where('user_id', $student->id)->count();

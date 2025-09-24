@@ -18,8 +18,11 @@
                     }
                 }
 
-                // Lock condition: unlocked if current OR completed OR all previous quizzes passed
-                $isLocked = !$isCurrent && !$isCompleted && !$allPreviousPassed;
+                // properly handle modules without quizzes
+                $hasQuiz = $module->quizzes->count() > 0;
+
+                // Lock condition: unlocked if current OR completed OR (no quiz and all previous passed) OR (quiz & all previous passed)
+                $isLocked = !$isCurrent && !$isCompleted && (!$allPreviousPassed);
             @endphp
 
             @if($isLocked)
