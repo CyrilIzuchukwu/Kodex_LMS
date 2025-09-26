@@ -75,7 +75,7 @@
             </div>
         </div>
 
-        <div class="px-4 md:px-0 pb-12">
+        <div class="px-4 md:px-0 pb-10">
             <div class="mx-auto">
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
