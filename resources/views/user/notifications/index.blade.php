@@ -1,7 +1,7 @@
 @php use Carbon\Carbon; @endphp
 @extends('layouts.user')
 @section('content')
-    <div class="px-3 md:px-3 lg:px-4 mb-5">
+    <div class="px-3 md:px-3 lg:px-4  mb-5">
         <!-- Header Section -->
         <nav class="bg-white mb-10 rounded-[20px] md:rounded-[30px] shadow-sm px-4 md:px-6 py-3 flex items-center justify-start w-full">
             <ol class="flex items-center space-x-2 md:space-x-3 text-sm md:text-base font-medium text-[#141B34]">
