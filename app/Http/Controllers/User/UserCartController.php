@@ -216,7 +216,7 @@ class UserCartController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
+                return redirect()->back()->withErrors($validator);
             }
 
             // Proceed with validated data
