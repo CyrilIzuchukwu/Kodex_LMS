@@ -1,7 +1,7 @@
 @extends('layouts.user')
 @section('content')
     <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-        <div class="w-full px-6 py-8">
+        <div class="w-full px-4 md:px-0 py-8">
             <div class="mx-auto">
                 <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                     <div>
@@ -21,7 +21,7 @@
             </div>
         </div>
 
-        <div class="px-6 mb-8">
+        <div class="px-4 md:px-0 mb-8">
             <div class="mx-auto">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">

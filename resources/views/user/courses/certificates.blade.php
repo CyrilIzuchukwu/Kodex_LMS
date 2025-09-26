@@ -95,9 +95,9 @@
                 </div>
             @else
                 <div class="col-span-full">
-                    <section class="flex items-center justify-center min-h-[50vh] bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                    <section class="flex items-center justify-center min-h-[50vh] bg-white rounded-[20px] md:rounded-[30px] ">
                         <!-- Empty State -->
-                        <div class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                        <div class="flex flex-col items-center justify-center py-12 sm:py-10 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
                             <div class="relative mb-6 sm:mb-8">
                                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
                                     <svg class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
