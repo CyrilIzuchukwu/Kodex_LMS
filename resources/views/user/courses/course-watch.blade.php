@@ -9,7 +9,7 @@
             @include('user.courses.watch.video-player', ['course' => $course])
 
             <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
                 <!-- Left Column - Course Content (2/3 width) -->
                 <div class="xl:col-span-2 space-y-8">
                     <!-- Certificate Section -->
