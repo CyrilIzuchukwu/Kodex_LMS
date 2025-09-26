@@ -91,7 +91,10 @@ class ManageStudentsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
         }
 
         // Proceed with validated data
@@ -420,7 +423,10 @@ class ManageStudentsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
         }
 
         try {
@@ -470,10 +476,6 @@ class ManageStudentsController extends Controller
                         $request->ip(),
                         $this->getDevice($request->userAgent())
                     ));
-            }
-
-            if ($request->wantsJson()) {
-                return response()->json(['success' => true, 'message' => 'Password reset successfully']);
             }
 
             return redirect()->back()->with('success', 'Password reset successfully');
