@@ -35,7 +35,7 @@
             </div>
         </div>
 
-        <div class="p-4 md:p-5">
+        <div class="p-3 md:p-3">
             <h3 class="text-[#1B1B1B] font-semibold text-lg mb-2 leading-tight line-clamp-2">
                 <a href="{{ route('user.course.watch', ['course' => $purchase->course->id, 'module' => $purchase->module_id]) }}">
                     {{ $purchase->course->title }}
@@ -60,8 +60,8 @@
             </div>
 
             <div class="flex items-center justify-between mb-4">
-                <span class="text-sm text-gray-600">Last Accessed: {{ $purchase->last_accessed ? $purchase->last_accessed->diffForHumans() : 'Not started' }}</span>
-                <a href="{{ route('user.course.details', $purchase->course->slug) }}" class="text-[#E68815] font-medium text-sm hover:underline">
+                <span class="text-[10px] font-[300] text-gray-600">Last Accessed: {{ $purchase->last_accessed ? $purchase->last_accessed->diffForHumans() : 'Not started' }}</span>
+                <a href="{{ route('user.course.details', $purchase->course->slug) }}" class="text-[#E68815] font-[400] text-[12px] hover:underline">
                     View Details
                 </a>
             </div>
