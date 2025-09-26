@@ -266,8 +266,6 @@
                     <div class="invoice-details">
                         <p><strong>User Name:</strong> {{ $user->name }}</p>
                         <p><strong>User Email:</strong> {{ $user->email }}</p>
-                        <p><strong>Transaction ID:</strong> {{ $payment->transaction_reference }}</p>
-                        <p><strong>Payment Status:</strong> {{ ucfirst($payment->status) }}</p>
                         <p><strong>Date:</strong> {{ $payment->created_at->format('F j, Y') }}</p>
                     </div>
                     <h2>Purchased Courses</h2>

@@ -69,7 +69,7 @@
         <div class="mt-8" id="courses-container">
             @if($courses->count())
                 <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl px-3 mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="courses-grid">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="courses-grid">
                         @include('user.courses.purchases-list', ['courses' => $courses])
                     </div>
                     <div id="pagination-container" class="mt-6">

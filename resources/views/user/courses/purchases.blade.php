@@ -150,7 +150,7 @@
 
                     <!-- Courses Container -->
                     <div id="courses-container">
-                        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-5" id="courses-grid">
+                        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-5" id="courses-grid">
                             @include('user.courses.purchases-list', ['courses' => $courses])
                         </section>
                         <div id="pagination-container" class="pagination">

@@ -264,8 +264,6 @@
                     <p class="subtitle">Dear {{ $user->name }},</p>
                     <p>Thank you for your purchase on {{ config('app.name') }}. This email serves as your official receipt for invoice #{{ $payment->transaction_reference }} issued on {{ $payment->created_at->format('F j, Y') }}.</p>
                     <div class="invoice-details">
-                        <p><strong>Transaction ID:</strong> {{ $payment->transaction_reference }}</p>
-                        <p><strong>Payment Status:</strong> {{ ucfirst($payment->status) }}</p>
                         <p><strong>Date:</strong> {{ $payment->created_at->format('F j, Y') }}</p>
                     </div>
                     <h2>Purchase Details</h2>
