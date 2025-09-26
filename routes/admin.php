@@ -177,13 +177,8 @@ Route::prefix('admin')
             ->controller(ManageCouponCodesController::class)
             ->group(function () {
                 Route::get('/', 'index')->name('index');
-
-                Route::post('/create', 'create')->name('create');
                 Route::post('/store', 'store')->name('store');
-
-                Route::get('/}', 'edit')->name('edit');
                 Route::put('/{coupon}/update', 'update')->name('update');
-
                 Route::delete('/{coupon}/delete', 'destroy')->name('destroy');
             });
 
