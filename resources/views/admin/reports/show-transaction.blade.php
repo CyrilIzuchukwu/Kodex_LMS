@@ -388,36 +388,34 @@
                                 </div>
 
                                 <!-- Additional Admin Actions for Non-Pending Transactions -->
-                                @if($payment->status !== 'pending')
-                                    <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
-                                        <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Additional Actions</h3>
-                                        <div class="flex flex-wrap gap-3">
-                                            @if($payment->status === 'cancelled')
-                                                <form action="{{ route('admin.reports.transaction.reactivate', $payment->id) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
-                                                        Reactivate Transaction
-                                                    </button>
-                                                </form>
-                                            @endif
+                                <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
+                                    <h3 class="text-sm font-semibold text-gray-600 uppercase tracking-wider mb-4">Additional Actions</h3>
+                                    <div class="flex flex-wrap gap-3">
+                                        @if($payment->status === 'cancelled')
+                                            <form action="{{ route('admin.reports.transaction.reactivate', $payment->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+                                                    Reactivate Transaction
+                                                </button>
+                                            </form>
+                                        @endif
 
-                                            @if($payment->status === 'completed')
-                                                <form action="{{ route('admin.reports.transaction.revoke', $payment->id) }}" method="POST" class="inline">
-                                                    @csrf
-                                                    @method('PATCH')
-                                                    <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors">
-                                                        Revoke Access
-                                                    </button>
-                                                </form>
-                                            @endif
+                                        @if($payment->status === 'completed')
+                                            <form action="{{ route('admin.reports.transaction.revoke', $payment->id) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-700 transition-colors">
+                                                    Revoke Access
+                                                </button>
+                                            </form>
+                                        @endif
 
-                                            <a href="{{ route('admin.students.show', $payment->user->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
-                                                View Student Profile
-                                            </a>
-                                        </div>
+                                        <a href="{{ route('admin.students.show', $payment->user->id) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                                            View Student Profile
+                                        </a>
                                     </div>
-                                @endif
+                                </div>
 
                                 <!-- Payment Information -->
                                 <div class="bg-gray-50 rounded-lg p-6 mb-8 border border-gray-200">
