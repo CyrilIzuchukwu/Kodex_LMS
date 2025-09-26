@@ -298,6 +298,8 @@ class ManageInstructorQuestionsController extends Controller
 
     public function store(Request $request, Course $course)
     {
+        $user = Auth::user();
+
         // validate request
         $validator = Validator::make($request->all(), [
             'question_id' => 'required|exists:questions,id,course_id,' . $course->id,
@@ -320,7 +322,7 @@ class ManageInstructorQuestionsController extends Controller
 
         // Notify the question's author if they are not the one replying
         $question = $reply->question;
-        if ($question->user_id !== Auth::id()) {
+        if ($question->user_id != $user->id) {
             Notification::send($question->user, new QuestionReplyNotification($reply));
         }
 
@@ -341,7 +343,8 @@ class ManageInstructorQuestionsController extends Controller
 
     public function update(Request $request, QuestionReply $reply)
     {
-        if ($reply->user_id !== Auth::id()) {
+        $user = Auth::user();
+        if ($reply->user_id != $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 

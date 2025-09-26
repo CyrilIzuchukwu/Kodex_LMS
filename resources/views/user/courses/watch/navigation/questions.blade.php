@@ -1,4 +1,8 @@
 @forelse($questions as $question)
+    @php
+        $user = Auth::user();
+    @endphp
+
     <div id="question-{{ $question->id }}" class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border hover:shadow-md transition-all duration-300">
         <div class="flex items-start gap-3 sm:gap-4">
             <img class="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover" src="{{ $question->user->profile && $question->user->profile?->profile_photo_path ? asset($question->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($question->user->name ?? 'N', 0, 1) }}" alt="{{ $question->user->name }}">
@@ -30,7 +34,7 @@
                     </div>
                 </div>
 
-                @if($question->user_id === Auth::id())
+                @if($question->user_id == $user->id)
                     <div class="mt-3 flex gap-3">
                         <button onclick="editQuestion({{ $question->id }})" class="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1">
                             <i class="mdi mdi-pencil"></i> Edit

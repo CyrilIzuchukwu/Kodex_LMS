@@ -50,7 +50,8 @@ class NoteController extends Controller
 
     public function update(Request $request, Note $note)
     {
-        if ($note->user_id !== Auth::id()) {
+        $user = Auth::user();
+        if ($note->user_id != $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -87,7 +88,9 @@ class NoteController extends Controller
 
     public function destroy(Note $note)
     {
-        if ($note->user_id !== Auth::id()) {
+        $user = Auth::user();
+
+        if ($note->user_id != $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
