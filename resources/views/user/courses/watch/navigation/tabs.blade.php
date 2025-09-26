@@ -141,6 +141,10 @@
                         </h3>
 
                         @forelse($question->replies as $reply)
+                            @php
+                                $user = Auth::user();
+                            @endphp
+
                             <div id="reply-{{ $reply->id }}" class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border {{ $reply->is_instructor ? 'border-blue-200' : 'ml-4 sm:ml-8' }}">
                                 <div class="flex items-start gap-3 sm:gap-4">
                                     <img class="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover" src="{{ $reply->user->profile && $reply->user->profile?->profile_photo_path ? asset($reply->user->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($reply->user->name ?? 'N', 0, 1) }}" alt="{{ $reply->user->name }}">
@@ -155,7 +159,7 @@
                                         <p class="text-gray-700 text-sm sm:text-base leading-relaxed">{{ $reply->content }}</p>
 
                                         <div class="hidden full-content">{{ $reply->content }}</div>
-                                        @if($reply->user_id === Auth::id())
+                                        @if($reply->user_id === $user->id)
                                             <div class="mt-3 flex gap-3">
                                                 <button onclick="editReply({{ $reply->id }})" class="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1">
                                                     <i class="mdi mdi-pencil"></i> Edit

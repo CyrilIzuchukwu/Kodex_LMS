@@ -116,7 +116,10 @@ class QuestionController extends Controller
 
     public function update(Request $request, Question $question)
     {
-        if ($question->user_id !== Auth::id()) {
+        // Auth user
+        $user = Auth::user();
+
+        if ($question->user_id != $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
@@ -159,7 +162,10 @@ class QuestionController extends Controller
 
     public function destroy(Question $question)
     {
-        if ($question->user_id !== Auth::id()) {
+        // Auth user
+        $user = Auth::user();
+
+        if ($question->user_id != $user->id) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
