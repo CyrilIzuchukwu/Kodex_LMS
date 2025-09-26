@@ -45,7 +45,8 @@ class AdminDashboardController extends Controller
     private function getRevenueData(Request $request)
     {
         $period = $request->input('period', 'current_month');
-        $query = Transaction::selectRaw("strftime('%m', created_at) as month, SUM(amount) as total");
+        // Use MONTH() for MySQL to extract the month
+        $query = Transaction::selectRaw("MONTH(created_at) as month, SUM(amount) as total");
 
         // Handle different periods
         if ($period === 'current_month') {
@@ -75,11 +76,12 @@ class AdminDashboardController extends Controller
         // Map totals to each month, defaulting to 0
         $values = [];
         foreach (range(1, 12) as $m) {
-            $monthKey = sprintf('%02d', $m);
+            // Ensure month key is zero-padded for consistency
+            $monthKey = sprintf('%d', $m); // Changed to %d since MONTH() returns integer
             $values[] = (float) ($transactions[$monthKey] ?? 0);
         }
 
-        // Set label based on a period
+        // Set label based on period
         $label = match ($period) {
             'current_month' => now()->format('F Y'),
             'last_month' => now()->subMonth()->format('F Y'),
@@ -89,10 +91,10 @@ class AdminDashboardController extends Controller
             default => now()->format('Y'),
         };
 
-        return response()->json([
+        return [
             'labels' => $months,
             'values' => $values,
             'label' => $label,
-        ]);
+        ];
     }
 }
