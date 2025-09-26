@@ -100,21 +100,6 @@
             </div>
         </div>
 
-        <!-- Instructor -->
-        <div>
-            <h2 class="text-[#1B1B1B] text-xl sm:text-2xl font-semibold mb-6">Instructor</h2>
-            <div class="flex items-center gap-4 mb-4">
-                <img src="{{ $course->profile && $course->profile?->profile_photo_path ? asset($course->profile?->profile_photo_path) : 'https://placehold.co/124x124/E5B983/FFF?text=' . substr($course->profile?->user->name ?? 'N', 0, 1) }}" alt="{{ $course->profile?->user->name ?? 'Not Assigned' }}" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full">
-                <div>
-                    <h3 class="text-lg sm:text-xl font-semibold text-[#A15F0F]">{{ $course->profile?->user->name ?? 'Not Assigned' }}</h3>
-                    <p class="text-sm text-[#1B1B1B]">{{ $course->profile?->course?->title ?? 'Not Assigned' }}</p>
-                </div>
-            </div>
-            <p class="text-base text-[#1B1B1B] max-w-4xl leading-relaxed">
-                {{ $course->profile?->biography ?? 'Not Assigned' }}
-            </p>
-        </div>
-
         <!-- Related Courses -->
         @if($relatedCourses->count())
             <div>
