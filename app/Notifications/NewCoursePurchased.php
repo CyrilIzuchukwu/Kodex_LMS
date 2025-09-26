@@ -66,7 +66,7 @@ class NewCoursePurchased extends Notification
             'type' => 'course_purchase',
             'payment_id' => $this->payment->id,
             'title' => 'New Course Purchase',
-            'content' => 'User ' . $this->user->name . ' (ID: ' . $this->user->id . ') purchased ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '. Transaction ID: ' . $this->payment->transaction_reference . '.',
+            'content' => 'User ' . $this->user->name . ' (ID: ' . $this->user->id . ') purchased ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '.',
             'transaction_reference' => $this->payment->transaction_reference,
             'course_count' => $this->courses->count(),
             'purchase_date' => $this->payment->created_at->format('F j, Y'),

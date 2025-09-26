@@ -10,6 +10,11 @@ use Illuminate\Database\Eloquent\Model;
  * @method static latest()
  * @method static create(array $array)
  * @property mixed $id
+ * @property mixed $code
+ * @property mixed $type
+ * @property mixed $value
+ * @property mixed $valid_from
+ * @property mixed $valid_to
  */
 class Coupon extends Model
 {

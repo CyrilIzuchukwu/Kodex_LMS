@@ -51,7 +51,7 @@ class CoursePurchasedNotification extends Notification
             'type' => 'course_purchase',
             'payment_id' => $this->payment->id,
             'title' => 'Your Course Purchase Confirmation',
-            'content' => 'Thank you, ' . $this->user->name . ', for purchasing ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '. Transaction ID: ' . $this->payment->transaction_reference . '.',
+            'content' => 'Thank you, ' . $this->user->name . ', for purchasing ' . $this->courses->count() . ' course(s) on ' . $this->payment->created_at->format('F j, Y') . '.',
             'course_count' => $this->courses->count(),
             'transaction_reference' => $this->payment->transaction_reference,
             'purchase_date' => $this->payment->created_at->format('F j, Y'),
