@@ -89,7 +89,10 @@ class ManageInstructorsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
         }
 
         // Proceed with validated data
@@ -373,7 +376,10 @@ class ManageInstructorsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
         }
 
         try {
@@ -519,7 +525,10 @@ class ManageInstructorsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
+            return response()->json([
+                'errors' => $validator->errors(),
+                'status' => 'error'
+            ], 422);
         }
 
         // Proceed with validated data
