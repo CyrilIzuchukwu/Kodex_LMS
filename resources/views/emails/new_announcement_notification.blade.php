@@ -234,10 +234,10 @@
                     <p class="subtitle">Stay updated with the latest news from {{ config('app.name') }}!</p>
                     <div class="newsletter-info">
                         <h2>Newsletter Highlights</h2>
-                        <p><strong>Featured Update:</strong> {{ $newsletter->title }}</p>
+                        <p><strong>Featured Update:</strong> {{ $announcement->title }}</p>
                     </div>
                     <div class="newsletter-content">
-                        <p>{!! $newsletter->content !!}</p>
+                        <p>{!! $announcement->content !!}</p>
                     </div>
                     <div class="support-text">
                         <p>Have questions or need help? Our support team is here for you. Contact us at <a href="mailto:{{ site_settings()?->site_email }}" class="support-email">{{ site_settings()?->site_email }}</a>.</p>
