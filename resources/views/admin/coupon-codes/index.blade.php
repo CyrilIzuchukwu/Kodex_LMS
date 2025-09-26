@@ -31,7 +31,7 @@
     <!-- Main Content Card -->
     <div class="bg-white rounded-3xl border border-gray-100 overflow-hidden">
         <!-- Header Section -->
-        <div class="px-8 py-8">
+        <div class="px-6 py-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div class="text-gray-900">
                     <h1 class="text-3xl font-bold mb-2">Coupons Management</h1>
@@ -47,7 +47,7 @@
         </div>
 
         <!-- Content Area -->
-        <div class="p-8" id="content-container">
+        <div class="px-6" id="content-container">
             @if($coupons->count())
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8" id="coupons-container">
                     @foreach($coupons as $coupon)
