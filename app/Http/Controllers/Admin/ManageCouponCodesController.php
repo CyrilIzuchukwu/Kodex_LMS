@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;
+use App\Models\User;
+use App\Notifications\NewCouponNotification;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Throwable;
 
 class ManageCouponCodesController extends Controller
 {
@@ -30,6 +36,7 @@ class ManageCouponCodesController extends Controller
     /**
      * Store a newly created coupon in storage.
      *
+     * @throws Throwable
      */
     public function store(Request $request)
     {
@@ -49,20 +56,35 @@ class ManageCouponCodesController extends Controller
             ], 422);
         }
 
-        $coupon = Coupon::create([
-            'code' => Str::upper($request->code),
-            'type' => $request->type,
-            'value' => $request->value,
-            'valid_from' => Carbon::parse($request->valid_from),
-            'valid_to' => Carbon::parse($request->valid_to),
-            'is_active' => $request->is_active,
-        ]);
+        try {
+            $coupon = DB::transaction(function () use ($request) {
+                $coupon = Coupon::create([
+                    'code' => Str::upper($request->code),
+                    'type' => $request->type,
+                    'value' => $request->value,
+                    'valid_from' => Carbon::parse($request->valid_from),
+                    'valid_to' => Carbon::parse($request->valid_to),
+                    'is_active' => $request->is_active,
+                ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Coupon created successfully',
-            'coupon' => $coupon
-        ], 201);
+                // Get students and send notifications
+                $students = User::where('role', 'user')->get();
+                Notification::send($students, new NewCouponNotification($coupon));
+
+                return $coupon;
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Coupon created successfully',
+                'coupon' => $coupon
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create coupon: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
