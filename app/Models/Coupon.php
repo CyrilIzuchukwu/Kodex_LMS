@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static where(string $string, mixed $couponCode)
+ * @method static latest()
+ * @method static create(array $array)
+ * @property mixed $id
  */
 class Coupon extends Model
 {

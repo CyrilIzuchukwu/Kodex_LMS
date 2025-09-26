@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AddCourseController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\EditCourseController;
+use App\Http\Controllers\Admin\ManageCouponCodesController;
 use App\Http\Controllers\Admin\ManageCourseCategoryController;
 use App\Http\Controllers\Admin\ManageCourseController;
 use App\Http\Controllers\Admin\ManageInstructorsController;
@@ -168,6 +169,22 @@ Route::prefix('admin')
             ->group(function () {
                 Route::get('/', 'index')->name('index');
                 Route::put('/{gateway}/update', 'update')->name('update');
+            });
+
+        // Coupon code Management
+        Route::prefix('coupons')
+            ->name('coupons.')
+            ->controller(ManageCouponCodesController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+
+                Route::post('/create', 'create')->name('create');
+                Route::post('/store', 'store')->name('store');
+
+                Route::get('/}', 'edit')->name('edit');
+                Route::put('/{coupon}/update', 'update')->name('update');
+
+                Route::delete('/{coupon}/delete', 'destroy')->name('destroy');
             });
 
         // Reports

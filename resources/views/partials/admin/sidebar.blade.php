@@ -55,6 +55,12 @@
                 </a>
             </li>
 
+            <li class="{{ isActive('admin.coupons.*') }}">
+                <a href="{{ route('admin.coupons.index') }}">
+                    <i class="uil uil-card-atm me-1"></i>Coupon Codes
+                </a>
+            </li>
+
             <li class="sidebar-dropdown {{ isActive('admin.reports.*') }}">
                 <a href="javascript:void(0)">
                     <i class="uil uil-chart-bar me-1"></i>Reports
