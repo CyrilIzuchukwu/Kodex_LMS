@@ -159,7 +159,7 @@
                                         <p class="text-gray-700 text-sm sm:text-base leading-relaxed">{{ $reply->content }}</p>
 
                                         <div class="hidden full-content">{{ $reply->content }}</div>
-                                        @if($reply->user_id === $user->id)
+                                        @if($reply->user_id == $user->id)
                                             <div class="mt-3 flex gap-3">
                                                 <button onclick="editReply({{ $reply->id }})" class="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1">
                                                     <i class="mdi mdi-pencil"></i> Edit
