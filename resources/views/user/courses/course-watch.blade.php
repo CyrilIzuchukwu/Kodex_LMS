@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('content')
-    <div class="px-2 lg:p-8">
+    <div class="px-2 lg:p-0 ">
         <div class="mx-auto">
             <!-- Header with Course Title and Progress -->
             @include('user.courses.watch.header-title', ['course' => $course, 'progress' => $progress, 'lessons_completed' => $lessons_completed])
