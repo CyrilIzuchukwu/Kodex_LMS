@@ -177,18 +177,16 @@
             color: #374151;
             font-size: 14px;
         }
-        .step-number {
-            width: 20px;
-            height: 20px;
+        .step-bullet {
+            width: 10px;
+            height: 10px;
             background: #E68815;
-            color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
             flex-shrink: 0;
+            margin-top: 5px;
         }
         .support-text {
             background: #fef3c7;
@@ -231,7 +229,6 @@
             height: 24px;
             vertical-align: middle;
         }
-
         /* Media Queries for Responsiveness */
         @media only screen and (max-width: 600px) {
             .email-wrapper {
@@ -297,6 +294,11 @@
                 justify-content: flex-start;
                 padding: 0 10px;
             }
+            .step-bullet {
+                width: 8px;
+                height: 8px;
+                margin-top: 4px;
+            }
             .support-text {
                 padding: 10px;
                 margin: 15px 0;
@@ -328,18 +330,14 @@
                         <div class="welcome-badge">Start Learning Today!</div>
                     </div>
                 </div>
-
                 <div class="content">
                     <h1 class="greeting">Welcome, {{ $user->name }}!</h1>
                     <p class="subtitle">Your learning journey starts here</p>
-
                     <div class="user-info">
                         <p class="user-email-label">Your Learning Account</p>
                         <p class="user-email">{{ $user->email }}</p>
                     </div>
-
                     <p>Congratulations on joining {{ config('app.name') }} Learning! You've taken the first step towards mastering new skills and advancing your career. Your account is now active and ready to explore our comprehensive learning platform.</p>
-
                     <div class="features">
                         <div class="feature">
                             <div class="feature-icon" role="img" aria-label="Book icon">📚</div>
@@ -357,38 +355,34 @@
                             <div class="feature-desc">Connect with peers and get support from mentors</div>
                         </div>
                     </div>
-
                     <div class="cta-section">
                         <a href="{{ route('user.dashboard') }}" class="button">Start Learning Now</a>
                     </div>
-
                     <div class="next-steps">
                         <h3>Your Next Steps</h3>
                         <ul class="step-list">
                             <li class="step-item">
-                                <span class="step-number">1</span>
+                                <span class="step-bullet"></span>
                                 <span>Complete your profile and set your learning goals</span>
                             </li>
                             <li class="step-item">
-                                <span class="step-number">2</span>
+                                <span class="step-bullet"></span>
                                 <span>Browse our course catalog and enroll in your first course</span>
                             </li>
                             <li class="step-item">
-                                <span class="step-number">3</span>
+                                <span class="step-bullet"></span>
                                 <span>Join our community forums and introduce yourself</span>
                             </li>
                             <li class="step-item">
-                                <span class="step-number">4</span>
+                                <span class="step-bullet"></span>
                                 <span>Set up your study schedule and learning preferences</span>
                             </li>
                         </ul>
                     </div>
-
                     <div class="support-text">
                         <p>Need help getting started? Our learning support team is available 24/7 to guide you through your educational journey. Contact us at <a href="mailto:{{ site_settings()?->site_email }}" class="support-email">{{ site_settings()?->site_email }}</a></p>
                     </div>
                 </div>
-
                 <div class="footer">
                     <p>&copy; {{ date('Y') }} {{ config('app.name') }} Learning Platform. All rights reserved.</p>
                     <p>Empowering learners worldwide</p>
