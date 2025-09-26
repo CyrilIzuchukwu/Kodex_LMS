@@ -161,7 +161,7 @@
                     @if(!$myLearning->count())
                         <section class="flex items-center justify-center min-h-[50vh] bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
                             <!-- Empty State -->
-                            <div class="flex flex-col items-center justify-center py-12 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
+                            <div class="flex flex-col items-center justify-center py-12 px-4 sm:py-20 bg-white rounded-[20px] md:rounded-[30px] shadow-sm">
                                 <div class="relative mb-6 sm:mb-8">
                                     <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-[#E68815] flex items-center justify-center">
                                         <svg class="w-10 h-10 sm:w-12 sm:h-12 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -174,7 +174,7 @@
                                         </svg>
                                     </div>
                                 </div>
-                                <h2 class="text-2xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Purchased Courses Found</h2>
+                                <h2 class="text-xl sm:text-3xl font-bold text-gray-700 mb-4 text-center">No Purchased Courses Found</h2>
                                 <p class="text-gray-500 text-base sm:text-lg text-center max-w-xs sm:max-w-md mb-6 sm:mb-8 px-4">
                                     You haven't purchased any courses yet. Explore our catalog to find courses that interest you!
                                 </p>
