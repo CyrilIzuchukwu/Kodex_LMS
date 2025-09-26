@@ -76,12 +76,12 @@ class AdminDashboardController extends Controller
         // Map totals to each month, defaulting to 0
         $values = [];
         foreach (range(1, 12) as $m) {
-            // Ensure month key is zero-padded for consistency
+            // Ensure a month key is zero-padded for consistency
             $monthKey = sprintf('%d', $m); // Changed to %d since MONTH() returns integer
             $values[] = (float) ($transactions[$monthKey] ?? 0);
         }
 
-        // Set label based on period
+        // Set label based on a period
         $label = match ($period) {
             'current_month' => now()->format('F Y'),
             'last_month' => now()->subMonth()->format('F Y'),

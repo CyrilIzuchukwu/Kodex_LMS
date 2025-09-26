@@ -181,9 +181,9 @@
                 .then(res => res.json())
                 .then(data => {
                     // Access nested 'original' object
-                    revenueChart.data.labels = data.original.labels;
-                    revenueChart.data.datasets[0].data = data.original.values;
-                    revenueChart.data.datasets[0].label = data.original.label;
+                    revenueChart.data.labels = data.labels;
+                    revenueChart.data.datasets[0].data = data.values;
+                    revenueChart.data.datasets[0].label = data.label;
                     revenueChart.update();
                 })
                 .catch(err => console.error('Error fetching revenue data:', err));
