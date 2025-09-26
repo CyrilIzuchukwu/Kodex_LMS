@@ -12,14 +12,14 @@
             <div class="flex flex-col md:flex-col lg:flex-col xl:flex-row gap-4">
 
                 <a href="mailto:{{ site_settings()?->site_email }}"
-                    class="btn-primary bg-[#E68815] text-white text-sm px-3 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 hover:bg-[#d47a12]"
+                    class="btn-primary bg-[#E68815] text-white text-base px-3 py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 hover:bg-[#d47a12] justify-center text-center "
                     title="Email Support Team">
                     <i class="mdi mdi-email"></i>
                     Email
                 </a>
 
                 <a href="tel:{{ site_settings()?->site_phone }}"
-                    class="btn-primary bg-[#E68815] text-white px-3 text-sm py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 hover:bg-[#d47a12]"
+                    class="btn-primary bg-[#E68815] text-white px-3 text-base py-2 rounded-full font-medium transition-all duration-300 flex items-center gap-2 hover:bg-[#d47a12] justify-center text-center"
                     title="Call Support Team">
                     <i class="mdi mdi-phone"></i>
                     Phone
