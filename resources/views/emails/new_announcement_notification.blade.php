@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>New Announcement</title>
+    <title>{{ config('app.name') }} Newsletter</title>
     <style>
         /* Reset styles for email client compatibility */
         body {
@@ -90,7 +90,7 @@
             color: #6b7280;
             margin: 0 0 20px;
         }
-        .announcement-info {
+        .newsletter-info {
             background: #fef3c7;
             border: 1px solid #E68815;
             border-radius: 8px;
@@ -98,29 +98,24 @@
             margin: 20px 0;
             text-align: left;
         }
-        .announcement-info p {
-            margin: 0 0 10px;
-            color: #92400e;
-            font-size: 14px;
-        }
-        .announcement-info strong {
+        .newsletter-info h2 {
+            font-size: 18px;
             color: #a16207;
+            margin: 0 0 10px;
             font-weight: bold;
         }
-        .cta-section {
-            margin: 30px 0;
-            text-align: center;
-        }
-        .button {
-            display: inline-block;
-            padding: 12px 24px;
-            background: #E68815;
-            color: #ffffff !important;
-            text-decoration: none;
+        .newsletter-content {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
             border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            margin: 10px 0;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .newsletter-content p {
+            margin: 0 0 10px;
+            color: #1a202c;
+            font-size: 14px;
         }
         .support-text {
             background: #fef3c7;
@@ -189,20 +184,19 @@
             .subtitle {
                 font-size: 14px;
             }
-            .announcement-info {
+            .newsletter-info {
                 padding: 10px;
                 margin: 15px 0;
             }
-            .announcement-info p {
-                font-size: 12px;
+            .newsletter-info h2 {
+                font-size: 16px;
             }
-            .button {
-                padding: 10px 20px;
-                font-size: 14px;
-                display: block;
-                width: auto;
-                max-width: 200px;
-                margin: 10px auto;
+            .newsletter-content {
+                padding: 10px;
+                margin: 15px 0;
+            }
+            .newsletter-content p {
+                font-size: 12px;
             }
             .support-text {
                 padding: 10px;
@@ -232,19 +226,21 @@
                 <div class="header">
                     <div class="logo-container">
                         <img src="{{ asset('assets/auth/Kodex-logo.png') }}" alt="{{ config('app.name') }} Learning Logo" class="logo-img">
-                        <div class="welcome-badge">New Announcement</div>
+                        <div class="welcome-badge">{{ config('app.name') }} Newsletter</div>
                     </div>
                 </div>
                 <div class="content">
                     <h1 class="greeting">Hello, {{ $notifiable->name }}!</h1>
-                    <p class="subtitle">A new announcement has been published on {{ config('app.name') }}.</p>
-                    <div class="announcement-info">
-                        <p><strong>Announcement Details:</strong></p>
-                        <p><strong>Title:</strong> {{ $announcement->title }}</p>
-                        <p><strong>Content:</strong> {!! $announcement->content !!}</p>
+                    <p class="subtitle">Stay updated with the latest news from {{ config('app.name') }}!</p>
+                    <div class="newsletter-info">
+                        <h2>Newsletter Highlights</h2>
+                        <p><strong>Featured Update:</strong> {{ $newsletter->title }}</p>
+                    </div>
+                    <div class="newsletter-content">
+                        <p>{!! $newsletter->content !!}</p>
                     </div>
                     <div class="support-text">
-                        <p>If you have any questions or need assistance, our support team is here to help. Contact us at <a href="mailto:{{ site_settings()?->site_email }}" class="support-email">{{ site_settings()?->site_email }}</a>.</p>
+                        <p>Have questions or need help? Our support team is here for you. Contact us at <a href="mailto:{{ site_settings()?->site_email }}" class="support-email">{{ site_settings()?->site_email }}</a>.</p>
                     </div>
                 </div>
                 <div class="footer">
